@@ -1,0 +1,41 @@
+﻿    <div data-bind="with: model">
+        <div data-bind="disabled: !isEditable()">
+            <div class="clearfix"></div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Երկիր </label>
+                    <ko-dropdown params="isEditable: isEditable, list: addressCountries, name: 'countryCode', value: countryCode, validationErrors: validationErrors"></ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Մարզ </label>
+                    <ko-dropdown params="isEditable: isEditable, list: states, name: 'stateCode', value: stateCode, validationErrors: validationErrors"></ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Բնակավայր </label>
+                    <ko-dropdown params="isEditable: isEditable, list: cities, name: 'cityCode', value: cityCode, validationErrors: validationErrors"></ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Փողոց </label>
+                    <input type="text" data-bind="disabled: !isEditable(), value: streetName,validationError: {value: validationErrors, propertyName: 'streetName'}" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Տուն / Շենք </label>
+                    <input type="text" data-bind="disabled: !isEditable(), value: buildingNumber, validationError: {value: validationErrors, propertyName: 'buildingNumber'}" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Բնակարան</label>
+                    <input type="text" data-bind="disabled: !isEditable(), value: apartmentNumber, validationError: {value: validationErrors, propertyName: 'apartmentNumber'}" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>

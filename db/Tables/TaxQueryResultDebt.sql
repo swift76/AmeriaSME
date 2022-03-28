@@ -1,0 +1,18 @@
+﻿if exists (select * from sys.objects where name='TAX_QUERY_RESULT_DEBT' and type='U')
+	drop table TAX_QUERY_RESULT_DEBT
+GO
+
+CREATE TABLE TAX_QUERY_RESULT_DEBT(
+	APPLICATION_ID	uniqueidentifier	NOT NULL,
+	DEBT_TYPE		nvarchar(200)		NOT NULL,
+	PERIOD			varchar(20)			NOT NULL,
+	UPDATE_DATE		date				NULL,
+	DEBT			money				NOT NULL,
+	OUTSTANDING		money				NOT NULL,
+	FINE			money				NOT NULL,
+	OVERPAYMENT		money				NOT NULL
+)
+GO
+
+CREATE CLUSTERED INDEX iTAX_QUERY_RESULT_DEBT1 ON TAX_QUERY_RESULT_DEBT (APPLICATION_ID)
+GO

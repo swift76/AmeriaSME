@@ -1,0 +1,15 @@
+.modal-loader {
+    padding-left: 50px;
+    min-height: 30px;
+    background-color: #FFF;
+    background-image: url(/assets/images/modals/loader.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.modal-content-loader {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

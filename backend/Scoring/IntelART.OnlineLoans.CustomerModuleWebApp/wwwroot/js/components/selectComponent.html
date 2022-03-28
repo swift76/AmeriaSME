@@ -1,0 +1,5 @@
+<div class="customselect" data-bind="with: list">
+	<select data-bind="disabled: $parent.isDisabled, options: items, optionsText: 'NAME', optionsValue: 'CODE', optionsCaption: 'Ընտրել', optionsAfterRender: $parent.optionsAfterRender, validationError: {value: $parent.validationErrors, propertyName: $parent.name},
+	delayBind: { waitUntil: items() && items().length, bind: 'value: $parent.value'}"></select>
+	<div class="busyIndicatorOverlay" data-bind="visible: !items.loaded()"></div>
+</div>

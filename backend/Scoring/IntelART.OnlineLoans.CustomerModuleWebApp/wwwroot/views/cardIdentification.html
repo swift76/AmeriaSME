@@ -1,0 +1,17 @@
+﻿<div class="tab-pane fade in" data-bind="disabled: !isEditable()">
+    <div class="" id="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Խնդրում ենք տեղադրել ID քարտը նույնականացման քարտն ընթերցող սարքի մեջ և սեղմել «Հաստատել» կոճակը</h2>
+            </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group" data-bind="validationError: {value: validationErrors, propertyName: 'cardGroup'}">
+                        <label for="text">ID քարտն անհրաժեշտ է Ձեզ նույնականացնելու և վարկային պայմանագիրը կնքելու համար:</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 actions">
+                    <button class="btn btn-success" data-bind="enable: isEditable(), click: function() { $parent.action(); }">Հաստատել</button>
+                </div>
+        </div>
+    </div>
+</div>

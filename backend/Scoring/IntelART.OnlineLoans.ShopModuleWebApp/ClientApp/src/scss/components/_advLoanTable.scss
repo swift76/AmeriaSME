@@ -1,0 +1,113 @@
+.adv-loan-section {
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    +.adv-loan-section {
+        margin-top: pxToRem(50px);
+    }
+}
+
+
+.adv-loan-table>tbody>tr {
+    &.active {
+        background-color: rgba($primary, 0.2)
+    }
+
+    >td {
+        vertical-align: middle;
+
+        &:first-child {
+            width: 220px;
+        }
+
+        &:last-child {
+            width: 50px;
+        }
+    }
+
+
+    .name-col {
+        position: relative;
+
+        .form-group {
+            position: relative;
+            display: inline-block;
+            padding-right: 40px;
+
+            button {
+                box-shadow: none;
+                opacity: 0;
+                visibility: hidden;
+                transition: all .3s ease;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+
+    &:hover {
+        .name-col button {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    select.form-control-plaintext {
+        -webkit-appearance: none;
+    }
+
+    .form-control,
+    .form-control-plaintext {
+        display: inline-block;
+        outline: none;
+    }
+
+    .add-comment {
+        display: inline-block;
+        max-width: pxToRem(220px);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: center
+    }
+}
+
+.adv-loan-table.sub-table>tbody>tr {
+    >td {
+
+        &:first-child {
+            width: 150px;
+        }
+
+        &:last-child {
+            width: auto
+        }
+
+
+        .form-group {
+            width: pxToRem(150px);
+
+            .form-control {
+                width: pxToRem(100px);
+            }
+        }
+    }
+}
+
+.product-percentage-total {
+    position: relative;
+
+    >input {
+        display: inline-block;
+        width: pxToRem(100px);
+    }
+}
+
+.adv-loan-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    max-width: pxToRem(220px);
+    margin-bottom: pxToRem(15px)
+}

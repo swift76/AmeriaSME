@@ -1,0 +1,183 @@
+<div class="tab-pane fade in" data-bind="disabled: !isEditable()">
+	<div class="" id="form">
+
+			<div data-bind="visible: isMessagesVisible, disabled: !isMessagesVisible()">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<h2>Փաստաթղթերին վերաբերող հաղորդագրություններ</h2>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="table-responsive messages-table">
+							<table class="table table-bordered table-condensed text-center">
+								<thead>
+									<tr>
+										<th class="table-header text-center state">Կարգավիճակ</th>
+										<th class="table-header text-center date">Ամսաթիվ</th>
+										<th class="table-header text-center">Փաստաթղթի տեսակ</th>
+										<th class="table-header text-center message">Հաղորդագրություն</th>
+									</tr>
+								</thead>
+								<tbody data-bind="foreach: messages">
+									<tr>
+										<td>
+											<span data-bind="text: (IS_APPROVED ? 'Կարդացած' : 'Նոր')"></span>
+										</td>
+										<td data-bind="formattedDate: DATE"></td>
+										<td><a href="#" data-bind="formatScanType: {value: SCAN_TYPE, key: 'title'}, click: $parent.scrollToScanType"></a></td>
+										<td data-bind="text: TEXT"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<h2>Լրացուցիչ տվյալներ</h2>
+				</div>
+
+				<loan-term-and-interest params="model: loanTermInterest"></loan-term-and-interest>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="loanRepaymentForm">Վարկի մարման ձև <span class="mandatory">*</span></label>
+						<ko-dropdown params="isEditable: isEditable, list: loanRepaymentForms, name: 'loanRepaymentForm', value: loanRepaymentForm, validationErrors: validationErrors, required: true"></ko-dropdown>
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="loanPurpose">Վարկի նպատակը <span class="mandatory">*</span></label>
+						<ko-dropdown params="isEditable: isEditable, list: loanPurposes, name: 'loanPurpose', value: loanPurpose, validationErrors: validationErrors, required: true"></ko-dropdown>
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="loanGracePeriod">Վարկի համար անհրաժեշտ արտոնյալ ժամանակահատված <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.LOANGRACEPERIOD}"></i></label>
+						<input placeholder="ամիս" data-bind="restrictRegex: /^[1-6]$/, value: loanGracePeriod, valueUpdate: 'afterkeydown',
+							   validationError: {value: validationErrors, propertyName: 'loanGracePeriod'}"
+							   type="text" class="form-control" maxlength="1"/>
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="loanPaymentDay">Վարկի վճարման նախընտրելի օր <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.LOANPAYMENTDAY}"></i></label>
+						<input placeholder data-bind="value: loanPaymentDay, valueUpdate: 'afterkeydown', numericInput: {value: loanPaymentDay, isNumber: true, max: 31},
+							   validationError: {value: validationErrors, propertyName: 'paymentDayMissing'}"
+							   type="text" class="form-control" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<h2>Կազմակերպության տվյալներ</h2>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="inventory">Ապրանքանյութական պաշարներ <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.INVENTORY}"></i></label>
+						<input data-bind="value: inventory, valueUpdate: 'afterkeydown', numericInput: {value: inventory, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'inventory'},
+							   attr: {placeholder: currencyName}"
+							   type="text" class="form-control" />
+					</div>
+				</div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="monthlyEarning">Միջին ամսական հասույթ <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.MONTHLYEARNING}"></i></label>
+                        <input data-bind="value: monthlyEarning, valueUpdate: 'afterkeydown', numericInput: {value: monthlyEarning, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'monthlyEarning'},
+							   attr: {placeholder: currencyName}"
+                               type="text" class="form-control" />
+                    </div>
+                </div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="debetors">Դեբիտորական պարտքեր <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.DEBETORS}"></i></label>
+						<input data-bind="value: debetors, valueUpdate: 'afterkeydown', numericInput: {value: debetors, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'debetors'},
+							   attr: {placeholder: currencyName}"
+							   type="text" class="form-control" />
+					</div>
+				</div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="monthlyCost">Միջին ամսական ծախսեր <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.MONTHLYCOST}"></i></label>
+                        <input data-bind="value: monthlyCost, valueUpdate: 'afterkeydown', numericInput: {value: monthlyCost, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'monthlyCost'},
+							   attr: {placeholder: currencyName}"
+                               type="text" class="form-control" />
+                    </div>
+                </div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="creditors">Կրեդիտորական պարտքեր <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.CREDITORS}"></i></label>
+						<input data-bind="value: creditors, valueUpdate: 'afterkeydown', numericInput: {value: creditors, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'creditors'},
+							   attr: {placeholder: currencyName}"
+							   type="text" class="form-control" />
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="monthlyNetIncome">Միջին ամսական շահույթ <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.MONTHLYNETINCOME}"></i></label>
+						<input data-bind="value: monthlyNetIncome, valueUpdate: 'afterkeydown', numericInput: {value: monthlyNetIncome, isNumber: true},
+							   validationError: {value: validationErrors, propertyName: 'monthlyNetIncome'},
+							   attr: {placeholder: currencyName}"
+							   type="text" class="form-control" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row" data-bind="visible: isSecured">
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="pledgeType">Ձեր կողմից առաջարկվող գրավի տեսակը <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.PLAGETYPES}"></i></label>
+						<ko-dropdown params="isEditable: isEditable, list: pledgeTypes, name: 'pledgeType', value: pledgeType, validationErrors: validationErrors, required: true"></ko-dropdown>
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="form-group">
+						<label for="appraisalCompany">Գնահատող կազմակերպություններ <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.APPRAISALCOMPANY}"></i></label>
+						<ko-dropdown params="isEditable: isEditable, list: appraisalCompanies, name: 'appraisalCompany', value: appraisalCompany, validationErrors: validationErrors, required: true"></ko-dropdown>
+					</div>
+				</div>
+			</div>
+
+			<upload-documents params="model: uploadDocuments"></upload-documents>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="hint" data-bind="localizedHtml: 'STEP5.BANKBRANCH.HINT'"></div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label for="bankBranch">Մասնաճյուղ <span class="mandatory">*</span><i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.BANKBRANCH}"></i></label>
+						<ko-dropdown params="isEditable: isEditable, list: bankBranches, name: 'bankBranch', value: bankBranch, validationErrors: validationErrors"></ko-dropdown>
+					</div>
+				</div>
+			</div>
+
+		<div id="loanSaveSubmitBtnsContainer">
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 actions">
+					<button type="button" data-bind="click: function(){$parent.action('save');}" class="btn btn-default">Հիշել</button>
+					<button type="button" data-bind="disabled: (!isMessagesVisible() && !isEditable()), click: function(){$parent.action('submit');}" class="btn btn-success">Հաստատել</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

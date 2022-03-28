@@ -1,0 +1,109 @@
+﻿<div class="tab-pane fade in" data-bind="disabled: !isEditable()">
+    <div class="" id="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Հաստատված վարկի տվյալներ</h2>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12" data-bind="visible: (approvedAmount1() && approvedAmount2())">
+                <div class="hint" data-bind="localizedText: 'STEP2.REFINANCING.CHOOSE'"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group" data-bind="visible: approvedAmount1">
+                    <label for="suggestedLoanRadio">
+                        Հաստատված վարկի գումար
+                    </label>
+                    <label class="loan-radio-wrap">
+                        <input type="radio" value="A" data-bind="checked: suggestedLoanRadio">
+                        <p><span data-bind="formatedNumber: approvedAmount1, isNumber: true"></span></p>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group loan-radio-wrap" data-bind="visible: approvedAmount2">
+                    <label for="suggestedLoanRadio">
+                        Հաստատված վարկի գումար` վերաֆինանսավորմամբ
+                    </label>
+                    <label class="loan-radio-wrap">
+                        <input type="radio" value="B" data-bind="checked: suggestedLoanRadio">
+                        <p><span data-bind="formatedNumber: approvedAmount2"></span></p>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <p data-bind="visible: approvedAmount2, text: localization.fieldDesc.APPROVEDAMOUNT2" class="hint"></p>
+            </div>
+        </div>
+        <div class="row">
+            <loan-term-and-interest params="model: loanTermInterest"></loan-term-and-interest>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="currency">Արժույթ <span class="mandatory">*</span></label>
+                    <ko-dropdown params="isEditable: isEditable, list: currencies, name: 'currency', value: currency, validationErrors: validationErrors, required: true, disabled: disableCurrency"></ko-dropdown>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="loanPaymentDay">Վարկի վճարման նախընտրելի օր <span class="mandatory">*</span> <i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.LOANPAYMENTDAY}"></i></label>
+                    <input placeholder data-bind="numericInput: {value: loanPaymentDay, isNumber: true, max: 31},
+                           validationError: {value: validationErrors, propertyName: 'paymentDayMissing'}"
+                           type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row" data-bind="visible: IsRefinancing">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Վերաֆինանսավորվող վարկեր</h2>
+                <div data-bind="localizedHtml: 'STEP2.REFINANCING.HINT.1'" class="hint"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive refinancing-table">
+                    <table class="table table-striped table-bordered table-condensed text-center">
+                        <thead>
+                            <tr>
+                                <th class="table-header text-center">Բանկի անվանում</th>
+                                <th class="table-header text-center">Վարկատեսակ</th>
+                                <th class="table-header text-center">Վարկի մնացորդ</th>
+                                <th class="table-header text-center">Արժույթ</th>
+                                <th class="table-header text-center">Տարեկան տոկոսադրույք</th>
+                                <th class="table-header text-center">Վարկային կոդ</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: loansInOtherBanks">
+                            <tr data-bind="attr: {id: 'refinancing-' + ROW_ID}">
+                                <td data-bind="text: ORIGINAL_BANK_NAME"></td>
+                                <td data-bind="text: LOAN_TYPE"></td>
+                                <td data-bind="formatedNumber: CURRENT_BALANCE"></td>
+                                <td data-bind="formatedCurrency: CURRENCY"></td>
+                                <td data-bind="text: INITIAL_INTEREST"></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control input-sm" data-bind="value: LOAN_CODE, validationError: {value: $parent.validationErrors, propertyName: ROW_ID + '_loanCode'}">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label>Վերաֆինանսավորվող վարկերի ընդհանուր մնացորդը <span data-bind="formatedNumber: refinancingAmount"></span> ՀՀ դրամ է։</label>
+            </div>
+        </div>
+        <div class="row" data-bind="disabled: !isEditable()">
+            <div class="col-lg-12 col-md-12 col-sm-12 actions">
+                <button type="button" data-bind="click: showCancelModal" class="btn btn-default">Չեղարկել</button>
+                <button type="button" data-bind="enable: (isEditable() && finalAmount), click: function(){$parent.action('continue')}" class="btn btn-success">Շարունակել</button>
+            </div>
+        </div>
+    </div>
+</div>

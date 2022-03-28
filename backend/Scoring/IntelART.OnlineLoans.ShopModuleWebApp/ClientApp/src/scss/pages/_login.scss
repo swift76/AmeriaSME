@@ -1,0 +1,29 @@
+.login-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.login-form-wrap {
+    margin: auto ;
+    padding: 0 pxToRem(15px);
+    width: 100%;
+    @include media-breakpoint-up(sm) {
+        max-width: $login-form-width;
+    }
+    .logo {
+        min-height: pxToRem(33px);
+        width: $logo-width;
+        margin: 0 auto pxToRem(35px);
+        display: block;
+    }
+}
+
+.login-form {
+    background-color: $white;
+    padding: $login-form-spacer-y $login-form-spacer-x;
+    border: 1px solid $input-border-color;
+    .form-title {
+        margin-bottom: pxToRem(25px);
+    }
+}

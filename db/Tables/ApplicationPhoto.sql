@@ -1,0 +1,19 @@
+if exists (select * from sys.objects where name='APPLICATION_PHOTO' and type='U')
+	drop table dbo.APPLICATION_PHOTO
+GO
+
+CREATE TABLE dbo.APPLICATION_PHOTO (
+	ID				int					identity(1,1) NOT NULL,
+	APPLICATION_ID	uniqueidentifier	NOT NULL,
+	FILE_NAME		nvarchar(250)		NOT NULL,
+	CONTENT			varbinary(max)		NOT NULL,
+	IS_PLEDGE		bit					NOT NULL,
+	CREATION_DATE	datetime			NOT NULL default getdate()
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iAPPLICATION_PHOTO1 ON dbo.APPLICATION_PHOTO(ID)
+GO
+
+CREATE INDEX iAPPLICATION_PHOTO2 ON APPLICATION_PHOTO (APPLICATION_ID)
+GO

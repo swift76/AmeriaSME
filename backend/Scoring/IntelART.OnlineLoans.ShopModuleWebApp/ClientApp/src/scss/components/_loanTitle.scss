@@ -1,0 +1,19 @@
+.loan-title {
+    h2 {
+        display: flex;
+        align-items: center;
+
+        a {
+            font-size: pxToRem(14px);
+            margin-left: pxToRem(10px);
+        }
+    }
+
+    .title-badge {
+        font-size: pxToRem(24px)
+    }
+
+    small.title-badge {
+        font-size: pxToRem(16px)
+    }
+}

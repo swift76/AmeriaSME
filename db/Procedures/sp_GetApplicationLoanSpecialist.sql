@@ -1,0 +1,47 @@
+﻿if exists (select * from sys.objects where name='sp_GetApplicationLoanSpecialist' and type='P')
+	drop procedure dbo.sp_GetApplicationLoanSpecialist
+GO
+
+create procedure dbo.sp_GetApplicationLoanSpecialist(@APPLICATION_ID	uniqueidentifier)
+AS
+	select	a.TAX_ID_NUMBER,
+			a.COMPANY_NAME,
+			a.BUSINESS_SPACE,
+		 	a.BUSINESS_STATE_CODE,
+			a.EMPLOYEE_COUNT,
+			a.FAMILY_MEMBER_COUNT,
+			a.VEHICLE_COUNT,
+			a.IS_AREA_RENTED,
+			a.AREA_RENTED_COMMENT,
+			a.ACTIVITY_DESCRIPTION,
+			a.LS_LOAN_TYPE_ID,
+			isnull(a.LS_LOAN_AMOUNT,a.INITIAL_AMOUNT) as LS_LOAN_AMOUNT,
+			isnull(a.LS_CURRENCY_CODE,a.CURRENCY_CODE) as LS_CURRENCY_CODE,
+			isnull(a.LS_LOAN_TERM,a.LOAN_TERM) as LS_LOAN_TERM,
+			isnull(a.LS_REPAYMENT_DAY,a.REPAYMENT_DAY) as LS_REPAYMENT_DAY,
+			isnull(a.LS_ENTRY_DATE,getdate()) as LS_ENTRY_DATE,
+			dbo.f_GetApprovedAmount(a.ID, a.LOAN_TYPE_ID, a.CURRENCY_CODE) as APPROVED_AMOUNT,
+			ap.IS_REAL_ESTATE,
+			ap.SHOULD_MAIN_AGREEMENT_SIGNED,
+			ap.IS_MAIN_AGREEMENT_SIGNED,
+			ap.IS_SUCCESSIVE_PLEDGING,
+			ap.MARKET_PRICE,
+			ap.LIQUID_PRICE,
+			ap.IS_INSURANCE_CONDITION,
+			ap.IS_INSURANCE_BY_BANK,
+			ap.INSURANCE_COMPANY_CODE,
+			ap.APPRAISAL_COMPANY_CODE,
+			ap.APPRAISAL_DATE,
+			ap.OWNERSHIP_CERTIFICATE_NUMBER,
+			ap.OWNERSHIP_CERTIFICATE_DATE,
+			ap.ESTATE_ADDRESS,
+			ap.ESTATE_RESIDENTIAL_AREA,
+			ap.ESTATE_LAND_AREA,
+			ap.VEHICLE_MODEL,
+			ap.VEHICLE_VIN,
+			ap.VEHICLE_DATE
+	from dbo.APPLICATION as a
+	left join dbo.APPLICATION_PLEDGE as ap
+		on a.ID = ap.APPLICATION_ID
+	where a.ID = @APPLICATION_ID
+GO

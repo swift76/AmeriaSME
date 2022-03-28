@@ -1,0 +1,84 @@
+{
+  "name": "ameriabank",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/react-datepicker": "^2.8.1",
+    "@types/react-input-mask": "^2.0.3",
+    "@types/react-router-hash-link": "^1.2.1",
+    "@types/react-toastify": "^4.0.2",
+    "@types/yup": "^0.26.16",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "clsx": "^1.0.4",
+    "formik": "^1.5.7",
+    "history": "^4.9.0",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "node-sass": "^4.14.1",
+    "qs": "^6.7.0",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.9",
+    "react-cookies": "^0.1.1",
+    "react-datepicker": "^2.8.0",
+    "react-dom": "^16.8.6",
+    "react-input-mask": "^2.0.4",
+    "react-number-format": "^4.0.8",
+    "react-redux": "^7.1.0",
+    "react-router-config": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-router-hash-link": "^1.2.2",
+    "react-scripts-ts": "4.0.8",
+    "react-toastify": "^5.3.0",
+    "redux-thunk": "^2.3.0",
+    "typesafe-actions": "^4.4.1",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/history": "^4.7.2",
+    "@types/jest": "^24.0.13",
+    "@types/js-cookie": "^2.2.2",
+    "@types/lodash": "^4.14.134",
+    "@types/node": "^12.0.7",
+    "@types/qs": "^6.5.3",
+    "@types/react": "^16.8.19",
+    "@types/react-bootstrap": "^0.32.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.0.9",
+    "@types/react-router-config": "^5.0.0",
+    "@types/react-router-dom": "^4.3.3",
+    "@types/redux-thunk": "^2.1.0",
+    "prettier": "^1.18.2",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.1"
+  }
+}

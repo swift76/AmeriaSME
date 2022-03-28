@@ -1,0 +1,19 @@
+﻿if exists (select * from sys.objects where name='ACRA_QUERY_RESULT' and type='U')
+	drop table ACRA_QUERY_RESULT
+GO
+
+CREATE TABLE ACRA_QUERY_RESULT(
+	QUERY_DATE				datetime			NOT NULL default getdate(),
+	APPLICATION_ID			uniqueidentifier	NOT NULL,
+	FICO_SCORE				char(3)				NOT NULL,
+	RESPONSE_XML			nvarchar(max)		NOT NULL,
+	PRESENCE_TYPE			varchar(2)			NULL,
+	CLASSIFICATION_COUNT	int					NULL,
+	REVIEW_DATE				date				NULL,
+	LOAN_WORST_CLASS		nvarchar(200)		NULL,
+	GUARANTEE_WORST_CLASS	nvarchar(200)		NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iACRA_QUERY_RESULT1 ON ACRA_QUERY_RESULT (APPLICATION_ID)
+GO

@@ -1,0 +1,31 @@
+if exists (select * from sys.objects where name='SERVICE_TIMEOUT' and type='U')
+	drop table SERVICE_TIMEOUT
+GO
+
+CREATE TABLE SERVICE_TIMEOUT (
+	ID				tinyint			identity(1,1),
+	NAME			nvarchar(50)	NOT NULL,
+	TIMEOUT_SECOND	int				NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iSERVICE_TIMEOUT1 ON SERVICE_TIMEOUT(ID)
+GO
+
+
+
+insert into SERVICE_TIMEOUT (NAME,TIMEOUT_SECOND)
+values (N'NORQ իրավ.',180)
+GO
+insert into SERVICE_TIMEOUT (NAME,TIMEOUT_SECOND)
+values (N'ACRA իրավ.',900)
+GO
+insert into SERVICE_TIMEOUT (NAME,TIMEOUT_SECOND)
+values (N'EKEG իրավ.',180)
+GO
+insert into SERVICE_TIMEOUT (NAME,TIMEOUT_SECOND)
+values (N'NORQ ֆիզ.',180)
+GO
+insert into SERVICE_TIMEOUT (NAME,TIMEOUT_SECOND)
+values (N'ACRA ֆիզ.',180)
+GO

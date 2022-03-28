@@ -1,0 +1,84 @@
+﻿@model IntelART.OnlineLoans.CustomerModuleWebApp.Controllers.Authentication.RegisterModel
+
+<div id="register" class="tab-pane fade@(Model.IsActive ? " in active":"")">
+    <div class="registration show">
+        <form id="RegisterRequestForm" asp-action="Register">
+            <div class="loginreg-content">
+                <div class="form-group">
+                    <label for="registerCompanyName">Իրավաբանական անձի / ԱՁ-ի անվանում (անգլերեն) <i class="fa fa-question-circle input-desc-icon popovers" data-content="Լրացվում է իրավաբանական անձի/ԱՁ-ի անվանումը/անուն ազգանունը անգլերեն լեզվով, ինչպես հաստատված է Կանոնադրությամբ` մեծատառերով, առանց չակերտների` վերջում նշելով կազմակերպաիրավական տեսակը" data-placement="bottom" data-trigger="hover"></i></label>
+                    <input type="text" class="form-control" asp-for="CompanyName" id="registerCompanyName" placeholder="COMPANY NAME LLC / FIRSTNAME LASTNAME IE">
+                </div>
+                <div class="form-group">
+                    <label for="TaxIdNumber">ՀՎՀՀ / հարկ վճարողի հաշվառման համար</label>
+                    <input type="text" class="form-control" maxlength="8" asp-for="TaxIdNumber" id="registerTIN">
+                </div>
+                <div class="form-group">
+                    <div class="tandem">
+                        <label for="MobilePhone">Բջջային հեռախոսահամար</label>
+                        <div class="phonefield">
+                            <span class="country-code">374</span>
+                            <input placeholder="XX XXX XXX" maxlength="8" type="text" class="form-control" asp-for="MobilePhone" id="registerPhone">
+                        </div>
+                    </div>
+                    <div class="tandem">
+                        <label for="Email">Էլ․ հասցե</label>
+                        <input type="text" class="form-control" asp-for="Email">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Գաղտնաբառ</label>
+                    <input type="password" class="form-control" asp-for="Password">
+                </div>
+                <div class="form-group">
+                    <label for="ConfirmPassword">Կրկնել գաղտնաբառ</label>
+                    <input type="password" class="form-control" asp-for="ConfirmPassword">
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="registrationAgreeCheckbox" asp-for="AcceptedTermsAndConditions"> Համաձայն եմ <a href="/pdf/Terms_and_Conditions_of_Personal_Profile_Opening_and_Maintenance.pdf" target="_blank">պայմաններին և կանոններին</a></label>
+                </div>
+            </div>
+            <div class="login-footer">
+                <button type="submit" disabled="disabled" id="registrationSubmitBtn" class="btn btn-success">Գրանցվել</button>
+            </div>
+        </form>
+        </div>
+    </div>
+	<script>
+		(function ($, undefined) {
+			$(function () {
+				$('#registrationAgreeCheckbox').on('change', function () {
+					if ($(this).is(':checked')) {
+						$('#registrationSubmitBtn').removeAttr("disabled");
+					} else {
+						$('#registrationSubmitBtn').attr("disabled", "disabled");
+					}
+				});
+			});
+		})(jQuery);
+
+        (function ($, undefined) {
+            $(function () {
+                $(window).on("load", function () {
+                    if ($('#registrationAgreeCheckbox').is(':checked')) {
+                        $('#registrationAgreeCheckbox').attr('checked', false);
+                    }
+                    $('.popovers').popover();
+                });
+            });
+        })(jQuery);
+
+        (function ($, undefined) {
+            $(function () {
+                let form = $("#RegisterRequestForm")[0];
+                if (form) {
+                    form.addEventListener("submit", function () {
+                        let btn = $(this).find(":submit")[0];
+                        if (btn) {
+                            btn.disabled = true;
+                        }
+                    });
+                }
+            });
+        })(jQuery);
+	</script>

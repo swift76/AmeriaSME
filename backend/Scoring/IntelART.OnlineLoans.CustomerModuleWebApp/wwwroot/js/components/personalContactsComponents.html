@@ -1,0 +1,28 @@
+﻿<div data-bind="with: model">
+    <div data-bind="disabled: !isEditable()">
+        <div class="col-lg-6 col-md-6 col-sm-12" data-bind="visible: showMobilePhone()">
+            <div class="form-group">
+                <label for="text">Բջջային հեռախոս <span class="mandatory">*</span></label>
+                <div class="phonefield">
+                    <span class="country-code">374</span>
+                    <input placeholder="XX XXX XXX" data-bind="restrictRegex: /^[0-9]*$/, value: cellphone, validationError: {value: validationErrors, propertyName: 'cellphone'}" type="text" disabled="disabled" class="form-control" maxlength="8">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Քաղաքային հեռախոս</label>
+                <div class="phonefield">
+                    <span class="country-code">374</span>
+                    <input placeholder="XX XXX XXX" data-bind="restrictRegex: /^[0-9]*$/, value: phone, validationError: {value: validationErrors, propertyName: 'phone'}" type="text" class="form-control" maxlength="8">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="email">Էլ. հասցե <span class="mandatory">*</span></label>
+                <input type="text" data-bind="value: email, validationError: {value: validationErrors, propertyName: 'email'}" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>

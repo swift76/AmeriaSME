@@ -1,0 +1,50 @@
+﻿<div data-bind="with: model">
+    <div data-bind="disabled: !isEditable()">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2>Աշխատանքային տվյալներ</h2>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Գործատու կազմակերպության անվանումը</label>
+                <input type="text" data-bind="value: companyName" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Գործատու կազմակերպության հեռախոսահամար</label>
+                <div class="phonefield">
+                    <span class="country-code">374</span>
+                    <input placeholder="XX XXX XXX" data-bind="restrictRegex: /^[0-9]*$/, value: companyPhone" type="text" class="form-control" maxlength="8">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Զբաղեցրած պաշտոն</label>
+                <input type="text" data-bind="value: position" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Ընդհանուր աշխատանքային փորձ</label>
+                <div class="customselect" data-bind="with: workExperienceDurations">
+                    <select data-bind="options: items, optionsText: 'NAME', optionsValue: 'CODE',
+                            delayBind: {waitUntil: items() && items().length,
+                            bind: 'value: $parent.experienceDurationCode'}"></select>
+                    <div class="busyIndicatorOverlay" data-bind="visible: !items.loaded()"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Ամսական զուտ եկամուտ</label>
+                <div class="customselect" data-bind="with: monthlyIncomingRanges">
+                    <select data-bind="options: items, optionsText: 'NAME', optionsValue: 'CODE',
+                            delayBind: {waitUntil: items() && items().length,
+                            bind: 'value: $parent.incomeRangeCode'}"></select>
+                    <div class="busyIndicatorOverlay" data-bind="visible: !items.loaded()"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

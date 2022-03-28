@@ -1,0 +1,15 @@
+<div data-bind="with: model">
+    <div class="pos-r">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 formblock">
+                <h2>Փաստաթղթեր</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 formblock" data-bind="foreach: documentSections">
+                <multiple-file-upload params="model: $data"></multiple-file-upload>
+            </div>
+        </div>
+        <div class="busyIndicatorOverlay" data-bind="visible: !itemsLoaded()"></div>
+    </div>
+</div>

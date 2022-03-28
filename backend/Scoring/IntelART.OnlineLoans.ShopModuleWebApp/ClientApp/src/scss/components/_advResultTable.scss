@@ -1,0 +1,45 @@
+.adv-table-wrapper {
+    box-shadow: 0px 0px 5px 0px $border-color;
+    padding: pxToRem(15px) pxToRem(8px);
+
+    &+.adv-table-wrapper {
+        margin-top: pxToRem(30px)
+    }
+}
+
+.adv-result-table {
+    margin-bottom: 0;
+
+    >tbody>tr {
+        cursor: pointer;
+    }
+
+    >tbody.adv-table-content {
+        >tr>td {
+            font-size: pxToRem(18px);
+            font-weight: 700;
+        }
+    }
+
+    >tbody>tr:not(.transparent) {
+        background-color: $table-accent-bg
+    }
+
+    .refinancing-title {
+        font-size: pxToRem(15px);
+        font-weight: 600;
+        color: $primary;
+        border-bottom: 1px solid $border-color;
+        margin: pxToRem(10px) 0 pxToRem(20px);
+        padding-bottom: pxToRem(10px);
+    }
+
+    .refinancing-table {
+        margin-bottom: 0;
+        border: none;
+    }
+}
+
+.result-term {
+    margin-bottom: pxToRem(30px)
+}

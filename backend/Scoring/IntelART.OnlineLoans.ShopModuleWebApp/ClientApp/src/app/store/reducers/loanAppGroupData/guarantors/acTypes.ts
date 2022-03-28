@@ -1,0 +1,7 @@
+export default ({
+
+    GET_GUARANTORS_REQUEST:'@LoanAppGroupData/GET_GUARANTORS_REQUEST',
+    GET_GUARANTORS_SUCCESS:'@LoanAppGroupData/GET_GUARANTORS_SUCCESS',
+    GET_GUARANTORS_FAIL:'@LoanAppGroupData/GET_GUARANTORS_FAIL',
+
+} as const)

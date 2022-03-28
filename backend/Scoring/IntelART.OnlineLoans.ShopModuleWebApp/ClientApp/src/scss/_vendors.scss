@@ -1,0 +1,14 @@
+// Import Bootstrap source files
+@import "./vendors/bootstrap/custom";
+@import "~react-toastify/scss/main";
+@import "~react-datepicker/src/stylesheets/datepicker";
+
+
+// TODO: separate react datepicker in to vendor custom
+.w-full {
+
+    .react-datepicker-wrapper,
+    .react-datepicker__input-container {
+        width: 100%
+    }
+}

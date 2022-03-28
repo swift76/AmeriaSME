@@ -1,0 +1,1828 @@
+
+
+@font-face {
+	font-family: 'GHEA Grapalat';
+	src: url("../fonts/weblysleekuisb.ttf");
+	font-weight: normal; font-style: normal;
+}
+.menu-fixed-top
+{
+    position: fixed !important;
+    top: -30px;
+    z-index: 60001 !important;
+  
+}
+.navbar-fixed-top
+{
+    border-bottom: 1px solid #DDD;
+    background: #fff;
+}
+
+.navbar-fixed-top .row
+{
+    max-width: 1008px;
+    margin: 0px auto;
+    height: 55px;
+}
+.navbar-fixed-top #ctl00_LogoLink
+{
+    margin-top:0px;
+}
+
+.navbar-fixed-top img
+{
+   margin-top:7px !important;
+     /* height:40px;
+    max-width: 55% !important;
+    margin-top: 6px !important;*/
+}
+
+
+iframe[name=google_conversion_frame] 
+{ 
+        height: 0px !important;
+        display  : block; 
+}
+
+.CSR
+{
+     
+     color:White !important;
+     font-size:16px !important;
+    
+}
+
+.Forms
+{
+    width: 250px;
+    float: left;
+    text-align: left;
+    margin-top: 8px;
+    padding-left:3px;
+    padding-right:3px;
+    padding-top:3px;
+    padding-bottom:3px;
+    background: -webkit-linear-gradient(#72a418, #5c8f02);
+    background: -o-linear-gradient(#72a418, #5c8f02);
+    background: -moz-linear-gradient(#72a418, #5c8f02);
+    background: linear-gradient(#72a418, #5c8f02);
+    font-size: 16px;
+    font-weight: 400;
+    color: White;
+    border-radius: 3px;
+}
+
+.CSR img
+{
+       margin-top: -75px;
+       margin-right: 3px;
+}
+
+#treasuryaccount
+{
+    float: left;
+   
+}
+#treasuryaccount:hover
+{
+    text-decoration: underline;
+   
+}
+
+    
+.pN a:link, .pN a:visited
+{
+    color: #0E4352;
+}
+.pN div#subPageLinkList
+{
+    text-align: left;
+    padding-left: 40px;
+}
+.pN div#subPageLinkList table#supPageLinkTb
+{
+    margin-right: 20px;
+    height: 20px;
+    line-height: 20px;
+}
+.pN div#subPageLinkList table#supPageLinkTb td#bullet
+{
+    vertical-align: top;
+    padding-right: 6px;
+    font-size: 7pt;
+    font-weight: 700;
+    color: #72BE44;
+}
+.pN div#subPageLinkList table#supPageLinkTb td#text
+{
+    vertical-align: top;
+}
+.pN div#subPageLinkList table#supPageLinkTb img
+{
+    padding-top: 8px;
+}
+.pN ul#cssdropdown
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.pN ul#cssdropdown *
+{
+    padding: 0;
+    margin: 0;
+}
+.pN ul#cssdropdown li.headlink
+{
+    float: left;
+    text-align: center;
+}
+.pN ul#cssdropdown li.headlink a:hover, .pN ul#cssdropdown li.headlink a
+{
+    padding-right: 2px;
+}
+.pN ul#cssdropdown li.headlink ul
+{
+    display: none;
+    position: absolute;
+    list-style: none;
+    width: 356px;
+    text-align: left;
+}
+.pN ul#cssdropdown li.headlink:hover ul
+{
+    display: block;
+}
+.pN table.sub td.bl
+{
+    border-left: solid 2px #eaeaea;
+    background-color: #f5f5f5;
+}
+.pN table.sub td.item a
+{
+    display: block;
+    border-bottom: solid 1px #eaeaea;
+    border-right: solid 2px #e2e2e2;
+    background-color: #f5f5f5;
+    line-height: 28px;
+    text-indent: 26px;
+    font-weight: 400;
+}
+.pN table.sub span
+{
+    position: absolute;
+    left: 10px;
+    color: #0E4352;
+    font-size: 7.5pt;
+}
+.pN_Level0_links:link, .pN_Level0_links:visited
+{
+    background-image: url('https://www.ameriabank.am/userfiles/image/PageNavigator/greenbullet.jpg');
+    background-repeat: no-repeat;
+    background-position: 10px;
+}
+.pN_Level0_links:hover
+{
+    background-image: url('https://www.ameriabank.am/userfiles/image/PageNavigator/whitebullet.jpg');
+    background-repeat: no-repeat;
+    background-position: 10px;
+}
+.pN table.sub td.btm a
+{
+    display: block;
+    font-weight: 400;
+    border-right: solid 2px #e2e2e2;
+    background-color: #f5f5f5;
+    line-height: 28px;
+    text-indent: 26px;
+}
+.pN table.sub td.btm a:hover, .pN table.sub td.item a:hover
+{
+    color: Black;
+    font-weight: 400;
+    display: block;
+    background-color: #5ac70c;
+}
+.pN h1.title
+{
+    background-position: center;
+    text-indent: 36px;
+    height: 40px;
+    padding-top: 11px;
+    margin: 0;
+}
+.search_win_v2
+{
+ position:absolute;
+ right: 11px;
+ z-index:10;    
+}
+
+#main_menu_content
+{
+  position:absolute;
+  background-color:#414042;
+  width: 100%; 
+  min-height: 600px;
+  margin-top: 30px; 
+  padding-top:70px;
+  z-index:1000;
+}
+#main_menu_content a
+{
+    text-transform :uppercase;
+    font-size:18px;
+    display:block;
+    font-weight: 700;
+    color: white;
+    padding: 7px 0 7px 20px;
+    text-decoration:none;
+   
+}
+
+#main_menu_content tr tr:hover
+{
+    color: #5b5b5b;
+    background-color: #a3d39c;
+}
+#main_menu_content a:hover
+{
+    color: #5b5b5b;
+    
+}
+
+#advButton
+{
+    float:left;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:20px;
+    padding-bottom:12px;
+    height: 27%;
+    width: 13%;
+  position:absolute;
+    top: 65%;
+    left: 85px;
+   
+    color: white;
+    font-size:21px;
+  background: -webkit-linear-gradient(left top, #6ea013, #65960b); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(left top, #6ea013, #65960b); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(left top, #6ea013, #65960b); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(left top, #6ea013, #65960b); /* Standard syntax */
+}
+
+#advButton:hover
+{
+  background: #5b8e01;
+  
+}
+
+.search
+{
+ 
+   
+   
+}
+.search-text
+{
+    width: 305px;
+    background-color: #bfc0c2;
+    height: 30px;
+    font-size: 8pt;
+    border: none;
+}
+.search-button
+{
+    color: #0e4355;
+    background-color: #dcdcdc;
+    font-weight: 700;
+    text-decoration: underline;
+    border-width: 0;
+    cursor: pointer;
+    font-size: 8pt;
+    width:0px;
+    padding:0px;
+}
+.searchControl_wtmk
+{
+    color: #666;
+    border: inset 1px gray;
+    width: 155px;
+    font-size: 7pt;
+    font-family: Verdana;
+    height: 14px;
+}
+*html .searchControl_wtmk, *html .search-text
+{
+    border: inset 1px #c2c2c2;
+}
+.fC
+{
+    /*
+    border-top: solid 1px #bbb;
+    margin: 0 15px 0 25px;
+    color: #3a3a3a;
+    */
+}
+.fC a:link, .fC a:visited
+{
+    font-weight: 400;
+    color: #3a3a3a;
+}
+.fC a:hover, .pN a:hover
+{
+    color: #72BE44;
+}
+.fC td.l
+{
+    /*
+    width: 720px;
+    padding: 10px 0 15px 150px;
+    */
+}
+.fC td.l p
+{
+    text-align:-webkit-left !important
+}
+.fC td.r
+{
+    width: 270px;
+    padding: 10px 0 15px;
+}
+.gc
+{
+    width: 100%;
+    margin-left: 0;
+   /* color: #cacbcd;*/
+}
+
+.gc a,.gc span
+{
+    color:White !important;
+}
+.gc td
+{
+    /*
+    background-image: url('https://www.ameriabank.am/userfiles/image/Default/gadgetBg.png');
+    background-repeat: repeat-x;
+    padding-top: 7px;
+*/
+}
+.gc td#left
+{
+  /*
+    background-image: url('https://www.ameriabank.am/userfiles/image/Default/gadgetBgL.png');
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 81px;
+ */
+}
+.gc td#right
+{
+     /*
+    background-image: url('https://www.ameriabank.am/userfiles/image/Default/gadgetBgR.png');
+    background-repeat: no-repeat;
+    width: 14px;
+    */
+}
+.gc table#inner
+{
+    padding-left: 5px;
+    margin-top: 10px;
+}
+.gc table#inner td
+{
+    background-image: none;
+    height: 20px;
+    line-height: 12px;
+    vertical-align: top;
+    padding-top: 0;
+}
+.gc_Checked
+{
+    color: rgb(0,0,0);
+    font-size: 12px;
+    
+    background: url('https://www.ameriabank.am/userfiles/image/Default/checkedbox.png') no-repeat 5px 3px;
+    cursor: pointer;
+    padding: 3px 0px 3px 20px;
+   
+    
+}
+.search_ico,.map_ico
+{
+    float: left;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    margin-top: -7.5px;
+ }
+ 
+ .search_ico:hover,.map_ico:hover
+ {
+     background-color:#bfc0c2 !important;
+    
+ }
+ 
+ .search_ico:hover img
+ {
+     border:none !important;
+ }
+ 
+
+ 
+ .map_ico1
+ {
+    background: url('https://www.ameriabank.am/userfiles/image/Default/SiteMap.png')no-repeat;
+    float: left;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    margin-top: 8px;
+    margin-left: 8px;
+ }
+
+
+.Services
+{ 
+    margin: 50px 15px 50px 15px !important;
+}
+
+
+.NetworkServices
+{
+    font-size: 24px;
+    line-height: 25px;
+    color: #58595b;
+}
+
+.NetworkServ a
+{
+    color: #6d7073 !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+    clear:both;
+}
+
+.NetworkServ a:hover
+{
+    color: #0E4352 !important;   
+}
+
+.NetworkServMore
+{
+    color: white !important;
+    padding-top: 5px;
+    display: block;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+ }
+ 
+ 
+
+
+
+.gc .FootherLink:hover
+{
+     background-color:#72be44;    
+}
+
+
+
+.FootherLink span, .FootherLink a
+{
+   color: White !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    font-family: GHEA Grapalat;
+    display: inline-flex;
+   
+}
+
+.FootherLink
+{
+    padding:3px 0 3px 3px;
+ }
+ 
+ .FootherLink span
+ {
+ color:White !important;
+ font-size:12px !important;
+ }
+ 
+ #ForgetMeNotImage
+ {
+     width:400px;
+     padding-left:4px;
+ }
+ 
+ #ForgetMeNot img
+ {
+     width:250px;
+     padding-left:9px;
+     padding-top: 5px;
+     
+ }
+
+ #img_facebook
+ {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/facebook.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+     
+ }
+ #img_facebook:hover
+ {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/facebook_hover.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    
+  }
+  
+  #img_linked
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/linkedin.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+  
+  #img_linked:hover
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/linkedin_hover.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+  
+  #img_google
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/google-plus-black.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+  
+  #img_google:hover
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/google-plus_hover.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+      
+  #img_youtube
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/youtube.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+  
+  #img_youtube:hover
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/youtube_hover.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+      
+  #img_twitter
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/twitter.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+  
+   #img_twitter:hover
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/twitter_hover.png');
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+      
+  #img_AppStore
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/AppStore.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 38px;
+    
+  }
+  
+  #img_GooglePlay1
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/GooglePlay1.png');
+    background-repeat: no-repeat;
+    background-position: 20px;
+    height: 35px;
+    width:140px;
+    display: block;
+    float: right;
+    
+  }
+  
+   #img_AppStore1
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/AppStore1.png');
+    background-repeat: no-repeat;
+   background-position: 15px;
+    height: 35px;
+    width:140px;
+    display: block;
+    
+  }
+  
+ 
+      
+  #img_GooglePlay
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/GooglePlay.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 38px;
+    
+  }
+  
+  
+  
+   #img_WindowsStore
+  {
+    background-image:url('https://www.ameriabank.am/userfiles/image/socialmedia/AppStore.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 37px;
+   
+  }
+  
+   
+  
+   #img_facebookTop
+ {
+    background: url('https://www.ameriabank.am/userfiles/image/Default/fb.png') no-repeat;
+    width: 18px;
+    height: 18px;
+       float: left;
+    margin-top: 5px;
+    
+     
+ }
+ #img_facebookTop:hover
+ {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/fb_hover.png') no-repeat;
+    width: 18px;
+    height: 18px;
+        float: left;
+   margin-top: 5px;
+    
+  }
+  
+  #img_linkedTop
+  {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/in.png') no-repeat;
+    width: 18px;
+    height: 18px;
+        float: left;
+    margin-top: 5px;
+  }
+  
+  #img_linkedTop:hover
+  {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/in_hover.png') no-repeat;
+    width: 18px;
+    height: 18px;
+        float: left;
+    margin-top: 5px;
+  }
+  
+  #img_youtubeTop
+  {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/yt.png') no-repeat;
+    width: 18px;
+    height: 18px;
+       float: left;
+    margin-top: 7px;
+  }
+  
+  #img_youtubeTop:hover
+  {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/yt_hover.png') no-repeat;
+   width: 18px;
+    height: 18px;
+       float: left;
+    margin-top: 7px;
+  }
+  
+  #ShortMenu
+  {
+     background:url('https://www.ameriabank.am/userfiles/image/Default/ShortMenu.png') no-repeat 14px;
+     cursor:pointer;
+    
+      width: 63px;
+     height: 44px;
+     margin-left:-1px;
+  }
+  
+  .Shortmenu
+  {
+   padding:0 !important;  
+   height: 470px;  
+  }
+  
+  .Shortmenu span
+  {
+  font-weight: 700;
+    padding: 7px 0 7px 20px;
+    text-transform: uppercase;
+    color: #a3d39c;
+    display: flex;
+  }
+  
+   #ShortMenu:hover
+  {
+     background:url('https://www.ameriabank.am/userfiles/image/Default/ShortMenu_hover.png') no-repeat ;
+      float: left;
+      width: 63px;
+     height: 55px;
+     margin-left:-1px;
+     margin-top: -5px;
+  }
+  
+  #online
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/online.png') no-repeat ;
+       float: left;
+       padding-left: 30px;
+     
+  }
+  
+   #online:hover
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/online_hover.png') no-repeat ;
+       color: #72BE44;
+     
+  }
+  
+  
+   #Map1
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/Map.png') no-repeat ;
+       float: left;
+       padding-left: 40px;
+       height:34px;
+     
+  }
+  
+   #Map1:hover
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/Map_hover.png') no-repeat ;
+       color: #72BE44;
+     
+  }
+
+    #Map1:hover a
+    {
+         color: #72BE44;
+    }
+    
+     
+   #Ref1
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/Ref.png') no-repeat ;
+       float: left;
+       padding-left: 40px;
+       height:34px;
+     
+  }
+  
+   #Ref1:hover
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Default/Ref_hover.png') no-repeat ;
+       color: #72BE44;
+     
+  }
+
+    #Ref1:hover a
+    {
+         color: #72BE44;
+    }
+  
+
+   #Chat1
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Diaspora/chb_2.jpg') no-repeat ;
+       float: left;
+       padding-left: 40px;
+     
+  }
+  
+   #Chat1:hover
+  {
+       background:url('https://www.ameriabank.am/userfiles/image/Diaspora/chb_2_hover.png') no-repeat ;
+       color: #72BE44;
+     
+  }
+  
+  #expand_exchange
+  {
+     background: url('https://www.ameriabank.am/userfiles/image/Default/expand.png') no-repeat;
+    height: 10px;
+    width: 10px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 145px;
+    margin-left: 250px;
+    z-index:60000;
+  }
+  
+  #CloseMenu
+  {
+    background:url('https://www.ameriabank.am/userfiles/image/Default/CloseMenu.png') no-repeat ;
+    width: 53px;
+    cursor:pointer;
+    height: 27px;
+    margin-top: -50px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+ .div1
+  {
+      float: left;
+    width: 353px;
+    padding-right: 30px;
+      
+  }
+  
+  .div6
+  { 
+      float: left;
+    width: 313px;
+   border-left: solid 1px #d3d3d3;
+    height: 260px;
+    padding-right: 30px;
+   
+     
+  }
+  
+  .div9
+  {
+    float: left;
+    width: 250px;
+    border-left: solid 1px #d3d3d3;
+    height: 300px;
+    padding-right: 30px;
+   
+  }
+  
+  .div10
+  {
+      
+     border-right: solid 1px #d3d3d3;
+     top: -40px;
+    left: 1px;
+  }
+  
+  .div11
+  {
+        margin-top: 95px;
+    width: 100% !important;
+  }
+
+.gc_unChecked
+{
+   color: rgb(0,0,0);
+    font-size: 12px;
+    /* font-weight: 400; */
+    background: url('https://www.ameriabank.am/userfiles/image/Default/uncheckedbox.png') no-repeat 5px 3px;
+    
+    cursor: pointer;
+    padding: 3px 0px 3px 20px;
+    
+   
+}
+.gc_unChecked:hover
+{
+    
+    background: url('https://www.ameriabank.am/userfiles/image/Default/uncheckedbox.png') no-repeat 5px 3px ;
+  
+}
+.gc_unChecked:hover span,.gc_Checked:hover span
+{
+    color:White !important; 
+    }
+
+
+.grad1
+{
+    
+  background: -webkit-linear-gradient(#6edad6, #1dbcb5); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#6edad6, #1dbcb5); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#6edad6, #1dbcb5); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#6edad6, #1dbcb5); /* Standard syntax */
+  float:left;
+  height: 78px;
+  width: 100%;
+ }
+ .grad2
+{
+    
+   background: -webkit-linear-gradient(#6bb6a7, #3ea08b); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#6bb6a7, #3ea08b); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#6bb6a7, #3ea08b); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#6bb6a7, #3ea08b); /* Standard syntax */
+   height: 78px;
+   width: 100%;
+   float:left;
+ }
+ .grad3
+{
+    
+    background: -webkit-linear-gradient(#197c62, #036249); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#197c62, #036249); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#197c62, #036249); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#197c62, #036249); /* Standard syntax */
+ 
+  height: 78px;
+  width: 100%;
+  float:left;
+ }
+ 
+ .grad1:hover
+{
+   
+ 
+  background-color: -webkit-linear-gradient(#1cbbb4, #1cbbb4); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#1cbbb4, #1cbbb4); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#1cbbb4, #1cbbb4); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#1cbbb4, #1cbbb4); /* Standard syntax */
+   
+ }
+ .grad2:hover
+{
+    
+    
+ 
+   background-color: -webkit-linear-gradient(#3da08b, #3da08b); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#3da08b, #3da08b); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#3da08b, #3da08b); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#3da08b, #3da08b); /* Standard syntax */
+   
+ }
+ .grad3:hover
+{
+   
+    background: -webkit-linear-gradient(#00746b, #00746b); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#00746b, #00746b); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#00746b, #00746b); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#00746b, #00746b); /* Standard syntax */
+  
+ }
+ 
+*html .top_button, *html .top_button_sel
+{
+    margin: 1px;
+}
+.FootherLine
+{
+    border-top: solid 1px #bbb;
+    margin: 5px 155px 0 0px;
+}
+
+.top_button, .top_button_sel
+{
+    display: block;
+    height: 60px;
+    
+    padding-left: 28px;
+    padding-top: 18px;
+    
+  
+}
+
+.Top_Button1
+{
+    padding-left: 0px !important;
+    padding-right: 4px !important;
+}
+.Top_Button2
+{
+   padding-left: 4px !important;
+   padding-right: 4px !important;  
+}
+
+
+.Top_Button3
+{
+     padding-left: 4px !important;    
+     padding-right: 0px !important;
+}
+
+
+
+
+.top_button:link, .top_button:visited
+{
+       color: White;
+    text-align: left;
+    font-family: "GHEA Grapalat";
+    font-size: 19px;
+    line-height: 22px;
+    width:95%;
+    
+}
+.top_button:hover, .top_button_sel:link, .top_button_sel:visited, .top_button_sel:hover
+{
+      color: White;
+    text-align: left;
+    font-family: "GHEA Grapalat";
+    font-size: 19px;
+    line-height: 22px;
+    width:95%;
+}
+.nb
+{
+  
+    }
+.tp_bg
+{
+    width:100%;
+ 
+    background-repeat: no-repeat;
+   
+}
+.tp_sl
+{
+    height: 35px;
+    width: 45%;
+    font-size: 20px;
+    color: White;
+    padding: 8px 8px 0 0;
+    font-weight: 100;
+}
+*html .tp_sl
+{
+    height: 28px;
+}
+.tp_advb
+{
+    width: 100%;
+    
+    margin-bottom: 0;
+    position: relative;
+    padding-top: 0;
+    line-height: 9.5pt;
+    
+}
+.tp_advbl
+{
+   
+    float:left;
+    width: 3%;
+    height: 14%;
+    position: absolute;
+    bottom: 40.7%;
+    left: 3.85%;
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/adv_banner_l.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    cursor:pointer;
+
+}
+
+.tp_advbl:hover
+{
+    
+   
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/adv_banner_l_hov.png');
+    background-repeat: no-repeat;
+    width: 3.9%;
+    left: 3.4%;
+    bottom: 41.8%;
+    
+    }
+    
+    .tp_advbr
+{
+    float:right;
+    width: 3%;
+    height: 14%;
+    position: absolute;
+    bottom: 40.7%;
+    right: 3.85%;
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/adv_banner_r.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    cursor:pointer;
+}
+
+.tp_advbr:hover
+{
+    
+    
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/adv_banner_r_hov.png');
+    background-repeat: no-repeat;
+    width: 3.87%;
+    
+    bottom: 41.8%;
+    right: 3.4%;
+    }
+    
+    .pagination
+    {
+       position: absolute;
+       float: right;
+       margin: 0px !important;
+       right:3.5%;
+       bottom: 5%;
+       
+    }
+    
+    .current
+    {
+       background-image: url('https://www.ameriabank.am/userfiles/image/default/page_field_active.png') !important;
+    }
+    
+    .pagination a
+    {
+        background-image: url('https://www.ameriabank.am/userfiles/image/default/page_field.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 0;
+    overflow: hidden;
+    padding-top: 11px;
+    margin-right:3px;
+    width: 10px;
+        
+    }
+    
+.AdvPremControl
+{
+   
+}   
+
+.AdvPremControl .tp_advbl
+{
+   bottom: 20%;
+   background-image: url('https://www.ameriabank.am/userfiles/image/default/Pr_Baner_l.png');
+ width: 1.5%;
+    height: 13%;
+   float:none;  
+   left: 90%;
+    display:none;
+}
+.AdvPremControl .tp_advbl:hover
+{
+    
+    }
+
+.AdvPremControl .tp_advbr
+{
+   bottom: 20%;
+   background-image: url('https://www.ameriabank.am/userfiles/image/default/Pr_Baner_r.png');
+   width: 1.5%;
+    height: 13%;
+   right: 1%;
+    display:none;
+}
+.AdvPremControl .tp_advsw
+{
+  width:15px;
+  height:24px;  
+ 
+}
+    
+ .panel
+ {
+    max-width:1008px;
+    width:100%;    
+    border:none !important;
+ }   
+.tp_advbc
+{
+    width:100%;
+  float:left;
+     display: block;
+   /* background-image: url('https://www.ameriabank.am/userfiles/image/default/adv_banner.png');*/
+    background-repeat: repeat-x;
+    text-align: center;
+}
+
+.NewsText
+{
+    display: table;
+}
+
+.NewsText:hover a
+{
+    color:#004b68 !important;
+}
+
+.NewsText:hover span
+{
+    color:#72BE44 !important;
+}
+
+
+.tp_advsw
+{
+    border-width: 1px;
+    position: relative;
+    cursor: pointer;
+    height: 92%;
+    
+}
+.tp_advb_sl
+{
+    color: #0e4352;
+   
+}
+
+.tp_advb_sl img
+{
+    position:relative;
+    width:100%;
+    
+    }
+
+
+
+.tp_advb_sl h3
+{
+    margin: 0;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+#ctl00_GadgetSettingsControl1_MenuControl2_MainMenu > tbody > tr:first-child a
+{
+      text-transform: uppercase;
+    font-size: 12px !important;
+    font-weight: 700;
+    pointer-events:none;
+    padding:0px;
+    height: 36px;
+       
+}
+
+#ctl00_GadgetSettingsControl1_MenuControl2_MainMenu > tbody > tr:first-child a:hover
+{
+      text-decoration:none;    
+}
+#ctl00_GadgetSettingsControl1_MenuControl2_MainMenu  tbody  tr a:hover
+{
+      text-decoration:none;
+      background-color: #72be44;    
+}
+
+.UsefulInformation > a, .Shortmenu > a
+{
+    display:none !important;
+   
+}
+
+.UsefulInformation  .tsm_menu a:link
+{
+     text-decoration:none; 
+      font-size: 12px !important;  
+      display: block;
+      padding: 6px 0 6px 6px;
+      
+    
+ }
+
+.tsm_menu
+{
+    padding: 0;
+   
+}
+.tsm_menu a:link, .tsm_menu a:visited
+{
+    padding: 0 5px 0 7px;
+    color: White;
+    font-weight: 400;
+    font-size: 8pt;
+}
+.tsm_menu a:hover
+{
+    color: White;
+    text-decoration: underline;
+    font-weight: 400;
+    font-size: 8pt;
+}
+.sm a:link, .sm a:visited, .sm a:hover, .pN div#subPageLinkList table#supPageLinkTb td#bullet span#level1
+{
+    color: #0E4352;
+}
+.smr
+{
+    padding: 15px 0 10px;
+}
+.smr a:link, .smr a:visited, .smr a:hover
+{
+    color: #9c0;
+}
+
+@media (max-width: 750px)
+{
+    #main_menu_content
+    {
+        width:auto !important;
+        height: 100% !important;
+    overflow-y: auto !important;
+    }
+    
+    
+}
+
+@media (max-width: 992px)
+{
+    #ctl00_LogoLink
+        {
+            display: block;
+           /* text-align: center;*/
+            margin-bottom: 10px;
+            margin-top: 30px;
+            width: 85%;
+        }
+        
+        .Shortmenu
+        {
+            height:auto;
+            margin-bottom: 20px;
+        }
+   
+        
+     .rm
+ {
+     margin-top: 66px !important;
+     
+     }      
+    
+}
+
+@media (max-width: 800px)
+{
+    
+}
+
+@media (max-width: 768px)
+{
+
+ .tp_bg .col-xs-12
+ {
+     padding-right:0px;
+     padding-bottom:5px;
+     
+ }
+ 
+ 
+ 
+ .headerMenu
+ {
+     display:none;
+     }
+     
+ .nb td
+ {
+   display:block;
+    padding-right:2px !important;
+    padding-left:0px !important;
+    width:100% !important; 
+    
+ }
+ 
+ .Top_Button1,.Top_Button2,.Top_Button3
+ {
+       padding-left: 0px !important;
+       padding-right: 0px !important;
+ }
+ 
+}
+
+
+
+.TellabelResp> span
+{
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/1444390321_Telephone-Alt.png');
+    background-repeat: no-repeat;
+    margin-left: 0px !important;
+}
+
+.TellabelResp span
+{
+   
+    width: 130px;
+    display: block;
+    text-align: right;
+    
+}
+.TellabelResp> span:hover
+{
+    background-image: url('https://www.ameriabank.am/userfiles/image/default/1444390321_Telephone-over.png');
+    background-repeat: no-repeat;
+    color:#004a63 !important;
+}
+
+.TellabelResp span:hover
+{
+   
+    color:#004a63 !important;
+}
+
+.TellabelResp:hover
+{
+   
+   
+}
+
+@media (max-width: 475px)
+{
+ #ShortMenu
+    {
+        margin-top: -100px;
+        background-size: 36px;
+        background-position-x: 100%;
+        }
+        
+         #ShortMenu:hover
+    {
+        margin-top: -95px;
+    background-size: 36px;
+    background-position-x: 100%;
+        }
+}        
+
+
+@media (max-width: 768px)
+{
+    #livechat,.SMap > div
+    {
+       /*margin-left:0px !important;*/
+    }
+    
+    .SOnline,.SMap,.SRef
+    {
+        border: none !important; 
+        min-width: 0px !important; 
+        
+    }
+    .SOnline
+    {
+        max-width: 110px !important;
+    }    
+    
+    .SMap,.SRef
+    {
+    max-width: 132px;
+    clear: both;
+    }
+    
+    .SChat
+    {
+        max-width: 95px;
+        min-width: 0px !important;
+    }
+    
+    #online p,#Chat1 p,#Map1 a, #Ref1 a
+    {
+       font-size: 10px; 
+    }
+    .SMenu
+    {
+         height:0px !important;
+         border: none;    
+    }
+
+}
+
+
+@media (max-width: 500px)
+{
+ .TellabelResp
+    {
+        text-align: center;
+        float: none !important;
+    }
+
+}
+
+/* distancebanking */
+
+
+
+.row-fluid [class*='span']:not([class*='dnnSortable']) {
+    min-height: 0 !important;
+}
+
+.intro-container{
+
+	margin-top: 10px;
+	max-width: 1008px;
+}
+.intro-container .main{
+	
+}
+.intro-container .main.offset1{
+	/*margin-left: 27px;*/
+}
+.intro-container .main h2{
+	font-size: 30px;
+	color: #47292a;
+	font-weight: normal;
+	font-family: Arial;
+	text-align: center;
+}
+.intro-container .main ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.intro-container .main ul li{
+	
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	background-color: #fafafa;
+	padding: 40px 17px 0 0;
+	background-repeat: no-repeat;
+	background-position: center 38px;
+}
+.intro-container .main ul li > a{
+	display: block;
+	position: relative;
+}
+
+.intro-container .main ul li a:hover
+{
+ text-decoration:none;
+}
+.intro-container .main ul li a span.overlay{
+	background-color: White;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+	opacity: 0;
+	-moz-transition: opacity 3s ease-out;
+    -webkit-transition: opacity 0.2s ease-out;
+    -o-transition: opacity 3s ease-out;
+    transition: opacity 0.2s ease-out;
+	max-width:320px;
+	color: #58595b;
+	font-family: GHEA Grapalat;
+	font-size: 14px;
+	display: table-cell; 
+	vertical-align: middle;
+	 height:126px;
+	position: relative;
+	padding: 0px 40px 0px 22px;
+}
+.intro-container .main ul li a span.overlay p{
+	margin: 0;
+	font-size: 12px;
+}
+.intro-container .main ul li a span.overlay label{
+	text-transform: uppercase;
+	font-family: Arial;
+	font-size: 13px;
+	color: #fff;
+	margin-top: 10px;
+	
+	padding-right: 18px;
+	display: block;
+	float: left;
+}
+.intro-container .main ul li a:hover span.overlay, 
+.intro-container .main ul li a:focus span.overlay,
+.intro-container .main ul li a:active span.overlay{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+	opacity: 0.8;
+	-moz-transition: opacity 3s ease-in;
+    -webkit-transition: opacity 0.2s ease-in;
+    -o-transition: opacity 3s ease-in;
+    transition: opacity 0.2s ease-in;
+    font-weight:normal;
+}
+.intro-container .main ul li  span.text{
+	display: block;
+	 
+	line-height: 35px;
+	background-color: #72BE45;
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+	font-family:GHEA Grapalat;
+	text-transform:uppercase;
+	-webkit-border-radius: 5px;
+    border-radius:5px;
+    margin: 18px auto 0 auto;
+    max-width: 320px;
+    height: 35px;
+   
+	
+}
+
+.intro-container .main ul li  span.text1{
+	display: block;
+	 
+	line-height: 35px;
+	background-color: #e65f65;
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+	font-family:GHEA Grapalat;
+	text-transform:uppercase;
+	-webkit-border-radius: 5px;
+    border-radius:5px;
+    margin: 18px auto 0 auto;
+    max-width: 320px
+   
+	
+}
+
+.intro-container .main ul li  span.text2{
+	display: block;
+	 
+	line-height: 35px;
+	background-color: #44a38f;
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+	font-family:GHEA Grapalat;
+	text-transform:uppercase;
+	-webkit-border-radius: 5px;
+    border-radius:5px;
+    margin: 18px auto 0 auto;
+    max-width: 320px
+   
+	
+}
+
+.MoreDist
+{
+   padding: 0px !important;
+    color: #72bf44 !important;
+    bottom: 25px;
+    right: -195px;
+    height: 25px !important;
+    background-color: transparent !important;
+    width: 80px;
+    display: block !important;
+}
+
+
+.intro-container .main ul li  span.text:hover
+{
+    background-color: #5f9e39;
+}
+.intro-container .main ul li  span.text1:hover
+{
+    background-color: #d84e54;
+}
+
+.intro-container .main ul li  span.text2:hover
+{
+    background-color: #388a79;
+}
+
+
+.intro-container .main ul li Div.OnlineBanking{background-image: url('https://www.ameriabank.am/userfiles/image/default/OnlineBanking.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.MobileBanking{background-image: url('https://www.ameriabank.am/userfiles/image/default/MobileBanking.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.OnlineTransfers{background-image: url('https://www.ameriabank.am/userfiles/image/default/OnlineTransfers.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.TVBanking{background-image: url('https://www.ameriabank.am/userfiles/image/default/TVBanking.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.UtilityPayment{background-image: url('https://www.ameriabank.am/userfiles/image/default/UtilityPayment.png');background-repeat: no-repeat;height: 126px;margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.AccountOpening{background-image: url('https://www.ameriabank.am/userfiles/image/default/AccountOpening.png');background-repeat: no-repeat;height: 126px;margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.PhoneBanking{background-image: url('https://www.ameriabank.am/userfiles/image/default/PhoneBanking.png');background-repeat: no-repeat;height: 126px;margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.ECommerce{background-image: url('https://www.ameriabank.am/userfiles/image/default/ECommerce.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .main ul li Div.CashIn{background-image: url('https://www.ameriabank.am/userfiles/image/default/CashIn.png');background-repeat: no-repeat;height: 126px; margin: 10px auto 0 auto;max-width:320px}
+.intro-container .slide{
+	padding-top: 52px;
+
+}
+.intro-container .slide.pull-right{
+	margin-right: 27px;
+}
+.intro-container .slide .social-links{
+	text-align: center;
+}
+.intro-container .slide .social-links h3{
+	font-family: Arial;
+	font-size: 17px;
+}
+.intro-container .slide .social-links ul{
+	list-style: none;
+	width: 152px;
+	margin: 0 auto;
+}
+.intro-container .slide .social-links ul li{
+	width: 29px;
+	height: 29px;
+	background-size: 100% 100%;	
+}
+.intro-container .slide .social-links ul li.offset1{
+	margin-left: 12px;
+}
+.intro-container .slide .social-links ul li a{
+	display: block;
+	height: 100%;
+}
+.intro-container .slide .social-links ul li.facebook{background-image: url('Images/icon-social-facebook.png'); margin: 0;}
+.intro-container .slide .social-links ul li.linkedin{background-image: url('Images/icon-social-linkedin.png');}
+.intro-container .slide .social-links ul li.twitter{background-image: url('Images/icon-social-twitter.png');}
+.intro-container .slide .social-links ul li.youtube{background-image: url('Images/icon-social-youtube.png');}
+.intro-container .slide .product{
+	font-size: 18px;
+	font-family: Arial;
+	color: #47292a;
+	background-color: #fff;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	border: 1px solid #c5c5c5;
+	text-align: center;
+	margin-top: 15px;
+	padding-top: 21px;
+}
+.intro-container .slide .product img{
+	width: 90%;
+	max-width: 220px;
+}
+.intro-container .slide .product p{
+	border-top: 1px solid #47292a;
+	line-height: 185%;
+	padding-top: 30px;
+	line-height: 185%;
+	margin: 23px 10px 0 10px;
+}
+.intro-container .slide .product .btn-action{
+	background: -moz-linear-gradient(top, #0498d4 0%, #0374a5 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0498d4), color-stop(100%,#0374a5)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #0498d4 0%,#0374a5 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #0498d4 0%,#0374a5 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #0498d4 0%,#0374a5 100%); /* IE10+ */
+	background: linear-gradient(top, #0498d4 0%,#0374a5 100%); /* W3C */
+	-webkit-box-shadow: 0 1px 0 0 rgba(0,0,0,0.6), 0 1px 0 0 rgba(255,255,255,0.4) inset;
+	box-shadow:  0 1px 0 0 rgba(0,0,0,0.6), 0 1px 0 0 rgba(255,255,255,0.4) inset;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+	color: #fff;
+	display: block;
+	font-family: Arial Bold;
+	background-color: #0374a5;
+	margin: 10px;
+}
+.intro-container .slide .product .btn-action span{
+	display: block;
+	height: 26px;
+	line-height: 26px;
+	text-align: center;
+	padding: 20px 0;
+}
+.intro-container .slide .product .btn-action:hover{
+	color: #008cc4;
+	background: -moz-linear-gradient(top, #fafafa 0%, #f0eeee 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f0eeee)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fafafa 0%,#f0eeee 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fafafa 0%,#f0eeee 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fafafa 0%,#f0eeee 100%); /* IE10+ */
+	background: linear-gradient(top, #fafafa 0%,#f0eeee 100%); /* W3C */
+	background-color: #f0eeee;
+}
+.intro-container .slide .product.social{
+	margin-top: 23px;
+}
+.intro-container .company-intro{
+	
+}
+.intro-container .company-intro p{
+	padding: 23px;
+	font-family: Arial;
+	font-size: 18px;
+	color: #47292a;
+	background-color: #fafafa;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	border: 1px solid #c5c5c5;
+	line-height: 164%;
+	margin: 45px 27px 27px 27px;
+}
+
+

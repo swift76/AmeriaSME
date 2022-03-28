@@ -1,0 +1,7 @@
+export default ({
+
+    GET_LOAN_LIMITS_REQUEST:'@LoanLimits/GET_LOAN_LIMITS_REQUEST',
+    GET_LOAN_LIMITS_SUCCESS:'@LoanLimits/GET_LOAN_LIMITS_SUCCESS',
+    GET_LOAN_LIMITS_FAIL:'@LoanLimits/GET_LOAN_LIMITS_FAIL',
+
+} as const)

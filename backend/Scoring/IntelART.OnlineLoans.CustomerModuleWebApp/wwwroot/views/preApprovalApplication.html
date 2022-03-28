@@ -1,0 +1,243 @@
+﻿<div class="tab-pane fade in" data-bind="disabled: !isEditable()">
+    <div class="" id="form">
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Նոր հայտ</h2>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Վարկի տեսակ <span class="mandatory">*</span></label>
+                    <label class="small-font"
+                           data-bind="localizedHtml: 'STEP1.EXPLANATION.MESSAGE'"></label>
+                    <ko-dropdown
+                                 params="isEditable: isEditable, list: loanTypes, name: 'loanType', value: loanType, validationErrors: validationErrors, required: true">
+                    </ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="hint" data-bind="html: loanTypeHint"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Վարկի տվյալներ</h2>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="currency">Արժույթ <span class="mandatory">*</span></label>
+                    <ko-dropdown
+                                 params="isEditable: isEditable, list: currencies, name: 'currency', value: currency, validationErrors: validationErrors, required: true">
+                    </ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="amount">Գումար <span class="mandatory">*</span></label>
+                    <input placeholder="0" data-bind="value: amount, valueUpdate: 'afterkeydown', numericInput: {value: amount, isNumber: true},
+                           validationError: {value: validationErrors, propertyName: 'amount'},
+                           placeholder-range: {min: amountLimits().min, max: amountLimits().max}"
+                           type="text" class="form-control" maxlength="11" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Իրավաբանական անձի / ԱՁ-ի տվյալներ</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="text">Հարկ վճարողների հաշվառման համար</label>
+                        <input type="text"
+                               data-bind="value: taxId, attr: {disabled: 'disabled'}, validationError: {value: validationErrors, propertyName: 'taxId'}"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="text">Իրավաբանական անձի / ԱՁ-ի անվանում (անգլերեն) <span
+                                  class="mandatory">*</span></label>
+                        <input type="text"
+                               data-bind="restrictRegex: /^[a-zA-Z0-9._# -=!@#$%^&*()+|}{:;'/?]*$/, value: companyName, validationError: {value: validationErrors, propertyName: 'companyName'}"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="currency">Բիզնեսի փաստացի գործունեության ոլորտ <span
+                                  class="mandatory">*</span></label>
+                        <ko-dropdown
+                                     params="isEditable: isEditable, list: factualIndustries, name: 'factualIndustry', value: factualIndustry, validationErrors: validationErrors, required: true">
+                        </ko-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="annualTurnover">Տարեկան շրջանառությունը (ՀՀ դրամ) <span
+                                  class="mandatory">*</span><i
+                               class="fa fa-question-circle input-desc-icon"
+                               data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.ANNUALTURNOVER}"></i></label>
+                        <input type="text"
+                               data-bind="value: annualTurnover, valueUpdate: 'afterkeydown', numericInput: {value: annualTurnover, isNumber: true}, validationError: {value: validationErrors, propertyName: 'annualTurnover'}"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="facebookUrl">Ֆեյսբուքյան էջի անվանում</label>
+                        <input type="text"
+                               data-bind="value: facebookUrl, validationError: {value: validationErrors, propertyName: 'facebookUrl'}"
+                               class="form-control" placeholder="https://m.facebook.com/PageName/">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="websiteUrl">Web կայքի հասցե</label>
+                        <input type="text"
+                               data-bind="value: websiteUrl, validationError: {value: validationErrors, propertyName: 'websiteUrl'}"
+                               class="form-control" placeholder="www.example.am">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="companyEmail">Էլ․ փոստի հասցե</label>
+                        <input type="text"
+                               data-bind="value: companyEmail, validationError: {value: validationErrors, propertyName: 'companyEmail'}"
+                               class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Կազմակերպության փաստացի հասցե</h2>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="checkbox">
+                    <label><input type="checkbox"
+                               data-bind="checked: actualAddressesIsSame, disabled: !isEditable()">Գրանցման
+                        և փաստացի հասցեները նույնն են</label>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div data-bind="disabled: actualAddressesIsSame">
+                <address-details params="model: actualAddresses"></address-details>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Իրավաբանական անձի տնօրենի / ԱՁ-ի անձնական տվյալներ</h2>
+            </div>
+            <english-name-surname params="model: userProfile"></english-name-surname>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Գործունեության ոլորտ <span class="mandatory">*</span></label>
+                    <ko-dropdown
+                                 params="isEditable: isEditable, list: activities, name: 'activity', value: activity, validationErrors: validationErrors, required: true">
+                    </ko-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="socialCardNumber">ՀԾՀՀ / սոցիալական քարտի համար <span
+                              class="mandatory">*</span></label>
+                    <input type="text"
+                           data-bind="restrictRegex: /^[0-9]*$/, value: socialCardNumber, validationError: {value: validationErrors, propertyName: 'socialCardNumber'}"
+                           class="form-control" maxlength="10">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Անձնական փաստացի հասցե</h2>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="checkbox">
+                    <label><input type="checkbox"
+                               data-bind="checked: personalAddressesIsSame, disabled: !isEditable()">Գրանցման
+                        և փաստացի հասցեները նույնն են</label>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div data-bind="disabled: personalAddressesIsSame">
+                <address-details params="model: personalAddresses"></address-details>
+            </div>
+        </div>
+
+        <div id="loanSaveSubmitBtnsContainer">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-bind="checked: agreedToTerms">
+                            Սույնով տալիս եմ համաձայնություն առ այն, որ «Ամերիաբանկ» ՓԲԸ-ն առանց ինձ
+                            տեղեկացնելու հարցումներ կատարի և ստանա հետևյալ տեղեկությունները իմ՝
+                            որպես Վարկառուի, ինչպես նաև իմ` որպես կազմակերպության միակ հիմնադրի և
+                            տնօրենի վերաբերյալ.
+                            <ul>
+                                <li>
+                                    ՀՀ ԿԲ Վարկային Ռեգիստրից և/կամ «ԱՔՌԱ Քրեդիտ Ռեփորթինգ» ՓԲԸ-ից`
+                                    ներկա և անցյալ դրամական պարտավորությունների մասին, ինչպես նաև
+                                    «ԱՔՌԱ Քրեդիտ Ռեփորթինգ» ՓԲԸ-ից՝ իմ որպես Վարկառուի հարկային
+                                    պարտավորությունների և հարկային հաշվետվություններում ներառվող
+                                    ցանկացած այլ տվյալի մասին,
+                                </li>
+                                <li>
+                                    «Նորք» սոցիալական ծառայությունների տեխնոլոգիական և իրազեկման
+                                    կենտրոն հիմնադրամից` ներկա և անցյալ աշխատանքային գործունեության
+                                    մասին,
+                                </li>
+                                <li>
+                                    «Էլեկտրոնային կառավարման ենթակառուցվածքների ներդրման գրասենյակ»
+                                    ՓԲԸ-ից` Ամերիաբանկ ՓԲԸ «Բանկի կողմից ստացվող անձնական տվյալների
+                                    նկարագրություն» հրապարակային փաստաթղթով սահմանված/դասակարգված
+                                    անձնական տվյալների մասին:
+                                </li>
+                            </ul>
+                            Վերոնշյալ տեղեկատվությունը «Ամերիաբանկ» ՓԲԸ-ի կողմից կարող է օգտագործվել
+                            ինձ հետ վարկային պայմանագիր կնքելու վերաբերյալ որոշում կայացնելիս։
+                            <br />
+                            Սույն համաձայնությունը  կարդացել եմ, սույնով տրվող համաձայնության
+                            բովանդակությունն ինձ համար ամբողջությամբ հասկանալի և ընդունելի է և
+                            հանդիսանում է իմ ազատ կամարտահայտության արդյունքը, ուժի մեջ է մտնում վերոնշյալ
+                            դաշտում իմ կողմից նշում կատարելու միջոցով այն ստորագրելու պահից և կիրառելի է
+                            իմ և Բանկի միջև հարաբերությունների ամբողջ ժամանակահատվածի համար:
+                            <br />
+                            <br />
+                            Չնայած Սքորինգային (առցանց) համակարգով հաստատված հայտի առկայությանը,
+                            բացառիկ հանգամանքներում Հաճախորդի վարկունակության վերաբերյալ լրացուցիչ
+                            պարզաբանումների անհրաժեշտության դեպքում վարկի տրամադրման վերջնական
+                            որոշումն ընդունվում է Բանկի/մասնաճյուղի կողմից:
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 actions">
+                    <button type="button"
+                            data-bind="enable: (isEditable() && loanType), click: function(){$parent.action('save');}"
+                            class="btn btn-default">Հիշել</button>
+                    <button type="button"
+                            data-bind="enable: (isEditable() && agreedToTerms), click: function(){$parent.action('submit');}"
+                            class="btn btn-success">Հաստատել</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

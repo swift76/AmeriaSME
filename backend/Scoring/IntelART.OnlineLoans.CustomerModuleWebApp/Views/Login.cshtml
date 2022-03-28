@@ -1,0 +1,7 @@
+﻿<div class="clearfix">
+    @if (User != null && User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Account" class="online-loans" target="_blank" data-bind="attr: {href: loansPageLink}"><span>Օնլայն<br/>վարկեր</span></a>
+        <a asp-controller="Account" asp-action="Logout" class="login" >Ելք</a>
+    }
+</div>

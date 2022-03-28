@@ -1,0 +1,40 @@
+.rounded-table {
+    border-collapse: inherit;
+    border-spacing: 0;
+
+    &>tbody>tr {
+        &.divider {
+            td {
+                border: 0 !important;
+            }
+        }
+
+        &:not(.divider) {
+            td {
+                border-color: $table-border-color;
+                border-bottom: 1px solid $table-border-color;
+            }
+
+            &>td:first-child {
+                border-left-width: $table-border-width;
+                border-left-style: solid;
+                border-top-left-radius: 1rem;
+                border-bottom-left-radius: 1rem;
+            }
+
+            &>td:last-child {
+                border-right-width: $table-border-width;
+                border-right-style: solid;
+                border-top-right-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+            }
+        }
+    }
+}
+
+
+.refinancing-table {
+    .form-group {
+        margin-bottom: 0;
+    }
+}

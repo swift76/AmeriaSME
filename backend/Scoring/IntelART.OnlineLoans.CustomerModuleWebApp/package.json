@@ -1,0 +1,24 @@
+{
+  "name": "IntelART.OnlineLoans.CustomerModuleWebApp",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "npm-watch": "^0.5.0"
+  },
+  "watch": {
+    "build": "wwwroot/js/*/*.js"
+  },
+  "scripts": {
+    "css": "node_modules/requirejs/bin/r.js -o optimizeCss=standard cssIn=wwwroot/css/main.css out=wwwroot/css/main.min.css",
+    "css_windows": "r.js.cmd -o optimizeCss=standard cssIn=wwwroot/css/main.css out=wwwroot/css/main.min.css",
+    "build": "node_modules/requirejs/bin/r.js -o ./build.js && npm run css",
+    "build_windows": "r.js.cmd -o ./build.js && npm run css_windows",
+    "watch": "npm-watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

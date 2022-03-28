@@ -1,0 +1,16 @@
+﻿<div data-bind="with: model">
+    <div data-bind="disabled: !isEditable()">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Անուն (անգլերեն) <span class="mandatory">*</span></label>
+                <input type="text" data-bind="value: nameEn, validationError: {value: validationErrors, propertyName: 'nameEn'}, restrictRegex: /^[a-zA-Z-]*$/" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="text">Ազգանուն (անգլերեն) <span class="mandatory">*</span></label>
+                <input type="text" data-bind="value: lastNameEn, validationError: {value: validationErrors, propertyName: 'lastNameEn'}, restrictRegex: /^[a-zA-Z-]*$/" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>

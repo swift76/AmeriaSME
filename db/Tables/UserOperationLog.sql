@@ -1,0 +1,19 @@
+if exists (select * from sys.objects where name='USER_OPERATION_LOG' and type='U')
+	drop table dbo.USER_OPERATION_LOG
+GO
+
+CREATE TABLE dbo.USER_OPERATION_LOG (
+	ID 					int IDENTITY(1,1)	NOT NULL,
+	DATE				datetime			NOT NULL default getdate(),
+	USER_ID				int					NOT NULL,
+	OPERATION_CODE		varchar(20)			NOT NULL,
+	ENTITY_ID			int					NULL,
+	OPERATION_DETAILS	nvarchar(max)		NOT NULL
+)
+GO
+
+CREATE CLUSTERED INDEX iUSER_OPERATION_LOG1 ON dbo.USER_OPERATION_LOG(ID)
+GO
+
+CREATE INDEX iUSER_OPERATION_LOG2 ON dbo.USER_OPERATION_LOG(DATE, USER_ID)
+GO

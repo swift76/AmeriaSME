@@ -1,0 +1,34 @@
+<div data-bind="with: model">
+    <div data-bind="disabled: !isEditable()">
+        <div class="row" data-bind="if: restrictValues">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Տարեկան տոկոսադրույք <span class="mandatory">*</span></label>
+                    <ko-dropdown params="isEditable: isEditable, list: interests, name: 'selectedInterest', value: interest, validationErrors: validationErrors, required: true, disabled: interestDisabled"></ko-dropdown>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Վարկի Ժամկետ <span class="mandatory">*</span></label>
+                    <ko-dropdown params="isEditable: isEditable, list: loanPaymentPeriods, name: 'selectedPaymentPeriod', value: loanTerm, validationErrors: validationErrors, required: true, disabled: termsDisabled"></ko-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-bind="if: !restrictValues">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Տարեկան տոկոսադրույք <span class="mandatory">*</span></label>
+                    <input type="text" data-bind="disabled: interestDisabled || !isEditable(), required: true, valueUpdate: 'afterkeydown', numericInput: {value: interest, isNumber: true}, validationError: {value: validationErrors, propertyName: 'selectedInterest'}" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="text">Վարկի Ժամկետ (ամիս)<span class="mandatory">*</span></label>
+                    <input type="text" data-bind="disabled: termsDisabled || !isEditable(), required: true, valueUpdate: 'afterkeydown', numericInput: {value: loanTerm, isNumber: true}, validationError: {value: validationErrors, propertyName: 'selectedPaymentPeriod'}" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

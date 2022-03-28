@@ -1,0 +1,13 @@
+if exists (select * from sys.objects where name='APPRAISAL_COMPANY' and type='U')
+	drop table dbo.APPRAISAL_COMPANY
+GO
+
+CREATE TABLE dbo.APPRAISAL_COMPANY (
+	CODE 	char(3)			NOT NULL,
+	NAME_AM	nvarchar(50)	NOT NULL,
+	NAME_EN	varchar(50)		NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iAPPRAISAL_COMPANY1 ON dbo.APPRAISAL_COMPANY(CODE)
+GO

@@ -1,0 +1,217 @@
+﻿if exists (select * from sys.objects where name='sp_SaveApplicationLoanSpecialist' and type='P')
+	drop procedure sp_SaveApplicationLoanSpecialist
+GO
+
+create procedure sp_SaveApplicationLoanSpecialist(@APPLICATION_ID				uniqueidentifier,
+												  @LOAN_SPECIALIST_ID			int,
+												  @BUSINESS_SPACE				money = null,
+												  @BUSINESS_STATE_CODE			char(3) = null,
+												  @EMPLOYEE_COUNT				int = null,
+												  @FAMILY_MEMBER_COUNT			int = null,
+												  @VEHICLE_COUNT				int = null,
+												  @IS_AREA_RENTED				bit = null,
+												  @AREA_RENTED_COMMENT			nvarchar(100) = null,
+												  @ACTIVITY_DESCRIPTION			nvarchar(500) = null,
+												  @LS_LOAN_TYPE_ID				char(2) = null,
+												  @LS_LOAN_AMOUNT				money = null,
+												  @LS_CURRENCY_CODE				char(3) = null,
+												  @LS_LOAN_TERM					char(3) = null,
+												  @LS_REPAYMENT_DAY				tinyint = null,
+												  @OPERATION_DETAILS			nvarchar(max),
+												  @IS_SUBMIT					bit,
+												  @PROFITS						ApplicationCompanyData		readonly,
+												  @OVERHEADS					ApplicationCompanyOverhead	readonly,
+												  @BALANCES						ApplicationCompanyData		readonly,
+												  @OPERATIONAL_EXPENSES			ApplicationCompanyData		readonly,
+												  @NONOPERATIONAL_EXPENSES		ApplicationCompanyData		readonly,
+												  @OTHER_STATISTICS				ApplicationCompanyData		readonly,
+												  @GUARANTORS					ApplicationRelatedPerson 	readonly,
+												  @IS_REAL_ESTATE				bit = null,
+												  @SHOULD_MAIN_AGREEMENT_SIGNED	bit = null,
+												  @IS_MAIN_AGREEMENT_SIGNED		bit = null,
+												  @IS_SUCCESSIVE_PLEDGING		bit = null,
+												  @MARKET_PRICE					money = null,
+												  @LIQUID_PRICE					money = null,
+												  @IS_INSURANCE_CONDITION		bit = null,
+												  @IS_INSURANCE_BY_BANK			bit = null,
+												  @INSURANCE_COMPANY_CODE		char(3) = null,
+												  @APPRAISAL_COMPANY_CODE		char(3) = null,
+												  @APPRAISAL_DATE				date = null,
+												  @ESTATE_ADDRESS				nvarchar(100) = null,
+												  @ESTATE_RESIDENTIAL_AREA		money = null,
+												  @ESTATE_LAND_AREA				money = null,
+												  @OWNERSHIP_CERTIFICATE_NUMBER	nvarchar(20) = null,
+												  @OWNERSHIP_CERTIFICATE_DATE	date = null,
+												  @VEHICLE_MODEL				nvarchar(100) = null,
+												  @VEHICLE_VIN					varchar(20) = null,
+												  @VEHICLE_DATE					date = null,
+												  @PLEDGERS						ApplicationRelatedPerson	readonly,
+												  @GOOD_MONTH_EARNINGS			ApplicationCompanyData		readonly,
+												  @BAD_MONTH_EARNINGS			ApplicationCompanyData		readonly)
+AS
+	BEGIN TRANSACTION
+	BEGIN TRY
+		declare @CURRENT_STATUS tinyint, @CURRENT_LOAN_SPECIALIST_ID int, @LOAN_TYPE_ID char(2)
+
+		select @CURRENT_STATUS = STATUS_ID, @CURRENT_LOAN_SPECIALIST_ID=LOAN_SPECIALIST_ID, @LOAN_TYPE_ID = LOAN_TYPE_ID
+			from APPLICATION with (updlock) where ID = @APPLICATION_ID
+
+		if not @CURRENT_STATUS in (10,19,20,21,30)
+			RAISERROR (N'Հայտի կարգավիճակն արդեն փոփոխվել է', 17, 1)
+
+		if isnull(@CURRENT_LOAN_SPECIALIST_ID,@LOAN_SPECIALIST_ID)<>@LOAN_SPECIALIST_ID
+			RAISERROR (N'Հայտն արդեն մշակվել է այլ վարկային մասնագետի կողմից', 17, 1)
+
+		insert into APPLICATION_OPERATION_LOG
+			(USER_ID, LOAN_TYPE_ID, OPERATION_CODE, APPLICATION_ID, OPERATION_DETAILS)
+		values
+			(@LOAN_SPECIALIST_ID, @LOAN_TYPE_ID, 'SAVE LOAN SPECIALIST', @APPLICATION_ID, @OPERATION_DETAILS)
+
+		update APPLICATION
+		set
+			LOAN_SPECIALIST_ID	= @LOAN_SPECIALIST_ID,
+			BUSINESS_SPACE		= @BUSINESS_SPACE,
+			BUSINESS_STATE_CODE = @BUSINESS_STATE_CODE,
+			EMPLOYEE_COUNT		= @EMPLOYEE_COUNT,
+			FAMILY_MEMBER_COUNT = @FAMILY_MEMBER_COUNT,
+			VEHICLE_COUNT		= @VEHICLE_COUNT,
+			IS_AREA_RENTED		= @IS_AREA_RENTED,
+			ACTIVITY_DESCRIPTION= @ACTIVITY_DESCRIPTION,
+			AREA_RENTED_COMMENT = @AREA_RENTED_COMMENT,
+			LS_LOAN_TYPE_ID		= @LS_LOAN_TYPE_ID,
+			LS_LOAN_AMOUNT		= @LS_LOAN_AMOUNT,
+			LS_CURRENCY_CODE	= @LS_CURRENCY_CODE,
+			LS_LOAN_TERM		= @LS_LOAN_TERM,
+			LS_REPAYMENT_DAY	= @LS_REPAYMENT_DAY,
+			LS_ENTRY_DATE		= getdate()
+		where ID = @APPLICATION_ID
+
+		delete from APPLICATION_COMPANY_PROFIT where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_PROFIT
+			(APPLICATION_ID,INDUSTRY_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,CODE,AMOUNT,COMMENT
+			from @PROFITS
+
+		delete from APPLICATION_COMPANY_OVERHEAD where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_OVERHEAD
+			(APPLICATION_ID,INDUSTRY_CODE,INDUSTRY_PRODUCT_CODE,NET_AMOUNT,SALE_AMOUNT,PRODUCT_PERCENTAGE)
+		select @APPLICATION_ID,INDUSTRY_CODE,INDUSTRY_PRODUCT_CODE,NET_AMOUNT,SALE_AMOUNT,PRODUCT_PERCENTAGE
+			from @OVERHEADS
+
+		delete from APPLICATION_COMPANY_BALANCE where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_BALANCE
+			(APPLICATION_ID,COMPANY_BALANCE_TYPE_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @BALANCES
+
+		delete from APPLICATION_COMPANY_OPERATIONAL_EXPENSE where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_OPERATIONAL_EXPENSE
+			(APPLICATION_ID,COMPANY_OPERATIONAL_EXPENSE_TYPE_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @OPERATIONAL_EXPENSES
+
+		delete from APPLICATION_COMPANY_NONOPERATIONAL_EXPENSE where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_NONOPERATIONAL_EXPENSE
+			(APPLICATION_ID,COMPANY_NONOPERATIONAL_EXPENSE_TYPE_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @NONOPERATIONAL_EXPENSES
+
+		delete from APPLICATION_COMPANY_OTHER_STATISTICS where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_COMPANY_OTHER_STATISTICS
+			(APPLICATION_ID,COMPANY_OTHER_STATISTICS_TYPE_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @OTHER_STATISTICS
+
+		delete from APPLICATION_GOOD_MONTH_EARNINGS where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_GOOD_MONTH_EARNINGS
+			(APPLICATION_ID,INDUSTRY_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @GOOD_MONTH_EARNINGS
+
+		delete from APPLICATION_BAD_MONTH_EARNINGS where APPLICATION_ID=@APPLICATION_ID
+		insert into APPLICATION_BAD_MONTH_EARNINGS
+			(APPLICATION_ID,INDUSTRY_CODE,AMOUNT,COMMENT)
+		select @APPLICATION_ID,rtrim(CODE),AMOUNT,COMMENT
+			from @BAD_MONTH_EARNINGS
+
+		delete from dbo.APPLICATION_GUARANTOR where APPLICATION_ID = @APPLICATION_ID
+		insert into dbo.APPLICATION_GUARANTOR
+			(APPLICATION_ID, NAME, DOCUMENT_NUMBER)
+		select @APPLICATION_ID, NAME, DOCUMENT_NUMBER
+			from @GUARANTORS
+
+		-- Save Pledge section
+
+		if not @IS_REAL_ESTATE is null
+		begin
+			delete from dbo.APPLICATION_PLEDGE
+			where APPLICATION_ID = @APPLICATION_ID
+
+			insert into APPLICATION_PLEDGE (
+				APPLICATION_ID,
+				IS_REAL_ESTATE,
+				SHOULD_MAIN_AGREEMENT_SIGNED,
+				IS_MAIN_AGREEMENT_SIGNED,
+				IS_SUCCESSIVE_PLEDGING,
+				MARKET_PRICE,
+				LIQUID_PRICE,
+				IS_INSURANCE_CONDITION,
+				IS_INSURANCE_BY_BANK,
+				INSURANCE_COMPANY_CODE,
+				APPRAISAL_COMPANY_CODE,
+				APPRAISAL_DATE,
+				ESTATE_ADDRESS,
+				ESTATE_RESIDENTIAL_AREA,
+				ESTATE_LAND_AREA,
+				OWNERSHIP_CERTIFICATE_NUMBER,
+				OWNERSHIP_CERTIFICATE_DATE,
+				VEHICLE_MODEL,
+				VEHICLE_VIN,
+				VEHICLE_DATE
+			)
+			values (
+				@APPLICATION_ID,
+				@IS_REAL_ESTATE,
+				@SHOULD_MAIN_AGREEMENT_SIGNED,
+				@IS_MAIN_AGREEMENT_SIGNED,
+				@IS_SUCCESSIVE_PLEDGING,
+				@MARKET_PRICE,
+				@LIQUID_PRICE,
+				@IS_INSURANCE_CONDITION,
+				@IS_INSURANCE_BY_BANK,
+				@INSURANCE_COMPANY_CODE,
+				@APPRAISAL_COMPANY_CODE,
+				@APPRAISAL_DATE,
+				@ESTATE_ADDRESS,
+				@ESTATE_RESIDENTIAL_AREA,
+				@ESTATE_LAND_AREA,
+				@OWNERSHIP_CERTIFICATE_NUMBER,
+				@OWNERSHIP_CERTIFICATE_DATE,
+				@VEHICLE_MODEL,
+				@VEHICLE_VIN,
+				@VEHICLE_DATE
+			)
+
+			delete from dbo.APPLICATION_PLEDGER
+			where APPLICATION_ID = @APPLICATION_ID
+
+			insert into dbo.APPLICATION_PLEDGER
+				(APPLICATION_ID, NAME, DOCUMENT_NUMBER)
+			select @APPLICATION_ID, NAME, DOCUMENT_NUMBER
+				from @PLEDGERS
+		end
+
+		if @IS_SUBMIT = 1
+			execute dbo.sp_ChangeApplicationStatus @APPLICATION_ID, 31
+		else
+			execute dbo.sp_ChangeApplicationStatus @APPLICATION_ID, 30
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		declare @ErrorMessage varchar(4000)
+		set @ErrorMessage = ERROR_MESSAGE()
+		RAISERROR (@ErrorMessage, 17, 1)
+		RETURN
+	END CATCH
+	COMMIT TRANSACTION
+GO

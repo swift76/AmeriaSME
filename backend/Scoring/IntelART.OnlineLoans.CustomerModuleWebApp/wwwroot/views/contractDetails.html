@@ -1,0 +1,127 @@
+<div class="tab-pane fade in" data-bind="disabled: !isEditable()">
+    <div class="" id="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Պայմանագրի կնքում</h2>
+            </div>
+
+            <!-- ====================================================== -->
+            <div data-bind="visible: isMainFormVisible">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group" data-bind="visible: activeCardListVisible, disabled: disableExistingCardList">
+                        <label for="text">Վարկը տրամադրելու համար խնդրում ենք ընտրել Ձեր գործող քարտերից որևէ մեկը կամ պատվիրել նոր քարտ։</label>
+                        <ko-dropdown params="isEditable: isEditable, list: activeCreditCards, name: 'activeCreditCard', value: activeCreditCard, validationErrors: validationErrors, required: false, disabled: disableExistingCardList"></ko-dropdown>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 separate15">
+                    <div class="checkbox">
+                        <label><input type="checkbox" data-bind="checked: newCardCheckbox"> Պատվիրել նոր քարտ</label>
+                    </div>
+                </div>
+                <div data-bind="disabled: !isEditable() || orderNewCardFormDisable">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div data-bind="if: creditCardTypes()">
+                                <label for="text">Ընտրել քարտի տեսակը</label>
+                                <ko-dropdown params="isEditable: isEditable, list: creditCardTypes, name: 'creditCardType', value: creditCardType, validationErrors: validationErrors, required: true, disabled: orderNewCardFormDisable"></ko-dropdown>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 separate15">
+                        <div class="radio">
+                            <label><input type="radio" name="cardDeliveryTypes" value="true" data-bind="checked: isCardDelivered"> Առաքումով</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 separate15">
+                        <div class="radio">
+                            <label><input type="radio" name="cardDeliveryTypes" value="false" data-bind="checked: isCardDelivered"> Մասնաճյուղից</label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12" data-bind="visible: isCardDeliveryAddressVisible">
+                        <div class="form-group">
+                            <label for="text">Նշել քարտի առաքման հասցեն</label>
+                            <input class="form-control" data-bind="value: cardDeliveryAddress,
+                               validationError: {value: validationErrors, propertyName: 'cardDeliveryAddress'}">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" data-bind="visible: !isCardDeliveryAddressVisible()">
+                        <div class="form-group">
+                            <label for="text">Նշել այն մասնաճյուղը, որտեղից ցանկանում եք ստանալ քարտը</label>
+                            <ko-dropdown params="isEditable: isEditable, list: bankBranches, name: 'bankBranch', value: bankBranch, validationErrors: validationErrors, required: false, disabled: orderNewCardFormDisable"></ko-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ====================================================== -->
+
+            <div class="col-lg-12 col-md-12 col-sm-12 separate15" data-bind="visible: guaranteeAgreementLinkVisible">
+                <div class="guarantee-text">
+                    <p data-bind="text: guaranteeSignatureText"></p><i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: localization.fieldDesc.GUARANTEEAGREEMENTTEXTTYPE}"></i>
+                </div>
+                <div class="form-group">
+                    <textarea rows="5" class="form-control resizeof" data-bind="value: guaranteeAgreementText, disablePast: true, valueUpdate: 'input', validationError: {value: validationErrors, propertyName: 'guaranteeAgreementText'}, restrictRegex: /^[՝«»<>'՞,Ա-Ֆա-և0-9- ]*$/"></textarea>
+                    <div id="displayDiffText" data-bind="visible: diffHtml, html: diffHtml" class="display-diff-text"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 separate15 agree-doc-wrapper" data-bind="css: { 'disabled': !isApplicationEditable() }">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-bind="checked: contractTermsCheckbox">Հաստատում եմ, որ ծանոթացել եմ և համաձայն եմ հաստատված
+                        <a href="#" data-bind="click: function() { $parent.action('loanContractLink'); }" target="_blank">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> վարկի պայմանագրին:
+                        </a>
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-bind="checked: pledgeTermsCheckbox">Հաստատում եմ, որ ծանոթացել եմ և համաձայն եմ հաստատված
+                        <a href="#" data-bind="click: function() { $parent.action('pledgeAgreementLink'); }" target="_blank">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> շրջանառության մեջ գտնվող դրամական միջոցների գրավի պայմանագրին:
+                        </a>
+                    </label>
+                </div>
+                <div class="checkbox" data-bind="visible: guaranteeAgreementLinkVisible">
+                    <label>
+                        <input type="checkbox" data-bind="checked: guaranteeTermsCheckbox">Հաստատում եմ, որ ծանոթացել եմ և համաձայն եմ հաստատված
+                        <a href="#" data-bind="click: function() { $parent.action('guaranteeAgreementLink'); }" target="_blank">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> երաշխավորության պայմանագրին:
+                        </a>
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-bind="checked: arbitrageTermsCheckbox">Հաստատում եմ, որ համաձայն եմ
+                        <a data-bind="attr: {href: arbitrageAgreementLink, target: '_blank'}">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> արբիտրաժային համաձայնագրով սահմանված դրույթներին:
+                        </a>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-bind="checked: internetBankChecked">Նշեք, եթե ցանկանում եք ունենալ ինտերնետ բանկինգ
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 actions" data-bind="disabled: isSubmitButtonDisabled">
+                <button class="btn btn-success" data-bind="click: function() { $parent.action('submitContract'); }">Հաստատել</button>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 separate15">
+                <div>
+                    <a href="https://www.ameriabank.am/Content.aspx?id=Openning+and+service+of+Bank+accounts&page=98&itm=Corporate+4.1&lang=33" target="_blank">«Ամերիաբանկ» ՓԲԸ-ի ծառայությունների հիմնական պայմաններ և սակագներ։</a>
+                </div>
+                <div>
+                    <a href="https://ameriabank.am/Content.aspx?id=Corporate_business_card_op&page=98&itm=Corporate+5.1&lang=33" target="_blank">«Ամերիաբանկ» ՓԲԸ-ի վճարային քարտերի  սպասարկման պայմաններ և օգտագործման կանոններ։</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

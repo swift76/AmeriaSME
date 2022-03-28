@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "IntelART.Ameria.ShopModuleWebApp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {},
+      "applicationUrl": "http://localhost:5006/"
+    }
+  }
+}

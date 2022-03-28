@@ -1,0 +1,43 @@
+﻿if exists (select * from sys.objects where name='ECOSYSTEM_OWNER' and type='U')
+	drop table ECOSYSTEM_OWNER
+GO
+
+CREATE TABLE ECOSYSTEM_OWNER(
+	ID						int					identity(1,1),
+	APPLICATION_ID			uniqueidentifier	NOT NULL,
+	COUNTRY					char(2)				NOT NULL,
+	DISTRICT				nvarchar(20)		NOT NULL,
+	COMMUNITY				nvarchar(40)		NOT NULL,
+	STREET					nvarchar(100)		NOT NULL,
+	BUILDING				nvarchar(40)		NOT NULL,
+	APARTMENT				nvarchar(40)		NOT NULL,
+	CURRENT_COUNTRY			char(2)				NOT NULL,
+	CURRENT_DISTRICT		nvarchar(20)		NOT NULL,
+	CURRENT_COMMUNITY		nvarchar(40)		NOT NULL,
+	CURRENT_STREET			nvarchar(100)		NOT NULL,
+	CURRENT_BUILDING		nvarchar(40)		NOT NULL,
+	CURRENT_APARTMENT		nvarchar(40)		NOT NULL,
+	PASSPORT_TYPE			char(1)				NOT NULL,
+	PASSPORT_NUMBER			varchar(20)			NOT NULL,
+	PASSPORT_DATE			date				NOT NULL,
+	PASSPORT_EXPIRY_DATE	date				NOT NULL,
+	PASSPORT_BY				varchar(10)			NOT NULL,
+	SOCIAL_CARD_NUMBER		char(10)			NOT NULL,
+	BIRTH_DATE				date				NOT NULL,
+	GENDER					bit					NOT NULL,
+	CITIZENSHIP_CODE		char(2)				NULL,
+	FIRST_NAME				nvarchar(60)		NOT NULL,
+	LAST_NAME				nvarchar(60)		NOT NULL,
+	PATRONYMIC_NAME			nvarchar(60)		NOT NULL,
+	FIRST_NAME_EN			varchar(60)			NOT NULL,
+	LAST_NAME_EN			varchar(60)			NOT NULL,
+	SHARE_INTEREST			money				NULL,
+	CLIENT_CODE				char(8)				NULL
+)
+GO
+
+CREATE CLUSTERED INDEX iECOSYSTEM_OWNER1 ON ECOSYSTEM_OWNER (ID)
+GO
+
+CREATE INDEX iECOSYSTEM_OWNER2 ON ECOSYSTEM_OWNER (APPLICATION_ID)
+GO

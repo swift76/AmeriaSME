@@ -1,0 +1,31 @@
+if exists (select * from sys.objects where name='LOAN_TYPE' and type='U')
+	drop table dbo.LOAN_TYPE
+GO
+
+CREATE TABLE dbo.LOAN_TYPE (
+	CODE 					char(2)			NOT NULL,
+	NAME_AM					nvarchar(50)	NOT NULL,
+	NAME_EN					varchar(50)		NOT NULL,
+	DESCRIPTION_AM			nvarchar(max)	NOT NULL,
+	DESCRIPTION_EN			varchar(max)	NOT NULL,
+	FROM_DATE				date			NULL,
+	TO_DATE					date			NULL,
+	REPAYMENT_DAY_FROM		tinyint			NOT NULL,
+	REPAYMENT_DAY_TO		tinyint			NOT NULL,
+	IS_OVERDRAFT			bit				NOT NULL,
+	IS_REPAY_DAY_FIXED		bit				NOT NULL,
+	IS_CARD_ACCOUNT			bit				NOT NULL,
+	IS_REPAY_START_DAY		bit				NOT NULL,
+	IS_REPAY_NEXT_MONTH		bit				NOT NULL,
+	REPAY_TRANSITION_DAY	tinyint			NOT NULL,
+	IS_CREDIT_LINE			bit				NOT NULL,
+	IS_SECURED				bit				NOT NULL,
+	IS_ONLINE				bit				NOT NULL,
+	IS_AUTO_APPROVED		bit				NOT NULL,
+	IS_LOAN_SPECIALIST		bit				NOT NULL,
+	IS_CUSTOMER				bit				NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iLOAN_TYPE1 ON dbo.LOAN_TYPE(CODE)
+GO

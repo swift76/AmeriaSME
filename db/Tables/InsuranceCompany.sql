@@ -1,0 +1,13 @@
+if exists (select * from sys.objects where name='INSURANCE_COMPANY' and type='U')
+	drop table dbo.INSURANCE_COMPANY
+GO
+
+CREATE TABLE dbo.INSURANCE_COMPANY (
+	CODE 	char(3)			NOT NULL,
+	NAME_AM	nvarchar(50)	NOT NULL,
+	NAME_EN	varchar(50)		NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iINSURANCE_COMPANY1 ON dbo.INSURANCE_COMPANY(CODE)
+GO

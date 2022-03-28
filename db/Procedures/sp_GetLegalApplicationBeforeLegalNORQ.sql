@@ -1,0 +1,35 @@
+﻿create or alter procedure sp_GetLegalApplicationBeforeLegalNORQ(@ID	uniqueidentifier)
+AS
+	select isnull(a.ISN,-1) as ISN
+		,a.LOAN_TYPE_ID
+		,a.INITIAL_AMOUNT,a.CURRENCY_CODE
+		,a.FIRST_NAME_EN,a.LAST_NAME_EN
+		,a.SOCIAL_CARD_NUMBER,a.TAX_ID_NUMBER
+		,dbo.ahf_Unicode2ANSI(a.COMPANY_NAME) as COMPANY_NAME
+		,isnull(a.EMAIL,'') as EMAIL
+		,isnull(a.COMPANY_EMAIL,'') as COMPANY_EMAIL
+		,isnull(a.MOBILE_PHONE,'') as MOBILE_PHONE
+		,isnull(a.FACEBOOK,'') as FACEBOOK
+		,isnull(a.WEBSITE,'') as WEBSITE
+		,isnull(a.ACTIVITY_CODE,'') as ACTIVITY_CODE
+		,isnull(a.FACTUAL_INDUSTRY_CODE,'') as FACTUAL_INDUSTRY_CODE
+		,a.ANNUAL_TURNOVER
+		,isnull(a.CURRENT_COUNTRY_CODE,'') as CURRENT_COUNTRY_CODE
+		,isnull(a.CURRENT_STATE_CODE,'') as CURRENT_STATE_CODE
+		,isnull(a.CURRENT_CITY_CODE,'') as CURRENT_COMMUNITY
+		,isnull(dbo.ahf_Unicode2ANSI(a.CURRENT_STREET),'') as CURRENT_STREET
+		,isnull(dbo.ahf_Unicode2ANSI(a.CURRENT_BUILDNUM),'') as CURRENT_BUILDNUM
+		,isnull(dbo.ahf_Unicode2ANSI(a.CURRENT_APARTMENT),'') as CURRENT_APARTMENT
+		,isnull(a.INDIVIDUAL_COUNTRY_CODE,'') as INDIVIDUAL_COUNTRY_CODE
+		,isnull(a.INDIVIDUAL_STATE_CODE,'') as INDIVIDUAL_STATE_CODE
+		,isnull(a.INDIVIDUAL_CITY_CODE,'') as INDIVIDUAL_COMMUNITY
+		,isnull(dbo.ahf_Unicode2ANSI(a.INDIVIDUAL_STREET),'') as INDIVIDUAL_STREET
+		,isnull(dbo.ahf_Unicode2ANSI(a.INDIVIDUAL_BUILDNUM),'') as INDIVIDUAL_BUILDNUM
+		,isnull(dbo.ahf_Unicode2ANSI(a.INDIVIDUAL_APARTMENT),'') as INDIVIDUAL_APARTMENT
+		,a.NORQ_LEGAL_TRY_COUNT
+		,isnull(u.LOGIN,'') as LOGIN
+	from APPLICATION a with (NOLOCK)
+	left join APPLICATION_USER u
+		on u.ID=a.LOAN_SPECIALIST_ID
+	where a.ID=@ID
+GO

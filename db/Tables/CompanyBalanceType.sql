@@ -1,0 +1,13 @@
+if exists (select * from sys.objects where name='COMPANY_BALANCE_TYPE' and type='U')
+	drop table dbo.COMPANY_BALANCE_TYPE
+GO
+
+CREATE TABLE dbo.COMPANY_BALANCE_TYPE (
+	CODE 	char(2)			NOT NULL,
+	NAME_AM	nvarchar(100)	NOT NULL,
+	NAME_EN varchar(100)	NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iCOMPANY_BALANCE_TYPE1 ON dbo.COMPANY_BALANCE_TYPE(CODE)
+GO

@@ -1,0 +1,20 @@
+﻿if exists (select * from sys.objects where name='NORQ_LEGAL_QUERY_RESULT' and type='U')
+	drop table NORQ_LEGAL_QUERY_RESULT
+GO
+
+CREATE TABLE NORQ_LEGAL_QUERY_RESULT(
+	QUERY_DATE			datetime			NOT NULL default getdate(),
+	APPLICATION_ID		uniqueidentifier	NOT NULL,
+	NAME				nvarchar(100)		NOT NULL,
+	TYPE				nvarchar(40)		NOT NULL,
+	ADDRESS				nvarchar(100)		NOT NULL,
+	LEGAL_ADDRESS		nvarchar(100)		NOT NULL,
+	TAX_CODE			varchar(20)			NOT NULL,
+	EMPLOYEE_COUNT		int					NOT NULL,
+	REGISTRATION_DATE	date				NOT NULL,
+	REGISTRATION_CODE	nvarchar(20)		NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iNORQ_LEGAL_QUERY_RESULT1 ON NORQ_LEGAL_QUERY_RESULT (APPLICATION_ID)
+GO

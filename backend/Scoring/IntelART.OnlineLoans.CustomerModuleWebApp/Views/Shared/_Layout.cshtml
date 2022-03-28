@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0050)https://www.ameriabank.am/page.aspx?id=166&lang=28 -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+@Html.Partial("../IncludesHeader.cshtml")
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="logo"><a href="@ViewData["LogoLink"]"><img src="/img/logo.png"></a></div>
+            <div class="userlogin">
+                @Html.Partial("../Login.cshtml")
+            </div>
+        </header>
+        @RenderBody()
+
+        @Html.Partial("../IncludesFooter.cshtml")
+    </div>
+
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-57L2ZV2"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewData["Title"]</title>
+    <!-- META -->
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="author" content="@ViewData["Meta.Author"]">
+    <link rel="icon" href="@ViewData["Link.FavIcon"]" type="image/x-icon">
+    <link rel="shortcut icon" href="@ViewData["Link.ShortcutIcon"]" type="image/x-icon">
+    <link href="/css/main.min.css" rel="stylesheet" type="text/css" media="all">
+
+    @if (ViewBag.DisableIERedirect == null)
+    {
+        <script type="text/javascript">
+            @*IE*@
+            var msie = window.navigator.userAgent.indexOf('MSIE ');
+            if (msie > -1) {
+                document.location.href = "/shared/unsupported";
+            }
+        </script>
+    }
+
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-26100454-11"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-26100454-30');
+</script>
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-57L2ZV2');</script>
+	<!-- End Google Tag Manager -->
+
+</head>

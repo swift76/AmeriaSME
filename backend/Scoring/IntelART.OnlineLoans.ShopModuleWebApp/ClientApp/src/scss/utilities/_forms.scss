@@ -1,0 +1,58 @@
+.loan-form-group {
+    >.form-group:nth-child(even) {
+        background-color: $gray-901
+    }
+
+    .form-group {
+        align-items: center;
+        margin-bottom: 0;
+        padding: pxToRem(8px) 0;
+    }
+
+    >legend {
+        font-size: pxToRem(18px);
+        font-weight: bold;
+    }
+
+    +.loan-form-group {
+        margin-top: pxToRem(40px);
+    }
+}
+
+.loan-form-checkbox {
+    white-space: nowrap
+}
+
+
+.control-90 {
+    width: pxToRem(90px);
+}
+
+.control-100 {
+    width: pxToRem(100px);
+}
+
+.control-150 {
+    width: pxToRem(150px);
+}
+
+.control-200 {
+    width: pxToRem(200px);
+}
+
+.control-250 {
+    width: pxToRem(250px);
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.was-validated select.form-control:invalid,
+.was-validated select.form-control:valid,
+select.form-control.is-invalid,
+select.form-control.is-valid {
+    background-image: none
+}

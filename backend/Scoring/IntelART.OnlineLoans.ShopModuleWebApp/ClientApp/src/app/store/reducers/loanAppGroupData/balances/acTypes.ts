@@ -1,0 +1,7 @@
+export default ({
+
+    GET_BALANCES_REQUEST:'@LoanAppGroupData/GET_BALANCES_REQUEST',
+    GET_BALANCES_SUCCESS:'@LoanAppGroupData/GET_BALANCES_SUCCESS',
+    GET_BALANCES_FAIL:'@LoanAppGroupData/GET_BALANCES_FAIL',
+
+} as const)

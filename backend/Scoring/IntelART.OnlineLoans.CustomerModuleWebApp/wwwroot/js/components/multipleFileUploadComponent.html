@@ -1,0 +1,65 @@
+<div data-bind="with: model">
+	<div data-bind="disabled: !isEditable()">
+		<div class="portlet" data-bind="attr: {id: 'scanType' + documentType}">
+			<div class="portlet-title">
+				<div class="caption">
+					<span data-bind="text: documentBlockInfo.title"></span>
+					<i class="fa fa-question-circle input-desc-icon" data-bind="popover: {placement: 'top', trigger: 'hover', content: documentBlockInfo.description}"></i>
+				</div>
+				<div class="portlet-actions">
+					<a class="btn btn-add transparent" data-bind="visible: isEditable() && documentList().length < documentMaxCount, tooltip: {title: 'Ավելացնել փաստաթուղթ'}, click: addNewRow">
+						<span class="fa-stack">
+							<i class="fa fa-circle fa-stack-2x icon-default"></i>
+							<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<form enctype="multipart/form-data">
+					<ul class="document-list" data-bind="foreach: documentList">
+						<li data-bind="visible: $index() > 0" class="list-divider"></li>
+						<li class="clearfix">
+							<div class="fileUpload pull-left">
+								<a class="document-name">
+									<input type="file" data-bind="disabled: !$parent.isEditable(), event: {change: uploader.fileUpload}" class="upload" />
+									<span class="fa-stack">
+										<i class="fa fa-circle fa-stack-2x icon-default"></i>
+										<i class="fa fa-upload fa-stack-1x fa-inverse"></i>
+									</span>
+									<span data-bind="visible: isUploaded, text: FILE_NAME"></span>
+									<span data-bind="visible: !isUploaded">Չկա ընտրված փաստաթուղթ <br></span>
+								</a>
+							</div>
+							<div class="progress-wrapper">
+								<progress data-bind="attr: { value: uploader.loadedData, max: uploader.totalData }, style: { display: uploader.isUploadingStarted() ? '' : 'none' }"></progress>
+							</div>
+							<div class="pull-right">
+								<a target="_blank" data-bind="visible: isUploaded, attr: {href: $parent.getDocumentUrl($parent.id, APPLICATION_SCAN_TYPE_CODE)}," target="_blank">Բեռնել</a>
+
+								<div data-bind="visible: $parent.isEditable()" class="doc-action">
+									<div data-bind="if: !isUploaded" class="doc-action">
+										<a class="btn btn-add transparent" data-bind="tooltip: {title: 'Ջնջել փաստաթուղթը'}, click: $parent.removeRow">
+											<span class="fa-stack">
+												<i class="fa fa-circle fa-stack-2x icon-default"></i>
+												<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
+											</span>
+										</a>
+									</div>
+									<div data-bind="if: isUploaded" class="doc-action">
+										<a class="btn btn-add transparent" data-bind="tooltip: {title: 'Ջնջել փաստաթուղթը'}, confirmation : {message: 'Դուք պատրաստվում եք ջնջել փաստաթուղթը։', title: 'Ջնջել փաստաթուղթը', confirm: function(){ $parent.removeRow($data) }}">
+											<span class="fa-stack">
+												<i class="fa fa-circle fa-stack-2x icon-default"></i>
+												<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

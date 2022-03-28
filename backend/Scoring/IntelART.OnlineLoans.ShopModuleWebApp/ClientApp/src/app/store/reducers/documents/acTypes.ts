@@ -1,0 +1,8 @@
+export default ({
+
+    GET_DOCUMENTS_REQUEST: "@Documents/GET_DOCUMENTS_REQUEST",
+    GET_DOCUMENTS_SUCCESS: "@Documents/GET_DOCUMENTS_SUCCESS",
+    GET_DOCUMENTS_FAIL: "@Documents/GET_DOCUMENTS_FAIL",
+    RESET_DOCUMENTS: "@Documents/RESET_DOCUMENTS"
+
+} as const)

@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Online Loan Applications";
+}
+
+<link asp-href-include="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+
+<script asp-src-include="js/strings.am.js"></script>
+<script asp-src-include="js/lib/require.js"></script>
+<script asp-src-include="js/app.build.js"></script>
+
+<div id="layoutRoot" class="container userprofile">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 usermenu">
+            <ul data-bind="foreach: children">
+                <li data-bind="css: {current: $parent.selectedViewCode() == $data.code}"><a href="#" data-bind="click: function(){$parent.setCurrentView($data)}, localizedText: code"></a></li>
+            </ul>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 content_body">
+            <div class="userbody" data-bind="template: {name: viewTemplate, data: selectedView}"></div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onpopstate = function () {
+        window.history.forward();
+        window.location = '/';
+    }; history.pushState({}, '');
+</script>

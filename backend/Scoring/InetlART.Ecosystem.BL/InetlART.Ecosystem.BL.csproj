@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntelART.Ameria.Communication\IntelART.Ameria.Communication.csproj" />
+    <ProjectReference Include="..\IntelART.IdentityManagement\IntelART.IdentityManagement.csproj" />
+    <ProjectReference Include="..\IntelART.OnlineLoans.Entities\IntelART.OnlineLoans.Entities.csproj" />
+    <ProjectReference Include="..\IntelART.OnlineLoans.Repositories\IntelART.OnlineLoans.Repositories.csproj" />
+    <ProjectReference Include="..\IntelART.OnlineLoans.SqlMembershipProvider\IntelART.OnlineLoans.SqlMembershipProvider.csproj" />
+    <ProjectReference Include="..\IntelART.Utilities\IntelART.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+import { AnyAction, Dispatch } from 'redux'
+
+import { Utils } from 'app/services/utils'
+import axios from 'app/api'
+import { loanAppGroupDataActions } from '@store/reducers/root-actions'
+import { toast } from 'react-toastify'
+
+const { profits } = loanAppGroupDataActions
+
+export const getProfits = (id: string) => async (
+  dispatch: Dispatch<AnyAction>
+) => {
+  dispatch(profits.getProfitsRequest())
+  try {
+    const response = await axios.get(
+      `/ApplicationGroupData/CompanyProfits/${id}`
+    )
+    dispatch(profits.getProfitsSuccess(response.data))
+    return response.data
+  } catch (error) {
+    const resData = error && error.response && error.response.data
+    toast.error(Utils.localizedServerErrors(resData.Message))
+    dispatch(profits.getProfitsFail(resData))
+    return Promise.reject(resData)
+  }
+}

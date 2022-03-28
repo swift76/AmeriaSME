@@ -1,0 +1,23 @@
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-notallowed {
+    cursor: not-allowed;
+}
+
+.equal-to-company-height {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.sticky-top {
+    @extend %sticky-top !optional;
+    top: $navbar-min-height;
+
+}
+
+.w-auto {
+    width: auto !important;
+}

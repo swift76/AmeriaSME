@@ -1,0 +1,7 @@
+export default ({
+
+    GET_PLEDGERS_REQUEST:'@LoanAppGroupData/GET_PLEDGERS_REQUEST',
+    GET_PLEDGERS_SUCCESS:'@LoanAppGroupData/GET_PLEDGERS_SUCCESS',
+    GET_PLEDGERS_FAIL:'@LoanAppGroupData/GET_PLEDGERS_FAIL',
+
+} as const)

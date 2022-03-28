@@ -1,0 +1,38 @@
+﻿if exists (select * from sys.objects where name='sp_GetUserByID' and type='P')
+	drop procedure dbo.sp_GetUserByID
+GO
+
+create procedure dbo.sp_GetUserByID(@ID	int)
+AS
+	select	u.APPLICATION_USER_ID,
+			u.TAX_ID_NUMBER,
+			u.FIRST_NAME_EN,
+			u.LAST_NAME_EN,
+			u.COMPANY_NAME,
+			au.MOBILE_PHONE,
+			au.EMAIL,
+			u.FACEBOOK,
+			u.WEBSITE,
+			u.ANNUAL_TURNOVER,
+			u.SOCIAL_CARD_NUMBER,
+			u.IS_CURRENT_ADDRESS_SAME,
+			u.CURRENT_COUNTRY_CODE,
+			u.CURRENT_STATE_CODE,
+			u.CURRENT_CITY_CODE,
+			u.CURRENT_STREET,
+			u.CURRENT_BUILDNUM,
+			u.CURRENT_APARTMENT,
+			u.IS_INDIVIDUAL_ADDRESS_SAME,
+			u.INDIVIDUAL_COUNTRY_CODE,
+			u.INDIVIDUAL_STATE_CODE,
+			u.INDIVIDUAL_CITY_CODE,
+			u.INDIVIDUAL_STREET,
+			u.INDIVIDUAL_BUILDNUM,
+			u.INDIVIDUAL_APARTMENT,
+			u.ACTIVITY_CODE,
+			u.FACTUAL_INDUSTRY_CODE
+	from dbo.[USER] u
+	join APPLICATION_USER au
+		on u.APPLICATION_USER_ID = au.ID
+	where u.APPLICATION_USER_ID = @ID
+GO

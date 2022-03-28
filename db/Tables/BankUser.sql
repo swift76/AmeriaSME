@@ -1,0 +1,13 @@
+if exists (select * from sys.objects where name='BANK_USER' and type='U')
+	drop table BANK_USER
+GO
+
+CREATE TABLE BANK_USER (
+	APPLICATION_USER_ID	int				NOT NULL,
+	FIRST_NAME_AM		nvarchar(50)	NULL,
+	LAST_NAME_AM		nvarchar(50)	NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iBANK_USER1 ON BANK_USER(APPLICATION_USER_ID)
+GO

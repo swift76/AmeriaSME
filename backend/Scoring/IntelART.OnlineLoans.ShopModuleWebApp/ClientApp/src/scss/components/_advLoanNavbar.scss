@@ -1,0 +1,10 @@
+.adv-loan-navbar {
+
+    & .nav-link {
+        border-radius: 0;
+    }
+
+    .navbar-nav .nav-link.active {
+        color: $white;
+    }
+}

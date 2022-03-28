@@ -1,0 +1,7 @@
+export default ({
+
+    GET_OVERHEADS_REQUEST:'@LoanAppGroupData/GET_OVERHEADS_REQUEST',
+    GET_OVERHEADS_SUCCESS:'@LoanAppGroupData/GET_OVERHEADS_SUCCESS',
+    GET_OVERHEADS_FAIL:'@LoanAppGroupData/GET_OVERHEADS_FAIL',
+
+} as const)

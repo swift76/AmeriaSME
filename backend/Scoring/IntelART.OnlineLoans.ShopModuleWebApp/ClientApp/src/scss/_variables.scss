@@ -1,0 +1,21 @@
+// Import Ameria default colors
+@import "variables/colors";
+
+// Customized Bootstrap variables
+@import "variables/bootstrap/variables";
+@import "variables/react-toastify/variables";
+@import "variables/react-datepicker/variables";
+
+// Ameria Variables
+
+// Logo
+$logo-width: 250px;
+
+// Login Form
+$login-form-width: 550px;
+$login-form-spacer-y: 1.875rem;
+$login-form-spacer-x: 2.75rem;
+
+// navbar
+
+$navbar-min-height: pxToRem(68px);

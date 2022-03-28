@@ -1,0 +1,14 @@
+if exists (select * from sys.objects where name='APPLICATION_PLEDGER' and type='U')
+	drop table dbo.APPLICATION_PLEDGER
+GO
+
+CREATE TABLE dbo.APPLICATION_PLEDGER (
+	ID				int					identity(1,1) NOT NULL,
+	APPLICATION_ID	uniqueidentifier	NOT NULL,
+	NAME			nvarchar(100)		NOT NULL,
+	DOCUMENT_NUMBER	varchar(10)			NOT NULL
+)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX iAPPLICATION_PLEDGER1 ON dbo.APPLICATION_PLEDGER(APPLICATION_ID,ID)
+GO

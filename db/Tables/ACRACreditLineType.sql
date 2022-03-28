@@ -1,0 +1,12 @@
+﻿if exists (select * from sys.objects where name='ACRA_CREDIT_LINE_TYPE' and type='U')
+	drop table ACRA_CREDIT_LINE_TYPE
+GO
+
+CREATE TABLE ACRA_CREDIT_LINE_TYPE(
+	ID		int				NOT NULL identity(1,1),
+	TYPE	nvarchar(200)	NOT NULL
+)
+GO
+
+CREATE CLUSTERED INDEX iACRA_CREDIT_LINE_TYPE1 ON ACRA_CREDIT_LINE_TYPE(ID)
+GO

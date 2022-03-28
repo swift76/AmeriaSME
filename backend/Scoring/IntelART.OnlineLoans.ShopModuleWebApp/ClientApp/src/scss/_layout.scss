@@ -1,0 +1,29 @@
+// contains all the CSS that handles the layout, such as the container and any grid systems.
+#root, body, html {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#main-layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+.page-wrapper {
+    flex: 2;
+    padding-top: $navbar-min-height;
+}
+
+.page-content {
+    margin-top: pxToRem(25px);
+}
+
+@import "./layout/pageLoading";
+@import "./layout/header";
+@import "./layout/footer";
+@import "./layout/navigation";
+@import "./layout/forms";

@@ -1,0 +1,26 @@
+﻿@model IntelART.OnlineLoans.CustomerModuleWebApp.Controllers.Authentication.LoginModel
+
+<div id="login" class="tab-pane fade@(Model.IsActive ? " in active":"")">
+    <div class="login-block">
+    <form asp-action="Login">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div class="loginreg-content">
+            <div class="form-group">
+                <label for="Username">ՀՎՀՀ / հարկ վճարողի հաշվառման համար</label>
+                <input type="text" maxlength="8" id="userName" class="form-control" asp-for="Username">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Գաղտնաբառ</label>
+                <input type="password" class="form-control" id="pwd" asp-for="Password">
+            </div>
+            <a asp-action="RequestPasswordReset" class="forgetpass">Վերականգնել / Փոխել գաղտնաբառը</a>
+            @*<div class="checkbox">
+                <label><input type="checkbox"> Հիշել իմ տվյալները</label>
+            </div>*@
+        </div>
+        <div class="login-footer">
+            <button type="submit" class="btn btn-success">Մուտք</button>
+        </div>
+    </form>
+    </div>
+</div>

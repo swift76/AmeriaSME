@@ -1,0 +1,676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="None" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>OnlineApplicationDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{44b7e255-3050-4b5f-b53a-caf6e601b1ae}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>OnlineApplicationDB</RootNamespace>
+    <AssemblyName>OnlineApplicationDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Types" />
+    <Folder Include="CLR" />
+    <Folder Include="Tables" />
+    <Folder Include="Procedures" />
+    <Folder Include="Values" />
+    <Folder Include="Dummy" />
+    <Folder Include="Dummy\Procedures" />
+    <Folder Include="Dummy\Values" />
+    <Folder Include="Functions" />
+    <Folder Include="Dummy\CLR" />
+    <Folder Include="Dummy\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Database.sql" />
+    <None Include="CLR\CLRServices.sql" />
+    <None Include="Types\NORQLegalQueryResultFounder.sql" />
+    <None Include="Tables\User.sql" />
+    <None Include="Tables\NORQLegalQueryResult.sql" />
+    <None Include="Tables\NORQLegalQueryResultFounder.sql" />
+    <None Include="Procedures\sp_SaveACRALegalQueryResult.sql" />
+    <None Include="Procedures\sp_SaveNORQLegalQueryResult.sql" />
+    <None Include="Tables\UserRegistration.sql" />
+    <None Include="Tables\Setting.sql" />
+    <None Include="Values\Setting.sql" />
+    <None Include="Dummy\Procedures\am0sp_SendLoanApplicationEmailSMSNotification.sql" />
+    <None Include="Procedures\sp_GetSettings.sql" />
+    <None Include="Procedures\sp_CreateUser.sql" />
+    <None Include="Tables\UserOperationLog.sql" />
+    <None Include="Procedures\sp_AuthenticateApplicationUser.sql" />
+    <None Include="Procedures\sp_GetApplications.sql" />
+    <None Include="Procedures\sp_GetApplicationUser.sql" />
+    <None Include="Procedures\sp_GetUserByID.sql" />
+    <None Include="Procedures\sp_CheckUserExistenceByEmail.sql" />
+    <None Include="Procedures\sp_CheckUserExistenceByMobilePhone.sql" />
+    <None Include="Procedures\sp_CheckUserExistenceByTaxID.sql" />
+    <None Include="Procedures\sp_GetUserRegistration.sql" />
+    <None Include="Procedures\sp_StartUserRegistration.sql" />
+    <None Include="Procedures\sp_UpdateUserRegistration.sql" />
+    <None Include="Procedures\sp_ChangeApplicationUserPassword.sql" />
+    <None Include="Procedures\sp_ChangeApplicationUserPasswordByID.sql" />
+    <None Include="Procedures\sp_StartUserPasswordReset.sql" />
+    <None Include="Procedures\sp_UpdateUserPassword.sql" />
+    <None Include="Tables\UserPasswordReset.sql" />
+    <None Include="Tables\City.sql" />
+    <None Include="Tables\Country.sql" />
+    <None Include="Tables\LoanLimit.sql" />
+    <None Include="Tables\LoanType.sql" />
+    <None Include="Tables\State.sql" />
+    <None Include="Procedures\sp_GetAddressCountries.sql" />
+    <None Include="Procedures\sp_GetCities.sql" />
+    <None Include="Procedures\sp_GetCountries.sql" />
+    <None Include="Procedures\sp_GetLoanCurrencies.sql" />
+    <None Include="Procedures\sp_GetLoanLimits.sql" />
+    <None Include="Procedures\sp_GetLoanTypes.sql" />
+    <None Include="Procedures\sp_GetStates.sql" />
+    <None Include="Dummy\Values\City.sql" />
+    <None Include="Dummy\Values\Country.sql" />
+    <None Include="Dummy\Values\LoanLimit.sql" />
+    <None Include="Dummy\Values\LoanType.sql" />
+    <None Include="Dummy\Values\State.sql" />
+    <None Include="Procedures\sp_GetApplicationCountSetting.sql" />
+    <None Include="Tables\LoanSetting.sql" />
+    <None Include="Dummy\Values\LoanSetting.sql" />
+    <None Include="Procedures\sp_DeleteApplication.sql" />
+    <None Include="CLR\UnicodeANSIConverter.sql" />
+    <None Include="Tables\Application.sql" />
+    <None Include="Tables\ApplicationOperationLog.sql" />
+    <None Include="Tables\ApplicationStatus.sql" />
+    <None Include="Tables\ScoringError.sql" />
+    <None Include="Tables\ServiceConfiguration.sql" />
+    <None Include="Procedures\sp_AutomaticallyRefuseApplication.sql" />
+    <None Include="Procedures\sp_ChangeApplicationStatus.sql" />
+    <None Include="Procedures\sp_ChangeApplicationStatusByISN.sql" />
+    <None Include="Procedures\sp_GetACRAConfigData.sql" />
+    <None Include="Procedures\sp_GetApplicationsForACRARequest.sql" />
+    <None Include="Procedures\sp_GetApplicationsForNORQRequest.sql" />
+    <None Include="Procedures\sp_GetCachedACRAResponse.sql" />
+    <None Include="Procedures\sp_GetCachedNORQResponse.sql" />
+    <None Include="Procedures\sp_GetNORQConfigData.sql" />
+    <None Include="Procedures\sp_LogScoringError.sql" />
+    <None Include="Procedures\sp_SaveACRAQueryResult.sql" />
+    <None Include="Procedures\sp_SaveACRATryCount.sql" />
+    <None Include="Procedures\sp_SaveInitialApplication.sql" />
+    <None Include="Procedures\sp_SaveInitialApplicationFromBank.sql" />
+    <None Include="Procedures\sp_SaveNORQQueryResult.sql" />
+    <None Include="Procedures\sp_SaveNORQTryCount.sql" />
+    <None Include="Types\ACRAQueryResultDetails.sql" />
+    <None Include="Types\ACRAQueryResultQueries.sql" />
+    <None Include="Values\ServiceConfiguration.sql" />
+    <None Include="Procedures\sp_GetInitialApplication.sql" />
+    <None Include="Functions\f_GetApprovedAmount.sql" />
+    <None Include="Tables\ApplicationScoringResult.sql" />
+    <None Include="Procedures\sp_GetApplicationForACRALegalRequestByID.sql" />
+    <None Include="Procedures\sp_GetApplicationForACRALegalRequestByISN.sql" />
+    <None Include="Procedures\sp_GetApplicationForNORQLegalRequestByID.sql" />
+    <None Include="Procedures\sp_GetApplicationForNORQLegalRequestByISN.sql" />
+    <None Include="Procedures\sp_GetApplicationsForACRALegalRequest.sql" />
+    <None Include="Procedures\sp_GetApplicationsForNORQLegalRequest.sql" />
+    <None Include="Procedures\sp_GetCachedACRALegalResponse.sql" />
+    <None Include="Procedures\sp_GetCachedNORQLegalFounderResponse.sql" />
+    <None Include="Procedures\sp_GetCachedNORQLegalResponse.sql" />
+    <None Include="Procedures\sp_LockApplicationByID.sql" />
+    <None Include="Procedures\sp_SaveACRALegalTryCount.sql" />
+    <None Include="Procedures\sp_SaveNORQLegalTryCount.sql" />
+    <None Include="Tables\ACRALegalQueryResult.sql" />
+    <None Include="Tables\ACRALegalQueryResultDetails.sql" />
+    <None Include="Tables\ACRALegalQueryResultQueries.sql" />
+    <None Include="Tables\ACRAQueryResult.sql" />
+    <None Include="Tables\ACRAQueryResultDetails.sql" />
+    <None Include="Tables\ACRAQueryResultQueries.sql" />
+    <None Include="Tables\NORQQueryResult.sql" />
+    <None Include="Types\ERegisterQueryResultExecutive.sql" />
+    <None Include="Types\ERegisterQueryResultOwner.sql" />
+    <None Include="Procedures\sp_GetCachedERegisterExecutiveResponse.sql" />
+    <None Include="Procedures\sp_GetCachedERegisterOwnerResponse.sql" />
+    <None Include="Procedures\sp_GetCachedERegisterResponse.sql" />
+    <None Include="Procedures\sp_GetEREGConfigData.sql" />
+    <None Include="Procedures\sp_GetApplicationForERegisterRequestByID.sql" />
+    <None Include="Procedures\sp_GetApplicationForERegisterRequestByISN.sql" />
+    <None Include="Procedures\sp_GetApplicationsForERegisterRequest.sql" />
+    <None Include="Procedures\sp_SaveERegisterQueryResult.sql" />
+    <None Include="Procedures\sp_SaveERegisterTryCount.sql" />
+    <None Include="Tables\ERegisterQueryResultOwner.sql" />
+    <None Include="Tables\ERegisterQueryResultExecutive.sql" />
+    <None Include="Tables\ERegisterQueryResult.sql" />
+    <None Include="Procedures\sp_CheckUserExistenceByLogin.sql" />
+    <None Include="Dummy\Values\ApplicationStatus.sql" />
+    <None Include="Procedures\sp_GetApplicationForACRARequestByID.sql" />
+    <None Include="Procedures\sp_GetApplicationForACRARequestByISN.sql" />
+    <None Include="Procedures\sp_GetApplicationForNORQRequestByID.sql" />
+    <None Include="Procedures\sp_GetApplicationForNORQRequestByISN.sql" />
+    <None Include="Tables\AppraisalCompany.sql" />
+    <None Include="Tables\BankBranch.sql" />
+    <None Include="Tables\LoanPurpose.sql" />
+    <None Include="Tables\LoanRepaymentForm.sql" />
+    <None Include="Tables\PledgeType.sql" />
+    <None Include="Procedures\sp_GetAppraisalCompanies.sql" />
+    <None Include="Procedures\sp_GetBankBranches.sql" />
+    <None Include="Procedures\sp_GetLoanPurpose.sql" />
+    <None Include="Procedures\sp_GetLoanRepaymentForms.sql" />
+    <None Include="Procedures\sp_GetPledgeTypes.sql" />
+    <None Include="Dummy\Values\AppraisalCompany.sql" />
+    <None Include="Dummy\Values\BankBranch.sql" />
+    <None Include="Dummy\Values\LoanPurpose.sql" />
+    <None Include="Dummy\Values\LoanRepaymentForm.sql" />
+    <None Include="Dummy\Values\PledgeType.sql" />
+    <None Include="Procedures\sp_SaveLoanType.sql" />
+    <None Include="Procedures\sp_SaveLoanSetting.sql" />
+    <None Include="Procedures\sp_SaveLoanLimit.sql" />
+    <None Include="Procedures\sp_InsertAgreementTemplateByType.sql" />
+    <None Include="Procedures\sp_EmptyAgreementTemplatesByType.sql" />
+    <None Include="Procedures\sp_DeleteLoanLimits.sql" />
+    <None Include="Tables\AgreementTemplateByType.sql" />
+    <None Include="Dummy\CLR\CLRServices.sql" />
+    <None Include="Procedures\sp_SaveManualApplication.sql" />
+    <None Include="Procedures\sp_GetManualApplication.sql" />
+    <None Include="Procedures\sp_GetApplicationScoringResultByType.sql" />
+    <None Include="Dummy\Values\AgreementTemplateByType.sql" />
+    <None Include="Procedures\sp_FinalizeDueApplications.sql" />
+    <None Include="Procedures\sp_GetLoanSecured.sql" />
+    <None Include="Tables\ApplicationScan.sql" />
+    <None Include="Tables\ApplicationScanType.sql" />
+    <None Include="Procedures\sp_DeleteApplicationScan.sql" />
+    <None Include="Procedures\sp_GetApplicationScan.sql" />
+    <None Include="Procedures\sp_GetApplicationScanContent.sql" />
+    <None Include="Procedures\sp_SaveApplicationScan.sql" />
+    <None Include="Procedures\sp_SaveApplicationScanType.sql" />
+    <None Include="Tables\ScanMaxCount.sql" />
+    <None Include="Dummy\Values\ScanMaxCount.sql" />
+    <None Include="Procedures\sp_GetScanMaxCount.sql" />
+    <None Include="Dummy\Values\ApplicationScanType.sql" />
+    <None Include="Procedures\sp_SaveApplicationStatus.sql" />
+    <None Include="Procedures\sp_SetSettingValue.sql">
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+    </None>
+    <None Include="Procedures\sp_SaveBankBranch.sql">
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+    </None>
+    <None Include="Procedures\sp_EmptyDirectoriesBeforeSynchronization.sql" />
+    <None Include="Procedures\sp_SaveCity.sql" />
+    <None Include="Procedures\sp_SaveCountry.sql" />
+    <None Include="Procedures\sp_SaveState.sql" />
+    <None Include="Procedures\sp_SaveAppraisalCompany.sql" />
+    <None Include="Procedures\sp_GetLoanOverdraft.sql" />
+    <None Include="Procedures\sp_GetMainApplication.sql" />
+    <None Include="Procedures\sp_SaveMainApplication.sql" />
+    <None Include="Procedures\sp_GetRefinancingLoans.sql" />
+    <None Include="Procedures\sp_UpdateRefinancingLoan.sql" />
+    <None Include="Tables\RefinancingLoan.sql" />
+    <None Include="Procedures\sp_SaveRefinancingLoan.sql" />
+    <None Include="Procedures\sp_GetActivities.sql" />
+    <None Include="Tables\Activity.sql" />
+    <None Include="Dummy\Values\Activity.sql" />
+    <None Include="Procedures\sp_SaveActivity.sql" />
+    <None Include="Procedures\sp_GetSCORConfigData.sql" />
+    <None Include="Procedures\sp_AutomaticallyRefuseApplicationFromBank.sql" />
+    <None Include="Procedures\sp_ManuallyProcessApplication.sql" />
+    <None Include="Procedures\sp_ProcessCorporateApplication.sql" />
+    <None Include="Procedures\sp_AutomaticallyApproveApplication.sql" />
+    <None Include="Procedures\sp_SynchronizeApplication.sql" />
+    <None Include="Procedures\sp_GetFactualIndustries.sql" />
+    <None Include="Procedures\sp_SaveFactualIndustry.sql" />
+    <None Include="Tables\FactualIndustry.sql" />
+    <None Include="Dummy\Values\FactualIndustry.sql" />
+    <None Include="Tables\ACRALegalQueryResultInterrelated.sql" />
+    <None Include="Types\ACRAQueryResultInterrelated.sql" />
+    <None Include="Functions\f_HasCompanyMultipleOwners.sql" />
+    <None Include="Functions\f_IsCompanyLLC.sql" />
+    <None Include="Procedures\sp_GetLoanParameters.sql" />
+    <None Include="Tables\ScoringResult.sql" />
+    <None Include="Tables\ACRALegalQueryResultPayments.sql" />
+    <None Include="Types\ACRAQueryResultPayments.sql" />
+    <None Include="Procedures\sp_ResetRequestsTryCount.sql" />
+    <None Include="Procedures\sp_SaveScoringResult.sql" />
+    <None Include="Procedures\sp_SavePledgeType.sql" />
+    <None Include="Procedures\sp_SaveLoanPurpose.sql" />
+    <None Include="Procedures\sp_SaveLoanRepaymentForm.sql" />
+    <None Include="Procedures\sp_SaveApplicationScoringResult.sql" />
+    <None Include="Tables\ACRAQueryResultInterrelated.sql" />
+    <None Include="Tables\ACRAQueryResultPayments.sql" />
+    <None Include="Dummy\Tables\ERegisterQueryResult.sql" />
+    <None Include="Dummy\Tables\ERegisterQueryResultOwner.sql" />
+    <None Include="Dummy\Tables\NORQQueryResult.sql" />
+    <None Include="Procedures\sp_GetApplicationStatusID.sql" />
+    <None Include="Procedures\sp_SaveAgreedApplication.sql" />
+    <None Include="Procedures\sp_GetAgreedApplication.sql" />
+    <None Include="Tables\ACRACreditLineType.sql" />
+    <None Include="Procedures\sp_SaveCreditLineType.sql" />
+    <None Include="Procedures\sp_GetCreditLineTypes.sql" />
+    <None Include="Tables\ACRAIgnoredLoanType.sql" />
+    <None Include="Procedures\sp_GetIgnoredLoanTypes.sql" />
+    <None Include="Procedures\sp_SaveIgnoredLoanType.sql" />
+    <None Include="Dummy\Values\CreditCardType.sql" />
+    <None Include="Procedures\sp_GetCreditCardTypes.sql" />
+    <None Include="Tables\CreditCardType.sql" />
+    <None Include="Dummy\Procedures\am0sp_GetLegalActiveClientCards.sql" />
+    <None Include="Procedures\sp_GetClientDataForCardValidation.sql" />
+    <None Include="Procedures\sp_GetLoanCardAccount.sql" />
+    <None Include="Dummy\Values\Settings.sql" />
+    <None Include="Procedures\sp_GetApplicationContractDetails.sql" />
+    <None Include="Procedures\sp_GetERegisterContractDetails.sql" />
+    <None Include="Dummy\Procedures\am0sp_GetClientData.sql" />
+    <None Include="Procedures\sp_GetNorqContractDetails.sql" />
+    <None Include="Dummy\Procedures\sp_GetGuaranteeSignatureParameters.sql" />
+    <None Include="Procedures\sp_DeleteCreditCardType.sql" />
+    <None Include="Procedures\sp_SaveCreditCardType.sql" />
+    <None Include="Dummy\Procedures\am0sp_IsHoliday.sql" />
+    <None Include="Dummy\Procedures\am0sp_GetPassHolidayDate.sql" />
+    <None Include="Dummy\Procedures\am0sp_GetLastRepaymentDate.sql" />
+    <None Include="Tables\Message.sql" />
+    <None Include="Procedures\sp_SaveMessageFromBank.sql" />
+    <None Include="Procedures\sp_SaveMessage.sql" />
+    <None Include="Procedures\sp_SendMessageToBank.sql" />
+    <None Include="Procedures\sp_GetMessages.sql" />
+    <None Include="Dummy\Tables\AM0SMEContractPrint.sql" />
+    <None Include="Dummy\Procedures\am0sp_GetSMEApplicationPrint.sql" />
+    <None Include="Tables\CancellationReason.sql" />
+    <None Include="Procedures\sp_GetCancellationReasons.sql" />
+    <None Include="Procedures\sp_SaveCancellationReason.sql" />
+    <None Include="Dummy\Values\CancellationReason.sql" />
+    <None Include="Procedures\sp_CancelApplication.sql" />
+    <None Include="Procedures\sp_DeleteCancellationReason.sql" />
+    <None Include="Procedures\sp_GetLoanSettings.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ERegisterIndustry.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SaveERegisterIndustry.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_DeleteScanMaxCounts.sql" />
+    <None Include="Procedures\sp_SaveScanMaxCount.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SaveUIIdentificationMessage.sql" />
+    <None Include="Procedures\sp_SaveUIManualMessage.sql" />
+    <None Include="Procedures\sp_SaveUIRefusalMessage.sql" />
+    <None Include="Procedures\sp_EmptyUIMessages.sql" />
+    <None Include="Tables\UIRefusalMessage.sql" />
+    <None Include="Tables\UIManualMessage.sql" />
+    <None Include="Tables\UIIdentificationMessage.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Functions\f_GetUIIdentificationMessage.sql" />
+    <None Include="Functions\f_GetUIManualMessage.sql" />
+    <None Include="Functions\f_GetUIRefusalMessage.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_EmptyDefinedStates.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SaveERegisterClientQueryResult.sql" />
+    <None Include="Procedures\sp_GetCachedERegisterClientExecutiveResponse.sql" />
+    <None Include="Procedures\sp_GetCachedERegisterClientOwnerResponse.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ERegisterClientQueryResultOwner.sql" />
+    <None Include="Tables\ERegisterClientQueryResultExecutive.sql" />
+    <None Include="Tables\ERegisterClientQueryResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Functions\f_GetApplicationUserRoleName.sql" />
+    <None Include="Tables\UserRole.sql" />
+    <None Include="Values\UserRole.sql" />
+    <None Include="Dummy\Values\BankUser.sql" />
+    <None Include="Tables\ApplicationUser.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\BankUser.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationUserByID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_CreateBankUser.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationCompanyOtherStatistics.sql" />
+    <None Include="Tables\ApplicationCompanyOperationalExpense.sql" />
+    <None Include="Tables\ApplicationCompanyNonOperationalExpense.sql" />
+    <None Include="Tables\CompanyNonOperationalExpenseType.sql" />
+    <None Include="Tables\CompanyOperationalExpenseType.sql" />
+    <None Include="Tables\CompanyOtherStatisticsType.sql" />
+    <None Include="Tables\ApplicationCompanyBalance.sql" />
+    <None Include="Tables\CompanyBalanceType.sql" />
+    <None Include="Tables\ApplicationCompanyCost.sql" />
+    <None Include="Tables\ApplicationCompanyOverhead.sql" />
+    <None Include="Tables\ApplicationCompanyProfit.sql" />
+    <None Include="Tables\IndustryType.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Types\ApplicationCompanyData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetLoanSpecialistApplications.sql" />
+    <None Include="Procedures\sp_SaveApplicationLoanSpecialist.sql" />
+    <None Include="Procedures\sp_SaveCompanyBalanceType.sql" />
+    <None Include="Procedures\sp_SaveCompanyNonOperationalExpenseType.sql" />
+    <None Include="Procedures\sp_SaveCompanyOperationalExpenseType.sql" />
+    <None Include="Procedures\sp_SaveCompanyOtherStatisticsType.sql" />
+    <None Include="Procedures\sp_SaveIndustryType.sql" />
+    <None Include="Procedures\sp_GetIndustryTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SaveBusinessStateType.sql" />
+    <None Include="Procedures\sp_GetBusinessStateTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\BusinessStateTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationPhoto.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationPhotos.sql" />
+    <None Include="Procedures\sp_GetApplicationPhotoContent.sql" />
+    <None Include="Procedures\sp_SaveApplicationPhoto.sql" />
+    <None Include="Procedures\sp_DeleteApplicationPhoto.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dummy\Values\CompanyOtherStatisticsType.sql" />
+    <None Include="Dummy\Values\CompanyBalanceType.sql" />
+    <None Include="Dummy\Values\CompanyOperationalExpenseType.sql" />
+    <None Include="Dummy\Values\CompanyNonOperationalExpenseType.sql" />
+    <None Include="Dummy\Values\IndustryType.sql" />
+    <None Include="Dummy\Values\BusinessStateType.sql" />
+    <None Include="Procedures\sp_GetCompanyBalances.sql" />
+    <None Include="Procedures\sp_GetCompanyNonOperationalExpenses.sql" />
+    <None Include="Procedures\sp_GetCompanyOperationalExpenses.sql" />
+    <None Include="Procedures\sp_GetCompanyOtherStatistics.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetCompanyOverheads.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetCompanyProfits.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetCompanyCosts.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationPreapprovedResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationPreapprovedResult.sql" />
+    <None Include="Procedures\sp_SaveApplicationPreapprovedResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationUnsecuredLimit.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_UpdateApplicationPreapprovedResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dummy\Values\ApplicationUnsecuredLimit.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationUnsecuredLimits.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SaveApplicationUnsecuredLimit.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetBankUserByID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationPledger.sql" />
+    <None Include="Tables\ApplicationPledge.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Types\ApplicationRelatedPerson.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationGuarantor.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationGuarantors.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationPledgers.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetApplicationLoanSpecialist.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_DeleteApplicationUnsecuredLimit.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetInitialApplicationLoanSpecialist.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_RefuseApplication.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\IpAddressLog.sql" />
+    <None Include="Procedures\sp_LogClientIpAddress.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\LoanSpecialistLoanTerm.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetLoanSpecialistLoanTerms.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dummy\Values\LoanSpecialistLoanTerm.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationBadMonthEarnings.sql" />
+    <None Include="Tables\ApplicationGoodMonthEarnings.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetBadMonthEarnings.sql" />
+    <None Include="Procedures\sp_GetGoodMonthEarnings.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\IndustryProduct.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Values\IndustryProduct.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetIndustryProducts.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Types\ApplicationCompanyOverhead.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\InsuranceCompany.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetInsuranceCompanies.sql" />
+    <None Include="Procedures\sp_SaveInsuranceCompany.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dummy\Values\InsuranceCompany.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetCustomerLatestApplicationData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetLSLoanTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_DeleteRefinancingLoans.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\TaxQueryResultReportCorrection.sql" />
+    <None Include="Tables\TaxQueryResultActivity.sql" />
+    <None Include="Tables\TaxQueryResultEmployee.sql" />
+    <None Include="Tables\TaxQueryResultDebt.sql" />
+    <None Include="Tables\TaxQueryResultProfit.sql" />
+    <None Include="Tables\TaxQueryResultPurchase.sql" />
+    <None Include="Tables\TaxQueryResultSalaryFund.sql" />
+    <None Include="Tables\TaxQueryResultSale.sql" />
+    <None Include="Tables\TaxQueryResultPayment.sql" />
+    <None Include="Tables\TaxQueryResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Types\TaxQueryResultEmployee.sql" />
+    <None Include="Types\TaxQueryResultReportCorrection.sql" />
+    <None Include="Types\TaxQueryResultData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dummy\Procedures\olsp_GetApplicationPrint.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\NORQQueryResultWork.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Types\NORQQueryResultWork.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationKYC.sql" />
+    <None Include="Tables\ApplicationKYCAffiliate.sql" />
+    <None Include="Tables\ApplicationKYCBeneficiary.sql" />
+    <None Include="Tables\ApplicationKYCOtherBankInfo.sql" />
+    <None Include="Tables\ApplicationProduct.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_ProcessApplication.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Functions\f_GetAge.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetRecentLegalApplicationCount.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationProduct.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationKYCOtherBankInfo.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationKYCBeneficiary.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationKYCAffiliate.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationComplete.sql" />
+    <None Include="Procedures\sp_GetLegalNORQWork.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxReportCorrections.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxEmployees.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxProfits.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxSalaryFunds.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxSales.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxPurchases.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxPayments.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxDebts.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxActivities.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalTaxData.sql" />
+    <None Include="Procedures\sp_GetSMEStates.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationBadMonthEarnings.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationGoodMonthEarnings.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistAgreedApplication.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyOtherStatistics.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyBalance.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyNonOperationalExpense.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyOperationalExpense.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyOverhead.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationCompanyProfit.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationGuarantors.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplicationPledgers.sql" />
+    <None Include="Procedures\sp_GetLoanSpecialistApplication.sql" />
+    <None Include="Procedures\sp_GetERegisterClientQueryResultExecutives.sql" />
+    <None Include="Procedures\sp_GetERegisterClientQueryResult.sql" />
+    <None Include="Procedures\sp_GetERegisterClientQueryResultOwners.sql" />
+    <None Include="Procedures\sp_GetManualLegalApplication.sql" />
+    <None Include="Procedures\sp_GetNotPrintedLegalApplications.sql" />
+    <None Include="Procedures\sp_GetLegalRefinancingLoanCodes.sql" />
+    <None Include="Procedures\sp_GetMainLegalApplication.sql" />
+    <None Include="Procedures\sp_GetLegalScoringErrors.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationACRAInterrelated.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationACRAPayments.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalACRAPayments.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalACRAInterrelated.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationACRAQueries.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationACRADetails.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationERegisterExecutives.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationERegisterOwners.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalACRAQueries.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationLegalACRADetails.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationNORQFounders.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationAfterACRA.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationBeforeACRA.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationBeforeNORQ.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationBeforeERegister.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationBeforeLegalACRA.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationBeforeLegalNORQ.sql" />
+    <None Include="Procedures\sp_GetLegalApplicationsToBeSynchronized.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetLegalApplicationScoringResult.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ApplicationUserEmailConfirmation.sql" />
+    <None Include="Tables\EcosystemUser.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_EcosystemUserConfirmation.sql" />
+    <None Include="Procedures\sp_GetEcosystemUser.sql" />
+    <None Include="Procedures\sp_CreateEcosystemUser.sql" />
+    <None Include="Procedures\sp_ProcessEcosystemApplication.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Functions\f_GetReportDate.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_GetServiceTimeout.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\ServiceTimeout.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\EcosystemOwner.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_ProcessEcosystemOwner.sql" />
+    <None Include="Procedures\sp_GetEcosystemOwners.sql" />
+    <None Include="Procedures\sp_SaveEcosystemOwner.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\sp_SetTryUserRegistration.sql" />
+  </ItemGroup>
+</Project>
