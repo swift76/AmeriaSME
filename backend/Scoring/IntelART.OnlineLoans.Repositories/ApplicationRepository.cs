@@ -314,9 +314,72 @@ namespace IntelART.OnlineLoans.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("ID", id);
-            AgreedApplication application = await GetSingleAsync<AgreedApplication>(parameters, "dbo.sp_GetAgreedApplication");
+            AgreedApplication application = await GetSingleAsync<AgreedApplication>(parameters, "sp_GetAgreedApplication");
             application.GUARANTEE_SIGNATURE_TEXT_TO_BE_ENTERED = await GetGuaranteeSignature(id);
-            this.ApplyMappingSingle(application);
+
+            try
+            {
+                string bankDB = GetSetting("BANK_SERVER_DATABASE");
+                LoanParameters loanParameters = GetLoanParameters(application.LOAN_TYPE_ID);
+                string subsystemCode = loanParameters.IS_OVERDRAFT ? "C3" : "C1";
+                string templateCode = loanParameters.IS_OVERDRAFT ? application.OVERDRAFT_TEMPLATE_CODE : application.LOAN_TEMPLATE_CODE;
+                byte duration = byte.Parse(application.LOAN_TERM.Trim());
+                DateTime currentDate = DateTime.Now;
+                DateTime dateAgreementFrom;
+                DateTime dateAgreementTo;
+
+                if (loanParameters.IS_REPAY_START_DAY)
+                {
+                    dateAgreementFrom = new DateTime(currentDate.Year, currentDate.Month, 1).AddMonths(1);
+                }
+                else
+                {
+                    int givenDay = currentDate.Day;
+                    if ((givenDay < loanParameters.REPAYMENT_DAY_FROM || givenDay > loanParameters.REPAYMENT_DAY_TO)
+                        && givenDay <= loanParameters.REPAY_TRANSITION_DAY)
+                    {
+                        dateAgreementFrom = new DateTime(currentDate.Year, currentDate.Month, application.REPAYMENT_DAY).AddMonths(2);
+                    }
+                    else if (loanParameters.IS_REPAY_NEXT_MONTH)
+                    {
+                        dateAgreementFrom = new DateTime(currentDate.Year, currentDate.Month, application.REPAYMENT_DAY).AddMonths(1);
+                    }
+                    else
+                    {
+                        dateAgreementFrom = currentDate;
+                    }
+                }
+                if (currentDate < dateAgreementFrom && IsHoliday(dateAgreementFrom, bankDB))
+                {
+                    dateAgreementFrom = GetNextWorkDay(dateAgreementFrom, bankDB);
+                }
+
+                DateTime queryLimitDate;
+                if (duration == 0)
+                {
+                    dateAgreementTo = new DateTime(2049, 12, 31);
+                    queryLimitDate = dateAgreementTo;
+                }
+                else
+                {
+                    dateAgreementTo = this.GetPassHolidayDate(subsystemCode, templateCode, currentDate.AddMonths(duration), bankDB);
+                    queryLimitDate = new DateTime(2065, 1, 1);
+                }
+                DateTime? scheduleLastDate = GetLastRepaymentDate(subsystemCode, templateCode, currentDate, dateAgreementFrom, queryLimitDate, duration, application.FINAL_AMOUNT, application.INTEREST, application.REPAYMENT_DAY, bankDB);
+                if (scheduleLastDate.HasValue)
+                {
+                    dateAgreementTo = scheduleLastDate.Value;
+                }
+
+                application.LOAN_INTEREST_2 = GetActualInterest(subsystemCode, templateCode, application.LOAN_TYPE_ID,
+                        currentDate, dateAgreementFrom, dateAgreementTo,
+                        duration, application.FINAL_AMOUNT, application.CURRENCY_CODE, application.INTEREST, application.REPAYMENT_DAY, bankDB);
+            }
+            catch
+            {
+            }
+
+            ApplyMappingSingle(application);
             return application;
         }
 
