@@ -1,7 +1,4 @@
-﻿var actualInterestUserText =
-  "Գիտակցում եմ, որ տարեկան փաստացի տոկոսադրույքի չափը կազմում է {X} տոկոս";
-
-define([
+﻿define([
   "knockout",
   "jquery",
   "./activeCreditCardList.vm",
@@ -53,17 +50,16 @@ define([
 
     // ====================================
 
-    this.LOAD_INTEREST_2 = ko.observable(false);
-    this.actualInterestConfirmText = ko.observable(false);
+    this.LOAD_INTEREST_2 = ko.observable(0);
+    this.actualInterestConfirmText = ko.observable("");
     this.confirmActualInterest = ko.computed(function () {
-      return (
-        self
-          .actualInterestConfirmText()
-          .replace("{X}", self.LOAD_INTEREST_2()) ===
-        actualInterestUserText.replace("{X}", self.LOAD_INTEREST_2())
-      );
+      var result =
+        helpers.cleanConfirmText(self.actualInterestConfirmText()) ===
+        helpers.cleanConfirmText(
+          helpers.actualInterestUserText.replace("{X}", self.LOAD_INTEREST_2())
+        );
+      return result;
     });
-    console.log("actualInterestConfirmText", this.actualInterestConfirmText());
     // ========================================
 
     this.isMainFormVisible = ko.computed(function () {
@@ -169,6 +165,7 @@ define([
           context: self,
           success: function (data) {
             if (data) {
+              self.LOAD_INTEREST_2(data.LOAD_INTEREST_2);
               self.clientCode((data.CLIENT_CODE || "").trim());
               self.guaranteeSignatureText(
                 data.GUARANTEE_SIGNATURE_TEXT_TO_BE_ENTERED

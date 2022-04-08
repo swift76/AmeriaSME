@@ -11,7 +11,7 @@
     "IntelART.Ameria.CustomerModuleWebApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "environmentVariables": {},
+      "nativeDebugging": true,
       "applicationUrl": "http://localhost:5007/"
     }
   }

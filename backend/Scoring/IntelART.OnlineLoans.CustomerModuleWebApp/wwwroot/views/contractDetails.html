@@ -211,7 +211,7 @@
           <div class="alert alert-info">
             <p>
               Ձեզ համար հաստատված վարկի փաստացի տոկոսադրույքը կազմում է
-              <b>{loanInterest2.value}%</b>
+              <b data-bind="text: LOAD_INTEREST_2"></b>
             </p>
             <p>
               ՎԱՐԿԱՌՈՒՆ ՊԱՐՏԱՎՈՐ Է ՍՏՈՐԵՎ ՏՈՂԵՐՈՒՄ ՏՊԱԳԻՐ ԳՐԵԼ ՍՏՈՐԵՎ ՆՇՎԱԾ
@@ -219,7 +219,11 @@
             </p>
             <p className="font-weight-bold">
               Գիտակցում եմ, որ տարեկան փաստացի տոկոսադրույքի չափը կազմում է
-              <span className="text-danger">{loanInterest2.value}</span> տոկոս
+              <span
+                className="text-danger"
+                data-bind="text: LOAD_INTEREST_2"
+              ></span>
+              տոկոս
             </p>
           </div>
         </div>

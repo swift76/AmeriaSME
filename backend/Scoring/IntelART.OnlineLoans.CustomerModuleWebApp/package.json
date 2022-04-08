@@ -12,9 +12,9 @@
     "build": "wwwroot/js/*/*.js"
   },
   "scripts": {
-    "css": "node_modules/requirejs/bin/r.js -o optimizeCss=standard cssIn=wwwroot/css/main.css out=wwwroot/css/main.min.css",
+    "css": "r.js.cmd -o optimizeCss=standard cssIn=wwwroot/css/main.css out=wwwroot/css/main.min.css",
     "css_windows": "r.js.cmd -o optimizeCss=standard cssIn=wwwroot/css/main.css out=wwwroot/css/main.min.css",
-    "build": "node_modules/requirejs/bin/r.js -o ./build.js && npm run css",
+    "build": "r.js.cmd -o ./build.js && npm run css",
     "build_windows": "r.js.cmd -o ./build.js && npm run css_windows",
     "watch": "npm-watch"
   },
