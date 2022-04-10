@@ -162,14 +162,19 @@ public partial class StoredProcedures
                 ACRALoginResult loginResult = ServiceHelper.DoACRALogin(config);
                 ACRAQuery acraQuery = new ACRAQuery();
                 foreach (ACRALegalEntity entity in entities_ACRA)
-                    try
+                {
+                    if (!entity.IsIE)
                     {
-                        acraQuery.GetLegalResponse(helper, config, loginResult.SID, entity);
+                        try
+                        {
+                            acraQuery.GetLegalResponse(helper, config, loginResult.SID, entity);
+                        }
+                        catch (Exception ex)
+                        {
+                            helper.LogError("Legal ACRA Query", ex.ToString(), entity.ID);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        helper.LogError("Legal ACRA Query", ex.ToString(), entity.ID);
-                    }
+                }
             }
         }
         catch (Exception ex)

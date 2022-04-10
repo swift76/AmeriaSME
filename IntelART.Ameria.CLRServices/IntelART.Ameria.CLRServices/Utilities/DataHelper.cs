@@ -163,7 +163,9 @@ namespace IntelART.Ameria.CLRServices
             , List<ACRAQueryResultQueries> queries
             , List<ACRAQueryResultInterrelated> interrelated
             , List<ACRAQueryResultPayments> payments
-            , List<ACRAQueryResultDueDates> dueDates)
+            , List<ACRAQueryResultDueDates> dueDates
+            , string responseTextLegal
+            , TaxData taxData)
         {
             using (SqlCommand cmd = new SqlCommand("sp_SaveACRAQueryResult", ActiveConnection))
             {
@@ -245,8 +247,9 @@ namespace IntelART.Ameria.CLRServices
                 DataTable tableQueries = new DataTable("ACRAQueryResultQueries");
                 tableQueries.Columns.Add("DATE", typeof(DateTime));
                 tableQueries.Columns.Add("BANK_NAME", typeof(string));
+                tableQueries.Columns.Add("REASON", typeof(string));
                 for (int i = 0; i < queries.Count; i++)
-                    tableQueries.Rows.Add(queries[i].DATE, queries[i].BANK_NAME);
+                    tableQueries.Rows.Add(queries[i].DATE, queries[i].BANK_NAME, queries[i].REASON);
                 cmd.Parameters.AddWithValue("@QUERIES", tableQueries).SqlDbType = SqlDbType.Structured;
 
                 DataTable tableInterrelated = new DataTable("ACRAQueryResultInterrelated");
@@ -282,6 +285,123 @@ namespace IntelART.Ameria.CLRServices
                 for (int i = 0; i < dueDates.Count; i++)
                     tableDueDates.Rows.Add(dueDates[i].LOAN_ID, dueDates[i].YEAR, dueDates[i].MONTH, dueDates[i].COUNT);
                 cmd.Parameters.AddWithValue("@DUE_DATES", tableDueDates).SqlDbType = SqlDbType.Structured;
+
+                cmd.Parameters.Add(new SqlParameter("@LEGAL_RESPONSE_XML", SqlDbType.NVarChar, -1)).Value = ServiceHelper.GetFormattedXML(responseTextLegal);
+
+                cmd.Parameters.Add(new SqlParameter("@COMPANY_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.Type;
+                cmd.Parameters.Add(new SqlParameter("@COMPANY_STATUS", SqlDbType.NVarChar, 100)).Value = taxData.Status;
+                cmd.Parameters.Add(new SqlParameter("@TAX_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.TaxType;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.RegistrationAddress.Region;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Community;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_STREET", SqlDbType.NVarChar, 100)).Value = taxData.RegistrationAddress.Street;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Building;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Apartment;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.CurrentAddress.Region;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Community;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_STREET", SqlDbType.NVarChar, 100)).Value = taxData.CurrentAddress.Street;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Building;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Apartment;
+
+                DataTable tableTaxActivities = new DataTable();
+                tableTaxActivities.Columns.Add("TYPE", typeof(string));
+                tableTaxActivities.Columns.Add("PERIOD", typeof(string));
+                tableTaxActivities.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxActivities.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxActivities.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxActivities.Columns.Add("FINE", typeof(decimal));
+                tableTaxActivities.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Activities.Count; i++)
+                    tableTaxActivities.Rows.Add(taxData.Activities[i].Type, null, DateTime.MinValue, taxData.Activities[i].Proportion, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_ACTIVITIES", tableTaxActivities).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxDebts = new DataTable();
+                tableTaxDebts.Columns.Add("TYPE", typeof(string));
+                tableTaxDebts.Columns.Add("PERIOD", typeof(string));
+                tableTaxDebts.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxDebts.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxDebts.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxDebts.Columns.Add("FINE", typeof(decimal));
+                tableTaxDebts.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Debts.Count; i++)
+                    tableTaxDebts.Rows.Add(taxData.Debts[i].Type, taxData.Debts[i].Period, taxData.Debts[i].UpdateDate, taxData.Debts[i].Debt, taxData.Debts[i].Outstanding, taxData.Debts[i].Fine, taxData.Debts[i].Overpayment);
+                cmd.Parameters.AddWithValue("@TAX_DEBTS", tableTaxDebts).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxPayments = new DataTable();
+                tableTaxPayments.Columns.Add("TYPE", typeof(string));
+                tableTaxPayments.Columns.Add("PERIOD", typeof(string));
+                tableTaxPayments.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxPayments.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxPayments.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxPayments.Columns.Add("FINE", typeof(decimal));
+                tableTaxPayments.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Payments.Count; i++)
+                    tableTaxPayments.Rows.Add(taxData.Payments[i].Type, taxData.Payments[i].Period, taxData.Payments[i].UpdateDate, taxData.Payments[i].Amount, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_PAYMENTS", tableTaxPayments).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxPurchases = new DataTable();
+                tableTaxPurchases.Columns.Add("TYPE", typeof(string));
+                tableTaxPurchases.Columns.Add("PERIOD", typeof(string));
+                tableTaxPurchases.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxPurchases.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxPurchases.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxPurchases.Columns.Add("FINE", typeof(decimal));
+                tableTaxPurchases.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Purchases.Count; i++)
+                    tableTaxPurchases.Rows.Add(null, taxData.Purchases[i].Period, taxData.Purchases[i].UpdateDate, taxData.Purchases[i].Amount, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_PURCHASES", tableTaxPurchases).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxSales = new DataTable();
+                tableTaxSales.Columns.Add("TYPE", typeof(string));
+                tableTaxSales.Columns.Add("PERIOD", typeof(string));
+                tableTaxSales.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxSales.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxSales.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxSales.Columns.Add("FINE", typeof(decimal));
+                tableTaxSales.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Sales.Count; i++)
+                    tableTaxSales.Rows.Add(taxData.Sales[i].Type, taxData.Sales[i].Period, taxData.Sales[i].UpdateDate, taxData.Sales[i].Amount, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_SALES", tableTaxSales).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxSalaryFunds = new DataTable();
+                tableTaxSalaryFunds.Columns.Add("TYPE", typeof(string));
+                tableTaxSalaryFunds.Columns.Add("PERIOD", typeof(string));
+                tableTaxSalaryFunds.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxSalaryFunds.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxSalaryFunds.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxSalaryFunds.Columns.Add("FINE", typeof(decimal));
+                tableTaxSalaryFunds.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.SalaryFunds.Count; i++)
+                    tableTaxSalaryFunds.Rows.Add(null, taxData.SalaryFunds[i].Period, taxData.SalaryFunds[i].UpdateDate, taxData.SalaryFunds[i].Amount, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_SALARY_FUNDS", tableTaxSalaryFunds).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxProfits = new DataTable();
+                tableTaxProfits.Columns.Add("TYPE", typeof(string));
+                tableTaxProfits.Columns.Add("PERIOD", typeof(string));
+                tableTaxProfits.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxProfits.Columns.Add("AMOUNT", typeof(decimal));
+                tableTaxProfits.Columns.Add("OUTSTANDING", typeof(decimal));
+                tableTaxProfits.Columns.Add("FINE", typeof(decimal));
+                tableTaxProfits.Columns.Add("OVERPAYMENT", typeof(decimal));
+                for (int i = 0; i < taxData.Profits.Count; i++)
+                    tableTaxProfits.Rows.Add(null, taxData.Profits[i].Period, taxData.Profits[i].UpdateDate, taxData.Profits[i].Amount, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@TAX_PROFITS", tableTaxProfits).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxEmployees = new DataTable();
+                tableTaxEmployees.Columns.Add("PERIOD", typeof(string));
+                tableTaxEmployees.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxEmployees.Columns.Add("NUMBER", typeof(int));
+                for (int i = 0; i < taxData.Employees.Count; i++)
+                    tableTaxEmployees.Rows.Add(taxData.Employees[i].Period, taxData.Employees[i].UpdateDate, taxData.Employees[i].Number);
+                cmd.Parameters.AddWithValue("@TAX_EMPLOYEES", tableTaxEmployees).SqlDbType = SqlDbType.Structured;
+
+                DataTable tableTaxReportCorrections = new DataTable();
+                tableTaxReportCorrections.Columns.Add("REPORT_NAME", typeof(string));
+                tableTaxReportCorrections.Columns.Add("UPDATE_DATE", typeof(DateTime));
+                tableTaxReportCorrections.Columns.Add("FIELD_NAME", typeof(string));
+                tableTaxReportCorrections.Columns.Add("FIELD_VALUE", typeof(decimal));
+                for (int i = 0; i < taxData.ReportCorrections.Count; i++)
+                    tableTaxReportCorrections.Rows.Add(taxData.ReportCorrections[i].ReportName, taxData.ReportCorrections[i].UpdateDate, taxData.ReportCorrections[i].FieldName, taxData.ReportCorrections[i].FieldValue);
+                cmd.Parameters.AddWithValue("@TAX_REPORT_CORRECTIONS", tableTaxReportCorrections).SqlDbType = SqlDbType.Structured;
 
                 cmd.ExecuteScalar();
             }
@@ -369,7 +489,8 @@ namespace IntelART.Ameria.CLRServices
                         PassportNumber = reader.GetString(4),
                         SocialCardNumber = reader.GetString(5),
                         IDCardNumber = reader.GetString(6),
-                        ImportID = reader.GetInt32(7)
+                        ImportID = reader.GetInt32(7),
+                        IsIE = reader.GetBoolean(8)
                     });
             }
             return result;
@@ -484,7 +605,8 @@ namespace IntelART.Ameria.CLRServices
                         ID = reader.GetGuid(0),
                         TaxCode = reader.GetString(1),
                         Name = reader.GetString(2),
-                        ImportID = reader.GetInt32(3)
+                        ImportID = reader.GetInt32(3),
+                        IsIE = reader.GetBoolean(4)
                     });
             }
             return result;
@@ -659,8 +781,9 @@ namespace IntelART.Ameria.CLRServices
                 DataTable tableQueries = new DataTable("ACRAQueryResultQueries");
                 tableQueries.Columns.Add("DATE", typeof(DateTime));
                 tableQueries.Columns.Add("BANK_NAME", typeof(string));
+                tableQueries.Columns.Add("REASON", typeof(string));
                 for (int i = 0; i < queries.Count; i++)
-                    tableQueries.Rows.Add(queries[i].DATE, queries[i].BANK_NAME);
+                    tableQueries.Rows.Add(queries[i].DATE, queries[i].BANK_NAME, queries[i].REASON);
                 cmd.Parameters.AddWithValue("@QUERIES", tableQueries).SqlDbType = SqlDbType.Structured;
 
                 DataTable tableInterrelated = new DataTable("ACRAQueryResultInterrelated");

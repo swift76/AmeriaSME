@@ -10,53 +10,13 @@ namespace IntelART.Ameria.CLRServices
     {
         public void GetResponse(DataHelper dataAccess, ServiceConfig config, string sessionID, ACRAEntity entity)
         {
-            XmlDocument document;
-
             dataAccess.SaveACRATryCount(entity.ID);
-
-            string responseText = dataAccess.GetCachedACRAResponse(entity.SocialCardNumber);
-
-            if (string.IsNullOrEmpty(responseText))
-            {
-                bool isPreapproved = (entity.ImportID > 0);
-
-                StringBuilder requestPerson = new StringBuilder();
-                requestPerson.Append(@"<a:PersonParticipientRequest>");
-                requestPerson.AppendFormat(@"<a:DateofBirth>{0}</a:DateofBirth>", entity.BirthDate.ToString("dd-MM-yyyy"));
-                requestPerson.AppendFormat(@"<a:FirstName>{0}</a:FirstName>", entity.FirstName);
-                requestPerson.AppendFormat(@"<a:IdCardNumber>{0}</a:IdCardNumber>", entity.IDCardNumber);
-                requestPerson.Append(@"<a:KindBorrower>1</a:KindBorrower>");
-                requestPerson.AppendFormat(@"<a:LastName>{0}</a:LastName>", entity.LastName);
-                requestPerson.AppendFormat(@"<a:PassportNumber>{0}</a:PassportNumber>", entity.PassportNumber);
-                requestPerson.AppendFormat(@"<a:RequestTarget>{0}</a:RequestTarget>", isPreapproved ? "11" : "1");
-                requestPerson.AppendFormat(@"<a:SocCardNumber>{0}</a:SocCardNumber>", entity.SocialCardNumber);
-                requestPerson.AppendFormat(@"<a:UsageRange>{0}</a:UsageRange>", isPreapproved ? "54" : "20");
-                requestPerson.Append(@"<a:id>1</a:id>");
-                requestPerson.Append(@"</a:PersonParticipientRequest>");
-
-                Dictionary<string, string> parameters = new Dictionary<string, string>();
-                parameters.Add("AppNumber", ServiceHelper.GenerateUniqueID(15));
-                parameters.Add("DateTime", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-                parameters.Add("ReportType", "02");
-                parameters.Add("ReqID", ServiceHelper.GenerateUniqueID(13));
-                parameters.Add("SID", sessionID);
-                parameters.Add("participient", requestPerson.ToString());
-                Dictionary<string, string> parentParameters = new Dictionary<string, string>();
-                parentParameters.Add("service_type", "acra_service");
-
-                document = ServiceHelper.GetServiceResult(config.URL, "http://tempuri.org/IsrvACRA/f_AcraPersonLoanXML", dataAccess.GetServiceTimeout(5), "f_AcraPersonLoanXML", parameters, "personrequest", "http://schemas.datacontract.org/2004/07/ACRA.business.person", parentParameters);
-                XmlNode node = document.SelectSingleNode("/*[local-name()='Envelope']/*[local-name()='Body']/*[local-name()='f_AcraPersonLoanXMLResponse']/*[local-name()='f_AcraPersonLoanXMLResult']");
-                if (node != null)
-                {
-                    responseText = ServiceHelper.DecodeResponseXML(node.InnerXml);
-                }
-            }
-
+            string responseText = GetResponseText(dataAccess, config, sessionID, entity, "02");
             if (responseText.Substring(0, 7).ToLower() == "<error>")
                 return;
             else
             {
-                document = ServiceHelper.CheckACRAResponse(responseText);
+                XmlDocument document = ServiceHelper.CheckACRAResponse(responseText);
 
                 string presence = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/ThePresenceData");
                 int classificationCount = 0;
@@ -69,6 +29,25 @@ namespace IntelART.Ameria.CLRServices
                     dataAccess.AutomaticallyRefuseApplication(entity.ID, "Վարկային զեկույցը արգելափակված է");
                 else
                 {
+                    TaxData taxData;
+                    string responseTextLegal;
+                    if (entity.IsIE)
+                    {
+                        responseTextLegal = GetResponseText(dataAccess, config, sessionID, entity, "05");
+                        if (responseTextLegal.Substring(0, 7).ToLower() == "<error>")
+                            return;
+                        else
+                        {
+                            XmlDocument documentLegal = ServiceHelper.CheckACRAResponse(responseText);
+                            taxData = ParseTaxData(documentLegal);
+                        }
+                    }
+                    else
+                    {
+                        taxData = new TaxData();
+                        responseTextLegal = null;
+                    }
+
                     using (TransactionScope transScope = new TransactionScope())
                     {
                         if (dataAccess.LockApplicationByID(entity.ID, 5))
@@ -92,7 +71,8 @@ namespace IntelART.Ameria.CLRServices
                             ParseInterrelated(document, interrelated);
                             string ficoScore = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/Score/FICOScore");
                             dataAccess.SaveACRAQueryResult(entity.ID, ficoScore, responseText, presence, classificationCount, reviewDate, loanWorstClass, guaranteeWorstClass
-                                , details, queries, interrelated, payments, dueDates);
+                                , details, queries, interrelated, payments, dueDates
+                                , responseTextLegal, taxData);                        
                         }
                         transScope.Complete();
                     }
@@ -103,11 +83,8 @@ namespace IntelART.Ameria.CLRServices
         public void GetLegalResponse(DataHelper dataAccess, ServiceConfig config, string sessionID, ACRALegalEntity entity)
         {
             XmlDocument document;
-
             dataAccess.SaveACRALegalTryCount(entity.ID);
-
             string responseText = dataAccess.GetCachedACRALegalResponse(entity.TaxCode);
-
             if (string.IsNullOrEmpty(responseText))
             {
                 bool isPreapproved = (entity.ImportID > 0);
@@ -138,9 +115,7 @@ namespace IntelART.Ameria.CLRServices
                 {
                     responseText = ServiceHelper.DecodeResponseXML(node.InnerXml);
                 }
-
             }
-
             if (responseText.Substring(0, 7).ToLower() == "<error>")
                 return;
             else
@@ -180,146 +155,7 @@ namespace IntelART.Ameria.CLRServices
                             ParseQuery(document, queries);
                             ParseInterrelated(document, interrelated);
 
-                            string taxXmlString;
-                            TaxData taxData = new TaxData();
-                            XmlNode node = document.SelectSingleNode("/ROWDATA[@*]/PARTICIPIENT[@*]/TaxServiceInfo");
-                            if (node != null)
-                            {
-                                taxXmlString = node.InnerXml;
-                                if (!string.IsNullOrEmpty(taxXmlString))
-                                {
-                                    taxXmlString = RemoveNamespaces(taxXmlString.Trim());
-                                    XmlDocument taxDocument = new XmlDocument();
-                                    bool existsTaxData;
-                                    try
-                                    {
-                                        taxDocument.LoadXml(taxXmlString);
-                                        existsTaxData = true;
-                                    }
-                                    catch
-                                    {
-                                        existsTaxData = false;
-                                    }
-                                    if (existsTaxData)
-                                    {
-                                        string errorCode = ServiceHelper.GetNodeValue(taxDocument, "/Response/errorCode");
-                                        if (errorCode == "00")
-                                        {
-                                            taxData.TaxType = ServiceHelper.GetNodeValue(taxDocument, "/Response/TaxType");
-                                            taxData.Status = ServiceHelper.GetNodeValue(taxDocument, "/Response/OrgStatus");
-                                            taxData.Type = ServiceHelper.GetNodeValue(taxDocument, "/Response/OrganizationType");
-
-                                            taxData.RegistrationAddress = ParseAddress(taxDocument.SelectSingleNode("/Response/OrgJurLocation"));
-                                            taxData.CurrentAddress = ParseAddress(taxDocument.SelectSingleNode("/Response/OrgInFactLocations"));
-
-                                            XmlNodeList nodesActivity = taxDocument.SelectNodes("/Response/OrgActivities");
-                                            foreach (XmlNode nodeActivity in nodesActivity)
-                                            {
-                                                taxData.Activities.Add(new TaxActivity()
-                                                {
-                                                    Type = nodeActivity.SelectSingleNode("OrgActivity").InnerXml,
-                                                    Proportion = GetDecimalValue(nodeActivity.SelectSingleNode("ActivityProportion").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesDebt = taxDocument.SelectNodes("/Response/TaxDebts");
-                                            foreach (XmlNode nodeDebt in nodesDebt)
-                                            {
-                                                taxData.Debts.Add(new TaxDebt()
-                                                {
-                                                    Type = nodeDebt.SelectSingleNode("TaxDebtType").InnerXml,
-                                                    Period = nodeDebt.SelectSingleNode("TaxReportPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeDebt.SelectSingleNode("ReportUpdateDate").InnerXml),
-                                                    Debt = GetDecimalValue(nodeDebt.SelectSingleNode("TaxDebt").InnerXml),
-                                                    Outstanding = GetDecimalValue(nodeDebt.SelectSingleNode("OutstandingTaxDebt").InnerXml),
-                                                    Fine = GetDecimalValue(nodeDebt.SelectSingleNode("TaxFinePenalty").InnerXml),
-                                                    Overpayment = GetDecimalValue(nodeDebt.SelectSingleNode("TaxOverpayment").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesPayment = taxDocument.SelectNodes("/Response/TaxesPaid");
-                                            foreach (XmlNode nodePayment in nodesPayment)
-                                            {
-                                                taxData.Payments.Add(new TaxPayment()
-                                                {
-                                                    Type = nodePayment.SelectSingleNode("TaxPaidType").InnerXml,
-                                                    Period = nodePayment.SelectSingleNode("TaxPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodePayment.SelectSingleNode("UpdateDate").InnerXml),
-                                                    Amount = GetDecimalValue(nodePayment.SelectSingleNode("TaxesPaidSum").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesEmployees = taxDocument.SelectNodes("/Response/EmployeesNumbers");
-                                            foreach (XmlNode nodeEmployee in nodesEmployees)
-                                            {
-                                                taxData.Employees.Add(new TaxEmployee()
-                                                {
-                                                    Number = GetIntValue(nodeEmployee.SelectSingleNode("EmployeesNumber").InnerXml),
-                                                    Period = nodeEmployee.SelectSingleNode("TaxPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeEmployee.SelectSingleNode("UpdateDate").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesSalaryFund = taxDocument.SelectNodes("/Response/OrgSalaryFund");
-                                            foreach (XmlNode nodeSalaryFund in nodesSalaryFund)
-                                            {
-                                                taxData.SalaryFunds.Add(new TaxSalaryFund()
-                                                {
-                                                    Period = nodeSalaryFund.SelectSingleNode("TaxPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeSalaryFund.SelectSingleNode("UpdateDate").InnerXml),
-                                                    Amount = GetDecimalValue(nodeSalaryFund.SelectSingleNode("SalaryFund").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesProfit = taxDocument.SelectNodes("/Response/TaxableProfit");
-                                            foreach (XmlNode nodeProfit in nodesProfit)
-                                            {
-                                                taxData.Profits.Add(new TaxProfit()
-                                                {
-                                                    Period = nodeProfit.SelectSingleNode("TaxPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeProfit.SelectSingleNode("UpdateDate").InnerXml),
-                                                    Amount = GetDecimalValue(nodeProfit.SelectSingleNode("TaxableProfitAmount").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesPurchase = taxDocument.SelectNodes("/Response/ProductsAndServicesPurchases");
-                                            foreach (XmlNode nodePurchase in nodesPurchase)
-                                            {
-                                                taxData.Purchases.Add(new TaxPurchase()
-                                                {
-                                                    Period = nodePurchase.SelectSingleNode("TaxPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodePurchase.SelectSingleNode("UpdateDate").InnerXml),
-                                                    Amount = GetDecimalValue(nodePurchase.SelectSingleNode("ProductsServicesPurchase").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesSale = taxDocument.SelectNodes("/Response/SalesTurnover");
-                                            foreach (XmlNode nodeSale in nodesSale)
-                                            {
-                                                taxData.Sales.Add(new TaxSale()
-                                                {
-                                                    Type = nodeSale.SelectSingleNode("SalesTurnoverType").InnerXml,
-                                                    Period = nodeSale.SelectSingleNode("TaxReportPeriod").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeSale.SelectSingleNode("UpdateDate").InnerXml),
-                                                    Amount = GetDecimalValue(nodeSale.SelectSingleNode("SalesTurnoverAmount").InnerXml)
-                                                });
-                                            }
-
-                                            XmlNodeList nodesReportCorrection = taxDocument.SelectNodes("/Response/DeclLastCorrection");
-                                            foreach (XmlNode nodeReportCorrection in nodesReportCorrection)
-                                            {
-                                                taxData.ReportCorrections.Add(new TaxReportCorrection()
-                                                {
-                                                    ReportName = nodeReportCorrection.SelectSingleNode("DeclName").InnerXml,
-                                                    FieldName = nodeReportCorrection.SelectSingleNode("CorrectField").InnerXml,
-                                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeReportCorrection.SelectSingleNode("LastCorrectDate").InnerXml),
-                                                    FieldValue = GetDecimalValue(nodeReportCorrection.SelectSingleNode("CorrectFieldValue").InnerXml)
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            TaxData taxData = ParseTaxData(document);
 
                             dataAccess.SaveACRALegalQueryResult(entity.ID, responseText, presence, classificationCount, reviewDate, loanWorstClass, guaranteeWorstClass
                                 , details, queries, interrelated, payments, dueDates, taxData);
@@ -337,7 +173,8 @@ namespace IntelART.Ameria.CLRServices
                 queries.Add(new ACRAQueryResultQueries()
                 {
                     DATE = ServiceHelper.GetACRADateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode("DateTime").InnerXml)),
-                    BANK_NAME = ServiceHelper.RetrieveValue(node.SelectSingleNode("BankName").InnerXml)
+                    BANK_NAME = ServiceHelper.RetrieveValue(node.SelectSingleNode("BankName").InnerXml),
+                    REASON = ServiceHelper.RetrieveValue(node.SelectSingleNode("Reason").InnerXml)
                 });
         }
 
@@ -358,21 +195,19 @@ namespace IntelART.Ameria.CLRServices
                 bool isLine = creditLineTypes.Contains(type.Trim().ToUpper());
                 bool isIgnored = ignoredLoanTypes.Contains(pledge.Trim().ToUpper());
 
-                int dueDays1 = 0, dueDays2 = 0, dueDays3 = 0, dueDays4 = 0;
+                int dueDays1, dueDays2, dueDays3, dueDays4;
                 int dueDaysM1 = 0, dueDaysM2 = 0, dueDaysM3 = 0;
-                int dueDaysMaxY1 = 0, dueDaysMaxY2 = 0, dueDaysMaxY = 0;
+                int dueDaysMaxY1, dueDaysMaxY2, dueDaysMaxY = 0;
 
                 DateTime? dateLastPayment = ServiceHelper.GetACRANullableDateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode(string.Format("{0}LastPaymentDate", prefixLG)).InnerXml));
 
-                if (node.SelectSingleNode("OutstandingDaysCount") != null)
-                {
-                    dueDays1 += GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, dueDates, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                    dueDaysMaxY1 = dueDaysMaxY;
-                    dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, dueDates, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                    dueDaysMaxY2 = dueDaysMaxY1 + dueDaysMaxY;
-                    dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, dueDates, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                    dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, dueDates, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                }
+                bool isOutstanding = (node.SelectSingleNode("OutstandingDaysCount") != null);
+                dueDays1 = GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDaysMaxY1 = dueDaysMaxY;
+                dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDaysMaxY2 = dueDaysMaxY1 + dueDaysMaxY;
+                dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
 
                 if (!isGuarantee && !isLine && !isIgnored && node.SelectSingleNode("MonthlyPaymentAmount") != null)
                     FillMonthlyPaymentAmounts(node, cur, payments);
@@ -451,7 +286,7 @@ namespace IntelART.Ameria.CLRServices
             }
         }
 
-        private static int GetDueDaysByYear(XmlNode node, string loanID, int currentYear, int currentMonth, int shift, DateTime? dateLastPayment, DateTime dateTo, List<ACRAQueryResultDueDates> dueDates
+        private static int GetDueDaysByYear(XmlNode node, string loanID, int currentYear, int currentMonth, int shift, DateTime? dateLastPayment, DateTime dateTo, List<ACRAQueryResultDueDates> dueDates, bool isOutstanding
             , ref int dueDaysM1, ref int dueDaysM2, ref int dueDaysM3, ref int dueDaysMaxY)
         {
             int result = 0;
@@ -486,16 +321,19 @@ namespace IntelART.Ameria.CLRServices
                                             int days = 0;
                                             if (int.TryParse(ServiceHelper.RetrieveValue(nodeDueMonth.InnerXml), out days))
                                             {
-                                                result += days;
-                                                DateTime valueDate = new DateTime(valueYear, valueMonth, 1);
-                                                if (valueDate == dateM1)
-                                                    dueDaysM1 += days;
-                                                if (valueDate == dateM2)
-                                                    dueDaysM2 += days;
-                                                if (valueDate == dateM3)
-                                                    dueDaysM3 += days;
-                                                if (days > dueDaysMaxY)
-                                                    dueDaysMaxY = days;
+                                                if (isOutstanding)
+                                                {
+                                                    result += days;
+                                                    DateTime valueDate = new DateTime(valueYear, valueMonth, 1);
+                                                    if (valueDate == dateM1)
+                                                        dueDaysM1 += days;
+                                                    if (valueDate == dateM2)
+                                                        dueDaysM2 += days;
+                                                    if (valueDate == dateM3)
+                                                        dueDaysM3 += days;
+                                                    if (days > dueDaysMaxY)
+                                                        dueDaysMaxY = days;
+                                                }
                                                 dueDates.Add(new ACRAQueryResultDueDates()
                                                 {
                                                     LOAN_ID = loanID,
@@ -513,7 +351,7 @@ namespace IntelART.Ameria.CLRServices
                 }
             }
 
-            if (dateLastPayment.HasValue)
+            if (isOutstanding && dateLastPayment.HasValue)
             {
                 int overdueDays = (dateTo - dateLastPayment.Value).Days;
                 if (overdueDays < 0)
@@ -623,6 +461,196 @@ namespace IntelART.Ameria.CLRServices
                 Building = node.SelectSingleNode("Building").InnerXml,
                 Apartment = node.SelectSingleNode("Apartment").InnerXml
             };
+        }
+
+        private string GetResponseText(DataHelper dataAccess
+            , ServiceConfig config
+            , string sessionID
+            , ACRAEntity entity
+            , string reportType)
+        {
+            string responseText = dataAccess.GetCachedACRAResponse(entity.SocialCardNumber);
+            if (string.IsNullOrEmpty(responseText))
+            {
+                bool isPreapproved = (entity.ImportID > 0);
+
+                StringBuilder requestPerson = new StringBuilder();
+                requestPerson.Append(@"<a:PersonParticipientRequest>");
+                requestPerson.AppendFormat(@"<a:DateofBirth>{0}</a:DateofBirth>", entity.BirthDate.ToString("dd-MM-yyyy"));
+                requestPerson.AppendFormat(@"<a:FirstName>{0}</a:FirstName>", entity.FirstName);
+                requestPerson.AppendFormat(@"<a:IdCardNumber>{0}</a:IdCardNumber>", entity.IDCardNumber);
+                requestPerson.Append(@"<a:KindBorrower>1</a:KindBorrower>");
+                requestPerson.AppendFormat(@"<a:LastName>{0}</a:LastName>", entity.LastName);
+                requestPerson.AppendFormat(@"<a:PassportNumber>{0}</a:PassportNumber>", entity.PassportNumber);
+                requestPerson.AppendFormat(@"<a:RequestTarget>{0}</a:RequestTarget>", isPreapproved ? "11" : "1");
+                requestPerson.AppendFormat(@"<a:SocCardNumber>{0}</a:SocCardNumber>", entity.SocialCardNumber);
+                requestPerson.AppendFormat(@"<a:UsageRange>{0}</a:UsageRange>", isPreapproved ? "54" : "20");
+                requestPerson.Append(@"<a:id>1</a:id>");
+                requestPerson.Append(@"</a:PersonParticipientRequest>");
+
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("AppNumber", ServiceHelper.GenerateUniqueID(15));
+                parameters.Add("DateTime", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                parameters.Add("ReportType", reportType);
+                parameters.Add("ReqID", ServiceHelper.GenerateUniqueID(13));
+                parameters.Add("SID", sessionID);
+                parameters.Add("participient", requestPerson.ToString());
+                Dictionary<string, string> parentParameters = new Dictionary<string, string>();
+                parentParameters.Add("service_type", "acra_service");
+
+                XmlDocument document = ServiceHelper.GetServiceResult(config.URL, "http://tempuri.org/IsrvACRA/f_AcraPersonLoanXML", dataAccess.GetServiceTimeout(5), "f_AcraPersonLoanXML", parameters, "personrequest", "http://schemas.datacontract.org/2004/07/ACRA.business.person", parentParameters);
+                XmlNode node = document.SelectSingleNode("/*[local-name()='Envelope']/*[local-name()='Body']/*[local-name()='f_AcraPersonLoanXMLResponse']/*[local-name()='f_AcraPersonLoanXMLResult']");
+                if (node != null)
+                {
+                    responseText = ServiceHelper.DecodeResponseXML(node.InnerXml);
+                }
+            }
+            return responseText;
+        }
+
+        private TaxData ParseTaxData(XmlDocument document)
+        {
+            string taxXmlString;
+            TaxData taxData = new TaxData();
+            XmlNode node = document.SelectSingleNode("/ROWDATA[@*]/PARTICIPIENT[@*]/TaxServiceInfo");
+            if (node != null)
+            {
+                taxXmlString = node.InnerXml;
+                if (!string.IsNullOrEmpty(taxXmlString))
+                {
+                    taxXmlString = RemoveNamespaces(taxXmlString.Trim());
+                    XmlDocument taxDocument = new XmlDocument();
+                    bool existsTaxData;
+                    try
+                    {
+                        taxDocument.LoadXml(taxXmlString);
+                        existsTaxData = true;
+                    }
+                    catch
+                    {
+                        existsTaxData = false;
+                    }
+                    if (existsTaxData)
+                    {
+                        string errorCode = ServiceHelper.GetNodeValue(taxDocument, "/Response/errorCode");
+                        if (errorCode == "00")
+                        {
+                            taxData.TaxType = ServiceHelper.GetNodeValue(taxDocument, "/Response/TaxType");
+                            taxData.Status = ServiceHelper.GetNodeValue(taxDocument, "/Response/OrgStatus");
+                            taxData.Type = ServiceHelper.GetNodeValue(taxDocument, "/Response/OrganizationType");
+
+                            taxData.RegistrationAddress = ParseAddress(taxDocument.SelectSingleNode("/Response/OrgJurLocation"));
+                            taxData.CurrentAddress = ParseAddress(taxDocument.SelectSingleNode("/Response/OrgInFactLocations"));
+
+                            XmlNodeList nodesActivity = taxDocument.SelectNodes("/Response/OrgActivities");
+                            foreach (XmlNode nodeActivity in nodesActivity)
+                            {
+                                taxData.Activities.Add(new TaxActivity()
+                                {
+                                    Type = nodeActivity.SelectSingleNode("OrgActivity").InnerXml,
+                                    Proportion = GetDecimalValue(nodeActivity.SelectSingleNode("ActivityProportion").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesDebt = taxDocument.SelectNodes("/Response/TaxDebts");
+                            foreach (XmlNode nodeDebt in nodesDebt)
+                            {
+                                taxData.Debts.Add(new TaxDebt()
+                                {
+                                    Type = nodeDebt.SelectSingleNode("TaxDebtType").InnerXml,
+                                    Period = nodeDebt.SelectSingleNode("TaxReportPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeDebt.SelectSingleNode("ReportUpdateDate").InnerXml),
+                                    Debt = GetDecimalValue(nodeDebt.SelectSingleNode("TaxDebt").InnerXml),
+                                    Outstanding = GetDecimalValue(nodeDebt.SelectSingleNode("OutstandingTaxDebt").InnerXml),
+                                    Fine = GetDecimalValue(nodeDebt.SelectSingleNode("TaxFinePenalty").InnerXml),
+                                    Overpayment = GetDecimalValue(nodeDebt.SelectSingleNode("TaxOverpayment").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesPayment = taxDocument.SelectNodes("/Response/TaxesPaid");
+                            foreach (XmlNode nodePayment in nodesPayment)
+                            {
+                                taxData.Payments.Add(new TaxPayment()
+                                {
+                                    Type = nodePayment.SelectSingleNode("TaxPaidType").InnerXml,
+                                    Period = nodePayment.SelectSingleNode("TaxPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodePayment.SelectSingleNode("UpdateDate").InnerXml),
+                                    Amount = GetDecimalValue(nodePayment.SelectSingleNode("TaxesPaidSum").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesEmployees = taxDocument.SelectNodes("/Response/EmployeesNumbers");
+                            foreach (XmlNode nodeEmployee in nodesEmployees)
+                            {
+                                taxData.Employees.Add(new TaxEmployee()
+                                {
+                                    Number = GetIntValue(nodeEmployee.SelectSingleNode("EmployeesNumber").InnerXml),
+                                    Period = nodeEmployee.SelectSingleNode("TaxPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeEmployee.SelectSingleNode("UpdateDate").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesSalaryFund = taxDocument.SelectNodes("/Response/OrgSalaryFund");
+                            foreach (XmlNode nodeSalaryFund in nodesSalaryFund)
+                            {
+                                taxData.SalaryFunds.Add(new TaxSalaryFund()
+                                {
+                                    Period = nodeSalaryFund.SelectSingleNode("TaxPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeSalaryFund.SelectSingleNode("UpdateDate").InnerXml),
+                                    Amount = GetDecimalValue(nodeSalaryFund.SelectSingleNode("SalaryFund").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesProfit = taxDocument.SelectNodes("/Response/TaxableProfit");
+                            foreach (XmlNode nodeProfit in nodesProfit)
+                            {
+                                taxData.Profits.Add(new TaxProfit()
+                                {
+                                    Period = nodeProfit.SelectSingleNode("TaxPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeProfit.SelectSingleNode("UpdateDate").InnerXml),
+                                    Amount = GetDecimalValue(nodeProfit.SelectSingleNode("TaxableProfitAmount").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesPurchase = taxDocument.SelectNodes("/Response/ProductsAndServicesPurchases");
+                            foreach (XmlNode nodePurchase in nodesPurchase)
+                            {
+                                taxData.Purchases.Add(new TaxPurchase()
+                                {
+                                    Period = nodePurchase.SelectSingleNode("TaxPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodePurchase.SelectSingleNode("UpdateDate").InnerXml),
+                                    Amount = GetDecimalValue(nodePurchase.SelectSingleNode("ProductsServicesPurchase").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesSale = taxDocument.SelectNodes("/Response/SalesTurnover");
+                            foreach (XmlNode nodeSale in nodesSale)
+                            {
+                                taxData.Sales.Add(new TaxSale()
+                                {
+                                    Type = nodeSale.SelectSingleNode("SalesTurnoverType").InnerXml,
+                                    Period = nodeSale.SelectSingleNode("TaxReportPeriod").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeSale.SelectSingleNode("UpdateDate").InnerXml),
+                                    Amount = GetDecimalValue(nodeSale.SelectSingleNode("SalesTurnoverAmount").InnerXml)
+                                });
+                            }
+
+                            XmlNodeList nodesReportCorrection = taxDocument.SelectNodes("/Response/DeclLastCorrection");
+                            foreach (XmlNode nodeReportCorrection in nodesReportCorrection)
+                            {
+                                taxData.ReportCorrections.Add(new TaxReportCorrection()
+                                {
+                                    ReportName = nodeReportCorrection.SelectSingleNode("DeclName").InnerXml,
+                                    FieldName = nodeReportCorrection.SelectSingleNode("CorrectField").InnerXml,
+                                    UpdateDate = ServiceHelper.GetACRANullableDateValue(nodeReportCorrection.SelectSingleNode("LastCorrectDate").InnerXml),
+                                    FieldValue = GetDecimalValue(nodeReportCorrection.SelectSingleNode("CorrectFieldValue").InnerXml)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return taxData;
         }
     }
 }
