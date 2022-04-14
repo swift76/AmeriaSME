@@ -25,12 +25,12 @@
     </ConnectionString>
     <PermissionSet>UNSAFE</PermissionSet>
     <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Banks\Scoring\ameria-sme\IntelART.Ameria.CLRServices\Backup\</UpgradeBackupLocation>
+    <UpgradeBackupLocation>C:\Git\AmeriaSME\IntelART.Ameria.CLRServices\Backup\IntelART.Ameria.CLRServices\</UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <Name>IntelART.Ameria.CLRServices</Name>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{c8c50377-c166-4075-9227-e1ef32db4f74}</ProjectGuid>
+    <ProjectGuid>{68cf8652-e56e-4e35-a75d-9024ea6b45fb}</ProjectGuid>
     <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
     <GenerateDatabaseFile>False</GenerateDatabaseFile>
     <GenerateCreateScript>False</GenerateCreateScript>

@@ -11,6 +11,7 @@ AS
 			else n.NAME
 		end as NAME
 		,isnull(a.IMPORT_ID,0) as IMPORT_ID
+		,dbo.f_IsCompanyTypeIE(e.TYPE) as IsIE
 	from APPLICATION a
 	join NORQ_LEGAL_QUERY_RESULT n
 		on n.APPLICATION_ID=a.ID

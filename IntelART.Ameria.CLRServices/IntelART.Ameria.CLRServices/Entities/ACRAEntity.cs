@@ -12,5 +12,6 @@ namespace IntelART.Ameria.CLRServices
         public string SocialCardNumber { get; set; }
         public string IDCardNumber { get; set; }
         public int ImportID { get; set; }
+        public bool IsIE { get; set; }
     }
 }

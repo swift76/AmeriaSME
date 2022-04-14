@@ -2,6 +2,7 @@
 	CREATE TYPE ACRAQueryResultQueries AS TABLE
 	(
 		DATE		date			NOT NULL,
-		BANK_NAME	nvarchar(100)	NOT NULL
+		BANK_NAME	nvarchar(100)	NOT NULL,
+		REASON		nvarchar(500)	NULL
 	)
 GO

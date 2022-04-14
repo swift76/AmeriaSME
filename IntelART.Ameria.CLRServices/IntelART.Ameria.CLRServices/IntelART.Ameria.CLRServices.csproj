@@ -18,7 +18,7 @@
     </ConnectionString>
     <PermissionLevel>3</PermissionLevel>
     <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Banks\Scoring\ameria-sme\IntelART.Ameria.CLRServices\Backup\</UpgradeBackupLocation>
+    <UpgradeBackupLocation>C:\Git\AmeriaSME\IntelART.Ameria.CLRServices\Backup\IntelART.Ameria.CLRServices\</UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

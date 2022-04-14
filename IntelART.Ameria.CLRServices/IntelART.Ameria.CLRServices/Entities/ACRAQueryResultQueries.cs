@@ -6,5 +6,6 @@ namespace IntelART.Ameria.CLRServices
     {
         public DateTime DATE { get; set; }
         public string BANK_NAME { get; set; }
+        public string REASON { get; set; }
     }
 }
