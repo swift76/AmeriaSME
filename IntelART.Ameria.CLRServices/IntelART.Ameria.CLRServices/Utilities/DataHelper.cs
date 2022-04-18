@@ -158,7 +158,10 @@ namespace IntelART.Ameria.CLRServices
             using (SqlCommand cmd = InitializeACRACommand(id, result, "sp_SaveACRAQueryResult"))
             {
                 cmd.Parameters.Add(new SqlParameter("@FICO_SCORE", SqlDbType.Char, 3)).Value = result.FicoScore;
-                cmd.Parameters.Add(new SqlParameter("@LEGAL_RESPONSE_XML", SqlDbType.NVarChar, -1)).Value = ServiceHelper.GetFormattedXML(resultLegal.ResponseXml);
+                if (resultLegal.ResponseXml != null)
+                {
+                    cmd.Parameters.Add(new SqlParameter("@LEGAL_RESPONSE_XML", SqlDbType.NVarChar, -1)).Value = ServiceHelper.GetFormattedXML(resultLegal.ResponseXml);
+                }
                 InitializeTaxParameters(resultLegal.TaxData, cmd);
                 cmd.ExecuteScalar();
             }
@@ -362,8 +365,7 @@ namespace IntelART.Ameria.CLRServices
                         ID = reader.GetGuid(0),
                         TaxCode = reader.GetString(1),
                         Name = reader.GetString(2),
-                        ImportID = reader.GetInt32(3),
-                        IsIE = reader.GetBoolean(4)
+                        ImportID = reader.GetInt32(3)
                     });
             }
             return result;
@@ -1151,19 +1153,22 @@ namespace IntelART.Ameria.CLRServices
 
         private void InitializeTaxParameters(TaxData taxData, SqlCommand cmd)
         {
-            cmd.Parameters.Add(new SqlParameter("@COMPANY_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.Type;
-            cmd.Parameters.Add(new SqlParameter("@COMPANY_STATUS", SqlDbType.NVarChar, 100)).Value = taxData.Status;
-            cmd.Parameters.Add(new SqlParameter("@TAX_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.TaxType;
-            cmd.Parameters.Add(new SqlParameter("@REGISTRATION_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.RegistrationAddress.Region;
-            cmd.Parameters.Add(new SqlParameter("@REGISTRATION_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Community;
-            cmd.Parameters.Add(new SqlParameter("@REGISTRATION_STREET", SqlDbType.NVarChar, 100)).Value = taxData.RegistrationAddress.Street;
-            cmd.Parameters.Add(new SqlParameter("@REGISTRATION_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Building;
-            cmd.Parameters.Add(new SqlParameter("@REGISTRATION_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Apartment;
-            cmd.Parameters.Add(new SqlParameter("@CURRENT_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.CurrentAddress.Region;
-            cmd.Parameters.Add(new SqlParameter("@CURRENT_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Community;
-            cmd.Parameters.Add(new SqlParameter("@CURRENT_STREET", SqlDbType.NVarChar, 100)).Value = taxData.CurrentAddress.Street;
-            cmd.Parameters.Add(new SqlParameter("@CURRENT_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Building;
-            cmd.Parameters.Add(new SqlParameter("@CURRENT_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Apartment;
+            if (taxData.Type != null)
+            {
+                cmd.Parameters.Add(new SqlParameter("@COMPANY_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.Type;
+                cmd.Parameters.Add(new SqlParameter("@COMPANY_STATUS", SqlDbType.NVarChar, 100)).Value = taxData.Status;
+                cmd.Parameters.Add(new SqlParameter("@TAX_TYPE", SqlDbType.NVarChar, 100)).Value = taxData.TaxType;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.RegistrationAddress.Region;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Community;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_STREET", SqlDbType.NVarChar, 100)).Value = taxData.RegistrationAddress.Street;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Building;
+                cmd.Parameters.Add(new SqlParameter("@REGISTRATION_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.RegistrationAddress.Apartment;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_DISTRICT", SqlDbType.NVarChar, 20)).Value = taxData.CurrentAddress.Region;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_COMMUNITY", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Community;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_STREET", SqlDbType.NVarChar, 100)).Value = taxData.CurrentAddress.Street;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_BUILDING", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Building;
+                cmd.Parameters.Add(new SqlParameter("@CURRENT_APARTMENT", SqlDbType.NVarChar, 40)).Value = taxData.CurrentAddress.Apartment;
+            }
 
             DataTable tableTaxActivities = new DataTable();
             tableTaxActivities.Columns.Add("TYPE", typeof(string));

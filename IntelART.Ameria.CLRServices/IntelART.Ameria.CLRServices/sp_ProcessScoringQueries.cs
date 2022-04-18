@@ -109,6 +109,7 @@ public partial class StoredProcedures
                 ACRALoginResult loginResult = ServiceHelper.DoACRALogin(config);
                 ACRAQuery acraQuery = new ACRAQuery();
                 foreach (ACRAEntity entity in entities_ACRA)
+                {
                     try
                     {
                         acraQuery.GetResponse(helper, config, loginResult.SID, entity);
@@ -117,6 +118,7 @@ public partial class StoredProcedures
                     {
                         helper.LogError("ACRA Query", ex.ToString(), entity.ID);
                     }
+                }
             }
         }
         catch (Exception ex)
@@ -163,16 +165,13 @@ public partial class StoredProcedures
                 ACRAQuery acraQuery = new ACRAQuery();
                 foreach (ACRALegalEntity entity in entities_ACRA)
                 {
-                    if (!entity.IsIE)
+                    try
                     {
-                        try
-                        {
-                            acraQuery.GetLegalResponse(helper, config, loginResult.SID, entity);
-                        }
-                        catch (Exception ex)
-                        {
-                            helper.LogError("Legal ACRA Query", ex.ToString(), entity.ID);
-                        }
+                        acraQuery.GetLegalResponse(helper, config, loginResult.SID, entity);
+                    }
+                    catch (Exception ex)
+                    {
+                        helper.LogError("Legal ACRA Query", ex.ToString(), entity.ID);
                     }
                 }
             }
@@ -192,6 +191,7 @@ public partial class StoredProcedures
             {
                 ERegisterQuery query = new ERegisterQuery();
                 foreach (ERegisterEntity entity in entities)
+                {
                     try
                     {
                         query.GetResponse(helper, entity, config);
@@ -200,6 +200,7 @@ public partial class StoredProcedures
                     {
                         helper.LogError("ERegister Query", ex.ToString(), entity.ID);
                     }
+                }
             }
         }
         catch (Exception ex)

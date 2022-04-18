@@ -80,14 +80,16 @@ namespace IntelART.Ameria.CLRServices
             }
 
             ACRALegalQueryResult result = ParseLegalResponse(dataAccess, responseText, entity.ID);
-
-            using (TransactionScope transScope = new TransactionScope())
+            if (result != null)
             {
-                if (dataAccess.LockApplicationByID(entity.ID, 3))
+                using (TransactionScope transScope = new TransactionScope())
                 {
-                    dataAccess.SaveACRALegalQueryResult(entity.ID, result);
+                    if (dataAccess.LockApplicationByID(entity.ID, 3))
+                    {
+                        dataAccess.SaveACRALegalQueryResult(entity.ID, result);
+                    }
+                    transScope.Complete();
                 }
-                transScope.Complete();
             }
         }
 
@@ -442,7 +444,9 @@ namespace IntelART.Ameria.CLRServices
                 document = ServiceHelper.CheckACRAResponse(responseText);
                 string presence = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/ThePresenceData");
                 if (presence == "2")
+                {
                     dataAccess.AutomaticallyRefuseApplication(id, "Վարկային զեկույցը արգելափակված է");
+                }
                 else
                 {
                     result = new ACRALegalQueryResult();

@@ -8,6 +8,5 @@ namespace IntelART.Ameria.CLRServices
         public string Name { get; set; }
         public string TaxCode { get; set; }
         public int ImportID { get; set; }
-        public bool IsIE { get; set; }
     }
 }

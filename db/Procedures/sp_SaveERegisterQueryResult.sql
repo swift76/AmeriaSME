@@ -21,7 +21,7 @@
 AS
 	BEGIN TRANSACTION
 	BEGIN TRY
-		declare @CURRENT_STATUS tinyint
+		declare @CURRENT_STATUS tinyint,@APPLICATION_STATUS_ID smallint
 
 		select @CURRENT_STATUS = STATUS_ID from APPLICATION with (updlock) where ID = @APPLICATION_ID
 
@@ -57,7 +57,12 @@ AS
 			IS_FOUNDER,IS_LEGAL,JOIN_DATE,LEAVE_DATE
 		from @OWNERS
 
-		execute sp_ChangeApplicationStatus @APPLICATION_ID,3
+		if dbo.f_IsCompanyTypeIE(@TYPE)
+			set @APPLICATION_STATUS_ID = 4
+		else
+			set @APPLICATION_STATUS_ID = 3
+
+		execute sp_ChangeApplicationStatus @APPLICATION_ID,@APPLICATION_STATUS_ID
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION
