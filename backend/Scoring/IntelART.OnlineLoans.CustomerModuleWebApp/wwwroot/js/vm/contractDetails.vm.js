@@ -52,12 +52,13 @@
 
     this.LOAD_INTEREST_2 = ko.observable(0);
     this.actualInterestConfirmText = ko.observable("");
-    this.confirmActualInterest = ko.computed(function () {
+    this.confirmActualInterest = ko.pureComputed(function () {
       var result =
         helpers.cleanConfirmText(self.actualInterestConfirmText()) ===
         helpers.cleanConfirmText(
           helpers.actualInterestUserText.replace("{X}", self.LOAD_INTEREST_2())
         );
+
       return result;
     });
     // ========================================

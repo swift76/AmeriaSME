@@ -232,7 +232,7 @@
           <div class="form-group">
             <input
               placeholder
-              data-bind="value: actualInterestConfirmText"
+              data-bind="value: actualInterestConfirmText, disablePast: true, restrictRegex: /^[՝«»<>'՞,Ա-Ֆա-և0-9- ]*$/, "
               type="text"
               class="form-control"
             />
