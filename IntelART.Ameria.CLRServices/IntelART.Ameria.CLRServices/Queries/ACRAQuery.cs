@@ -11,78 +11,40 @@ namespace IntelART.Ameria.CLRServices
         public void GetResponse(DataHelper dataAccess, ServiceConfig config, string sessionID, ACRAEntity entity)
         {
             dataAccess.SaveACRATryCount(entity.ID);
-            string responseText = GetResponseText(dataAccess, config, sessionID, entity, "02");
-            if (responseText.Substring(0, 7).ToLower() == "<error>")
-                return;
-            else
+            ACRALegalQueryResult result = ParseLegalResponse(dataAccess, GetResponseText(dataAccess, config, sessionID, entity, entity.IsIE ? "03" : "02"), entity.ID);
+            if (result != null)
             {
-                XmlDocument document = ServiceHelper.CheckACRAResponse(responseText);
-
-                string presence = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/ThePresenceData");
-                int classificationCount = 0;
-                int.TryParse(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/SwitchisClassQuantity"), out classificationCount);
-                DateTime? reviewDate = ServiceHelper.GetACRANullableDateValue(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/InformationReviewDate"));
-                string loanWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorstClassLoan");
-                string guaranteeWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorsClassGuarantee");
-
-                if (presence == "2")
-                    dataAccess.AutomaticallyRefuseApplication(entity.ID, "Վարկային զեկույցը արգելափակված է");
+                ACRALegalQueryResult resultLegal;
+                if (entity.IsIE)
+                {
+                    resultLegal = ParseLegalResponse(dataAccess, GetResponseText(dataAccess, config, sessionID, entity, "05"), entity.ID);
+                    result.Details = resultLegal.Details;
+                    result.Queries = resultLegal.Queries;
+                    result.Interrelated = resultLegal.Interrelated;
+                    result.Payments = resultLegal.Payments;
+                    result.DueDates = resultLegal.DueDates;
+                    result.ClassificationCount = resultLegal.ClassificationCount;
+                    result.ReviewDate = resultLegal.ReviewDate;
+                    result.LoanWorstClass = resultLegal.LoanWorstClass;
+                    result.GuaranteeWorstClass = resultLegal.GuaranteeWorstClass;
+                }
                 else
                 {
-                    TaxData taxData;
-                    string responseTextLegal;
-                    if (entity.IsIE)
+                    resultLegal = new ACRALegalQueryResult();
+                }
+                using (TransactionScope transScope = new TransactionScope())
+                {
+                    if (dataAccess.LockApplicationByID(entity.ID, 5))
                     {
-                        responseTextLegal = GetResponseText(dataAccess, config, sessionID, entity, "05");
-                        if (responseTextLegal.Substring(0, 7).ToLower() == "<error>")
-                            return;
-                        else
-                        {
-                            XmlDocument documentLegal = ServiceHelper.CheckACRAResponse(responseText);
-                            taxData = ParseTaxData(documentLegal);
-                        }
+                        dataAccess.SaveACRAQueryResult(entity.ID, result, resultLegal);
                     }
-                    else
-                    {
-                        taxData = new TaxData();
-                        responseTextLegal = null;
-                    }
-
-                    using (TransactionScope transScope = new TransactionScope())
-                    {
-                        if (dataAccess.LockApplicationByID(entity.ID, 5))
-                        {
-                            List<ACRAQueryResultDetails> details = new List<ACRAQueryResultDetails>();
-                            List<ACRAQueryResultQueries> queries = new List<ACRAQueryResultQueries>();
-                            List<ACRAQueryResultInterrelated> interrelated = new List<ACRAQueryResultInterrelated>();
-                            List<ACRAQueryResultPayments> payments = new List<ACRAQueryResultPayments>();
-                            List<ACRAQueryResultDueDates> dueDates = new List<ACRAQueryResultDueDates>();
-                            if (presence == "1")
-                            {
-                                DateTime dateCurrent = dataAccess.GetServerDate();
-                                int currentYear = dateCurrent.Year;
-                                int currentMonth = dateCurrent.Month;
-                                List<string> creditLineTypes = dataAccess.GetCreditLineTypes();
-                                List<string> ignoredLoanTypes = dataAccess.GetIgnoredLoanTypes();
-                                ParseLoanGuarantee(document, false, currentYear, currentMonth, details, creditLineTypes, ignoredLoanTypes, dueDates, payments);
-                                ParseLoanGuarantee(document, true, currentYear, currentMonth, details, creditLineTypes, ignoredLoanTypes, dueDates);
-                            }
-                            ParseQuery(document, queries);
-                            ParseInterrelated(document, interrelated);
-                            string ficoScore = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/Score/FICOScore");
-                            dataAccess.SaveACRAQueryResult(entity.ID, ficoScore, responseText, presence, classificationCount, reviewDate, loanWorstClass, guaranteeWorstClass
-                                , details, queries, interrelated, payments, dueDates
-                                , responseTextLegal, taxData);                        
-                        }
-                        transScope.Complete();
-                    }
+                    transScope.Complete();
                 }
             }
         }
 
         public void GetLegalResponse(DataHelper dataAccess, ServiceConfig config, string sessionID, ACRALegalEntity entity)
         {
-            XmlDocument document;
             dataAccess.SaveACRALegalTryCount(entity.ID);
             string responseText = dataAccess.GetCachedACRALegalResponse(entity.TaxCode);
             if (string.IsNullOrEmpty(responseText))
@@ -109,60 +71,23 @@ namespace IntelART.Ameria.CLRServices
                 Dictionary<string, string> parentParameters = new Dictionary<string, string>();
                 parentParameters.Add("service_type", "acra_service");
 
-                document = ServiceHelper.GetServiceResult(config.URL, "http://tempuri.org/IsrvACRA/f_AcraLegalLoanXML", dataAccess.GetServiceTimeout(2), "f_AcraLegalLoanXML", parameters, "legalrequest", "http://schemas.datacontract.org/2004/07/ACRA.business.legal", parentParameters);
+                XmlDocument document = ServiceHelper.GetServiceResult(config.URL, "http://tempuri.org/IsrvACRA/f_AcraLegalLoanXML", dataAccess.GetServiceTimeout(2), "f_AcraLegalLoanXML", parameters, "legalrequest", "http://schemas.datacontract.org/2004/07/ACRA.business.legal", parentParameters);
                 XmlNode node = document.SelectSingleNode("/*[local-name()='Envelope']/*[local-name()='Body']/*[local-name()='f_AcraLegalLoanXMLResponse']/*[local-name()='f_AcraLegalLoanXMLResult']");
                 if (node != null)
                 {
                     responseText = ServiceHelper.DecodeResponseXML(node.InnerXml);
                 }
             }
-            if (responseText.Substring(0, 7).ToLower() == "<error>")
-                return;
-            else
+
+            ACRALegalQueryResult result = ParseLegalResponse(dataAccess, responseText, entity.ID);
+
+            using (TransactionScope transScope = new TransactionScope())
             {
-                document = ServiceHelper.CheckACRAResponse(responseText);
-
-                string presence = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/ThePresenceData");
-                int classificationCount = 0; 
-                int.TryParse(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/SwitchisClassQuantity"), out classificationCount);
-                DateTime? reviewDate = ServiceHelper.GetACRANullableDateValue(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/InformationReviewDate"));
-                string loanWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorstClassLoan");
-                string guaranteeWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorsClassGuarantee");
-
-                if (presence == "2")
-                    dataAccess.AutomaticallyRefuseApplication(entity.ID, "Վարկային զեկույցը արգելափակված է");
-                else
+                if (dataAccess.LockApplicationByID(entity.ID, 3))
                 {
-                    using (TransactionScope transScope = new TransactionScope())
-                    {
-                        if (dataAccess.LockApplicationByID(entity.ID, 3))
-                        {
-                            List<ACRAQueryResultDetails> details = new List<ACRAQueryResultDetails>();
-                            List<ACRAQueryResultQueries> queries = new List<ACRAQueryResultQueries>();
-                            List<ACRAQueryResultInterrelated> interrelated = new List<ACRAQueryResultInterrelated>();
-                            List<ACRAQueryResultPayments> payments = new List<ACRAQueryResultPayments>();
-                            List<ACRAQueryResultDueDates> dueDates = new List<ACRAQueryResultDueDates>();
-                            if (presence == "1")
-                            {
-                                DateTime dateCurrent = dataAccess.GetServerDate();
-                                int currentYear = dateCurrent.Year;
-                                int currentMonth = dateCurrent.Month;
-                                List<string> creditLineTypes = dataAccess.GetCreditLineTypes();
-                                List<string> ignoredLoanTypes = dataAccess.GetIgnoredLoanTypes();
-                                ParseLoanGuarantee(document, false, currentYear, currentMonth, details, creditLineTypes, ignoredLoanTypes, dueDates, payments);
-                                ParseLoanGuarantee(document, true, currentYear, currentMonth, details, creditLineTypes, ignoredLoanTypes, dueDates);
-                            }
-                            ParseQuery(document, queries);
-                            ParseInterrelated(document, interrelated);
-
-                            TaxData taxData = ParseTaxData(document);
-
-                            dataAccess.SaveACRALegalQueryResult(entity.ID, responseText, presence, classificationCount, reviewDate, loanWorstClass, guaranteeWorstClass
-                                , details, queries, interrelated, payments, dueDates, taxData);
-                        }
-                        transScope.Complete();
-                    }
+                    dataAccess.SaveACRALegalQueryResult(entity.ID, result);
                 }
+                transScope.Complete();
             }
         }
 
@@ -506,6 +431,47 @@ namespace IntelART.Ameria.CLRServices
                 }
             }
             return responseText;
+        }
+
+        private ACRALegalQueryResult ParseLegalResponse(DataHelper dataAccess, string responseText, Guid id)
+        {
+            ACRALegalQueryResult result = null;
+            XmlDocument document;
+            if (responseText.Substring(0, 7).ToLower() != "<error>")
+            {
+                document = ServiceHelper.CheckACRAResponse(responseText);
+                string presence = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/ThePresenceData");
+                if (presence == "2")
+                    dataAccess.AutomaticallyRefuseApplication(id, "Վարկային զեկույցը արգելափակված է");
+                else
+                {
+                    result = new ACRALegalQueryResult();
+                    result.ResponseXml = responseText;
+                    result.Presence = presence;
+                    int classificationCount = 0;
+                    int.TryParse(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/SwitchisClassQuantity"), out classificationCount);
+                    result.ClassificationCount = classificationCount;
+                    result.ReviewDate = ServiceHelper.GetACRANullableDateValue(ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/InformationReviewDate"));
+                    result.LoanWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorstClassLoan");
+                    result.GuaranteeWorstClass = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/TheWorsClassGuarantee");
+                    result.FicoScore = ServiceHelper.GetNodeValue(document, "/ROWDATA[@*]/PARTICIPIENT[@*]/Score/FICOScore");
+                    if (presence == "1")
+                    {
+                        DateTime dateCurrent = dataAccess.GetServerDate();
+                        int currentYear = dateCurrent.Year;
+                        int currentMonth = dateCurrent.Month;
+                        List<string> creditLineTypes = dataAccess.GetCreditLineTypes();
+                        List<string> ignoredLoanTypes = dataAccess.GetIgnoredLoanTypes();
+                        ParseLoanGuarantee(document, false, currentYear, currentMonth, result.Details, creditLineTypes, ignoredLoanTypes, result.DueDates, result.Payments);
+                        ParseLoanGuarantee(document, true, currentYear, currentMonth, result.Details, creditLineTypes, ignoredLoanTypes, result.DueDates);
+                    }
+                    ParseQuery(document, result.Queries);
+                    ParseInterrelated(document, result.Interrelated);
+
+                    result.TaxData = ParseTaxData(document);
+                }
+            }
+            return result;
         }
 
         private TaxData ParseTaxData(XmlDocument document)

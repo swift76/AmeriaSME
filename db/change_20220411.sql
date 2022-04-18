@@ -118,13 +118,6 @@ GO
 
 
 
-ALTER TABLE APPLICATION
-ADD
-	INDIVIDUAL_CLIENT_CODE				char(8)				NULL
-GO
-
-
-
 create or alter function f_IsCompanyTypeIE(@COMPANY_TYPE nvarchar(40))
 RETURNS bit
 AS
@@ -313,7 +306,6 @@ AS
 		,isnull(dbo.ahf_Unicode2ANSI(CARD_DELIVERY_ADDRESS),'') as CARD_DELIVERY_ADDRESS
 		,isnull(BANK_BRANCH_CODE,'') as BANK_BRANCH_CODE
 		,isnull(EA.TYPE,'') as ECOSYSTEM_TYPE
-		,isnull(a.INDIVIDUAL_CLIENT_CODE,'') as INDIVIDUAL_CLIENT_CODE
 	from APPLICATION a with (NOLOCK)
 	left join NORQ_LEGAL_QUERY_RESULT nl with (NOLOCK)
 		on nl.APPLICATION_ID=a.ID

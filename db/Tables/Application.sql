@@ -105,8 +105,7 @@ CREATE TABLE dbo.APPLICATION(
 	ECOSYSTEM_APPLICATION_ID			bigint				NULL,
 	PROCESS_DATE						datetime			NULL,
 
-	IMPORT_ID							int					NULL,
-	INDIVIDUAL_CLIENT_CODE				char(8)				NULL
+	IMPORT_ID							int					NULL
 )
 GO
 
