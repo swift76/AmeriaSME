@@ -57,7 +57,7 @@ AS
 			IS_FOUNDER,IS_LEGAL,JOIN_DATE,LEAVE_DATE
 		from @OWNERS
 
-		if dbo.f_IsCompanyTypeIE(@TYPE)
+		if dbo.f_IsCompanyTypeIE(@TYPE)=1
 			set @APPLICATION_STATUS_ID = 4
 		else
 			set @APPLICATION_STATUS_ID = 3
