@@ -1,44 +1,30 @@
 {
-  "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@app/*": ["app/*"],
-      "@configs/*": ["app/configs/*"],
-      "@store/*": ["app/store/*"],
-      "@pageContainers/*": ["app/containers/pageContainers/*"],
-      "@componentContainers/*": ["app/containers/componentContainers/*"],
-      "@components/*": ["app/components/*"]
+    "compilerOptions": {
+        "baseUrl": "src",
+        "rootDir": "src",
+        "outDir": "build",
+        "target": "es6",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react"
     },
-    "esModuleInterop": true,
-    "outDir": "build/dist",
-    "module": "esnext",
-    "target": "es6",
-    "lib": ["es6", "dom"],
-    "noImplicitAny": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "src",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "importHelpers": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "typeRoots": ["./node_modules/@types", "src/typings/*"]
-  },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+    "include": ["src"],
+    "exclude": [
+        "node_modules",
+        "build",
+        "scripts",
+        "src/setupTests.ts"
+    ],
+    "compileOnSave": true,
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
 }
