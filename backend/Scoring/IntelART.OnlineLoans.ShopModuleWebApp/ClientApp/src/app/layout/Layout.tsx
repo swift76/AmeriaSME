@@ -4,7 +4,7 @@ import { matchRoutes, renderRoutes } from 'react-router-config'
 
 import { AppContext } from 'app/AppContext'
 import Header from './components/Header'
-import Loading from '@app/components/Loading'
+import Loading from 'app/components/Loading'
 import LoanModal from './components/Modal'
 import { ToastContainer } from 'react-toastify'
 

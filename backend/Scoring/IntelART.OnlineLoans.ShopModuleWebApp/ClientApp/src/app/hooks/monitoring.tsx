@@ -11,23 +11,23 @@ import {
   AGREED,
   LOAN_SPECIALIST_PENDING_PREAPPROVAL as ls_pending,
   PENDING_PRE_APPROVAL as pending,
-} from '@app/constants/application'
+} from 'app/constants/application'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   closeModal,
   openModal,
   setModalOptions,
-} from '@app/store/reducers/settings/modals/actions'
+} from 'app/store/reducers/settings/modals/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Button } from 'react-bootstrap'
-import { IModalOptions } from '@app/store/reducers/settings/modals/models'
+import { IModalOptions } from 'app/store/reducers/settings/modals/models'
 import { ReducerState } from 'AppTypes'
 import { Utils } from '../services/utils'
-import { getApplication } from '@app/api/Application'
+import { getApplication } from 'app/api/Application'
 import history from '../../browserHistory'
 import localization from 'app/locale/hy/global.json'
-import { resetApplication } from '@app/store/reducers/application/actions'
+import { resetApplication } from 'app/store/reducers/application/actions'
 
 const { TITLE_TXT, CONTENT_TXT } = localization.modalTxt
 

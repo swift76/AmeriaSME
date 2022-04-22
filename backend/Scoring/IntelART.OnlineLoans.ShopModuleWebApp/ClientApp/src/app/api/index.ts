@@ -1,10 +1,10 @@
-import { API_URL, BASE_URL } from '@configs/constants'
+import { API_URL, BASE_URL } from 'app/configs/constants';
 
-import axios from 'axios'
+import axios from 'axios';
 
 const instance = axios.create({
-  withCredentials: false,
-  baseURL: `${BASE_URL}${API_URL}`,
-})
+    withCredentials: false,
+    baseURL: `${BASE_URL}${API_URL}`
+});
 
-export default instance
+export default instance;

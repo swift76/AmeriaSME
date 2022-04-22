@@ -1,4 +1,4 @@
-import { ISelectDataReceive } from '@store/reducers/common-models'
+import { ISelectDataReceive } from 'app/store/reducers/common-models';
 
 const initialState: IStoreAddresses = {
     addressCountries: {
@@ -19,29 +19,29 @@ const initialState: IStoreAddresses = {
         citiesFetchFail: false,
         data: {}
     }
-}
+};
 
 export default initialState;
 
 export interface IStoreAddresses {
     readonly addressCountries: {
-        readonly addressCountiresIsLoading: boolean
-        readonly addressCountiresIsLoaded: boolean
-        readonly addressCountiresFetchFail: boolean
-        readonly data: ISelectDataReceive[]
-    }
+        readonly addressCountiresIsLoading: boolean;
+        readonly addressCountiresIsLoaded: boolean;
+        readonly addressCountiresFetchFail: boolean;
+        readonly data: ISelectDataReceive[];
+    };
     readonly states: {
-        readonly statesIsLoading: boolean
-        readonly statesIsLoaded: boolean
-        readonly statesFetchFail: boolean
-        readonly data: ISelectDataReceive[]
-    }
+        readonly statesIsLoading: boolean;
+        readonly statesIsLoaded: boolean;
+        readonly statesFetchFail: boolean;
+        readonly data: ISelectDataReceive[];
+    };
     readonly cities: {
-        readonly citiesIsLoading: boolean
-        readonly citiesIsLoaded: boolean
-        readonly citiesFetchFail: boolean
+        readonly citiesIsLoading: boolean;
+        readonly citiesIsLoaded: boolean;
+        readonly citiesFetchFail: boolean;
         readonly data: {
-            [name: string]: ISelectDataReceive[]
-        }
-    }
+            [name: string]: ISelectDataReceive[];
+        };
+    };
 }

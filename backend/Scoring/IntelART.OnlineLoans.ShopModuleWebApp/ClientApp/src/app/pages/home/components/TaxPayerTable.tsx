@@ -9,12 +9,12 @@ import {
   PRE_APPROVAL_REVIEW_ADDITIONAL_DATA,
   PRE_APPROVAL_SUBMITTED,
   PRE_APPROVAL_SUCCESS,
-} from '@app/constants/application'
+} from 'app/constants/application'
 import { Button, Table } from 'react-bootstrap'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IGetApplicationsDataReceive } from '@app/store/reducers/applications/models'
+import { IGetApplicationsDataReceive } from 'app/store/reducers/applications/models'
 import React from 'react'
 import clsx from 'clsx'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'

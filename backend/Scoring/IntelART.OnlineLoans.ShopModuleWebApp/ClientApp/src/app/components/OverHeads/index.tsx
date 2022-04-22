@@ -3,7 +3,7 @@ import { FieldArray, FormikProps, getIn } from 'formik'
 import {
   IOverheadsData,
   ISelectDataReceive,
-} from '@app/store/reducers/common-models'
+} from 'app/store/reducers/common-models'
 import React, { useEffect, useState } from 'react'
 import {
   faPencilAlt,
@@ -13,10 +13,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ILoanSpecApplicationData } from '@app/store/reducers/loanSpecApplication/models'
+import { ILoanSpecApplicationData } from 'app/store/reducers/loanSpecApplication/models'
 import NumberFormat from 'react-number-format'
 import { ReducerState } from 'AppTypes'
-import { Utils } from '@app/services/utils'
+import { Utils } from 'app/services/utils'
 import _ from 'lodash'
 import clsx from 'clsx'
 

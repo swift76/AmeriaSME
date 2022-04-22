@@ -1,4 +1,4 @@
-import { IRefinancingLoansData } from '@app/store/reducers/mainApplication/models'
+import { IRefinancingLoansData } from 'app/store/reducers/mainApplication/models'
 import { Utils } from 'app/services/utils'
 import axios from 'app/api'
 import { toast } from 'react-toastify'

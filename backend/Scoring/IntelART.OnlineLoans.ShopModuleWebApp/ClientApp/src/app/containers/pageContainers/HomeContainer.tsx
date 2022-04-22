@@ -4,12 +4,12 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import {
   resetApplications,
   setApplicationsParams,
-} from '@app/store/reducers/applications/actions'
+} from 'app/store/reducers/applications/actions'
 
-import { IGetApplicationsParams } from '@app/store/reducers/applications/models'
+import { IGetApplicationsParams } from 'app/store/reducers/applications/models'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getApplications } from '@app/api/Applications'
+import { getApplications } from 'app/api/Applications'
 
 export default (Page: React.FC<IHomeProps>) => {
   const HomeContainer = (props: IHomeProps) => <Page {...props} />

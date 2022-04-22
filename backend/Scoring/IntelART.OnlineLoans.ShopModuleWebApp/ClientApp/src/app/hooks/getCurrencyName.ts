@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { ReducerState } from 'AppTypes'
 import { Utils } from '../services/utils'
-import { getCurrencies } from '@app/api/Directory'
+import { getCurrencies } from 'app/api/Directory'
 
 export const useCurrencyName = (code: string, loanTypeCode: string) => {
   const [currencyName, setCurrencyName] = useState('')

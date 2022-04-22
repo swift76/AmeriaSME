@@ -1,9 +1,9 @@
-import { ISelectDataReceive } from '@app/store/reducers/common-models';
-import { IStoreDocuments } from '@app/store/reducers/documents/initialState';
-import { PHOTOS_MIN_COUNT } from '@app/constants';
+import { ISelectDataReceive } from 'app/store/reducers/common-models';
+import { IStoreDocuments } from 'app/store/reducers/documents/initialState';
+import { PHOTOS_MIN_COUNT } from 'app/constants';
 import React from 'react'
 import _ from 'lodash'
-import { getCompanyMultipleOwners } from '@app/api/Application'
+import { getCompanyMultipleOwners } from 'app/api/Application'
 import localization from 'app/locale/hy/global.json'
 
 interface Iob {

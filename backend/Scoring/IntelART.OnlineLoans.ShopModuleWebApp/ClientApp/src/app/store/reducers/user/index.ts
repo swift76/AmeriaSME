@@ -2,7 +2,7 @@ import * as AppTypes from 'AppTypes'
 
 import initialState, { IStoreUser } from './initialState'
 
-import JwtService from '@app/services/jwtService'
+import JwtService from 'app/services/jwtService'
 import acTypes from './acTypes'
 
 export const user = (

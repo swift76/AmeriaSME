@@ -1,16 +1,16 @@
-import { IGetRequestError, IOverheadsData } from '@store/reducers/common-models'
+import { IGetRequestError, IOverheadsData } from 'app/store/reducers/common-models';
 
-import acTypes from './acTypes'
-import { action } from 'typesafe-actions'
+import acTypes from './acTypes';
+import { action } from 'typesafe-actions';
 
 export const getOverheadsRequest = () => {
-  return action(acTypes.GET_OVERHEADS_REQUEST)
-}
+    return action(acTypes.GET_OVERHEADS_REQUEST);
+};
 
 export const getOverheadsSuccess = (data: IOverheadsData[]) => {
-  return action(acTypes.GET_OVERHEADS_SUCCESS, data)
-}
+    return action(acTypes.GET_OVERHEADS_SUCCESS, data);
+};
 
 export const getOverheadsFail = (data: IGetRequestError[]) => {
-  return action(acTypes.GET_OVERHEADS_FAIL, data)
-}
+    return action(acTypes.GET_OVERHEADS_FAIL, data);
+};

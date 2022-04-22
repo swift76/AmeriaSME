@@ -4,20 +4,20 @@ import {
   getAppraisalCompanies,
   getInsuranceCompanies,
   getPledgeTypes,
-} from '@app/api/Directory'
+} from 'app/api/Directory'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AppRelatedPersons from '../RelatedPersons'
 import DatePicker from 'react-datepicker'
 import DocumentUploader from '../DocumentUploader'
 import { FormikProps } from 'formik'
-import { ILoanSpecApplicationData } from '@app/store/reducers/loanSpecApplication/models'
+import { ILoanSpecApplicationData } from 'app/store/reducers/loanSpecApplication/models'
 import NumberFormat from 'react-number-format'
 import { ReducerState } from 'AppTypes'
-import { Utils } from '@app/services/utils'
+import { Utils } from 'app/services/utils'
 import _ from 'lodash'
 import clsx from 'clsx'
-import { getDocuments } from '@app/api/Documents'
+import { getDocuments } from 'app/api/Documents'
 import moment from 'moment'
 
 export interface IPledgeProps {

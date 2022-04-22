@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IAppRelatedPersons } from '@app/store/reducers/common-models'
-import { ILoanSpecApplicationData } from '@app/store/reducers/loanSpecApplication/models'
-import { Utils } from '@app/services/utils'
+import { IAppRelatedPersons } from 'app/store/reducers/common-models'
+import { ILoanSpecApplicationData } from 'app/store/reducers/loanSpecApplication/models'
+import { Utils } from 'app/services/utils'
 
 interface IRelatedPersonsProps extends FormikProps<ILoanSpecApplicationData> {
   title?: string;

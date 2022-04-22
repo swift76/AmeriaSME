@@ -1,19 +1,16 @@
-import {
-  IAppRelatedPersons,
-  IGetRequestError,
-} from '@store/reducers/common-models'
+import { IAppRelatedPersons, IGetRequestError } from 'app/store/reducers/common-models';
 
-import acTypes from './acTypes'
-import { action } from 'typesafe-actions'
+import acTypes from './acTypes';
+import { action } from 'typesafe-actions';
 
 export const getGuarantorsRequest = () => {
-  return action(acTypes.GET_GUARANTORS_REQUEST)
-}
+    return action(acTypes.GET_GUARANTORS_REQUEST);
+};
 
 export const getGuarantorsSuccess = (data: IAppRelatedPersons[]) => {
-  return action(acTypes.GET_GUARANTORS_SUCCESS, data)
-}
+    return action(acTypes.GET_GUARANTORS_SUCCESS, data);
+};
 
 export const getGuarantorsFail = (data: IGetRequestError[]) => {
-  return action(acTypes.GET_GUARANTORS_FAIL, data)
-}
+    return action(acTypes.GET_GUARANTORS_FAIL, data);
+};

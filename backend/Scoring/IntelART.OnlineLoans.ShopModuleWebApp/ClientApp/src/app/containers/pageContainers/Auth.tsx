@@ -6,7 +6,7 @@ import {
   getLoanSpecialistLoanTerms,
   getUnsecuredLimits,
   getFileMaxSize
-} from '@app/api/Settings/loanSettings'
+} from 'app/api/Settings/loanSettings'
 
 import JwtService from 'app/services/jwtService'
 import { connect } from 'react-redux'

@@ -7,8 +7,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ILoanPhotos } from '@app/store/reducers/companyPhotos/models'
-import { Utils } from '@app/services/utils'
+import { ILoanPhotos } from 'app/store/reducers/companyPhotos/models'
+import { Utils } from 'app/services/utils'
 import axios from 'app/api'
 import clsx from 'clsx'
 import { toast } from 'react-toastify'

@@ -1,9 +1,9 @@
 import { FieldArray, Formik, getIn } from 'formik'
 import { Form, Table } from 'react-bootstrap'
 
-import { IRefinancingLoansData } from '@app/store/reducers/mainApplication/models'
+import { IRefinancingLoansData } from 'app/store/reducers/mainApplication/models'
 import React from 'react'
-import { Utils } from '@app/services/utils'
+import { Utils } from 'app/services/utils'
 import { validationSchema } from './validation'
 
 export interface IRefinancingProps {
