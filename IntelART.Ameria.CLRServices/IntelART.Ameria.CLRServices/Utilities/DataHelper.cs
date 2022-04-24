@@ -1091,6 +1091,7 @@ namespace IntelART.Ameria.CLRServices
             tableDetails.Columns.Add("OVERDUE_DAYS", typeof(int));
             tableDetails.Columns.Add("INCOMING_DATE", typeof(DateTime));
             tableDetails.Columns.Add("DELAYED_PAYMENT_COUNT", typeof(int));
+            tableDetails.Columns.Add("PROVISION_AMOUNT", typeof(decimal));
             for (int i = 0; i < result.Details.Count; i++)
                 if (result.Details[i].CUR.Length == 3)
                     tableDetails.Rows.Add(result.Details[i].STATUS, result.Details[i].FROM_DATE, result.Details[i].TO_DATE, result.Details[i].TYPE
@@ -1103,7 +1104,7 @@ namespace IntelART.Ameria.CLRServices
                         , result.Details[i].LAST_PAYMENT_DATE, result.Details[i].OVERDUE_MAIN_AMOUNT, result.Details[i].OVERDUE_INTEREST_AMOUNT, result.Details[i].PROLONGATION_COUNT
                         , result.Details[i].WORST_CLASS_Y1, result.Details[i].WORST_CLASS_Y2, result.Details[i].WORST_CLASS_Y3_Y5
                         , result.Details[i].SUM_OVERDUE_DAYS_Y1_Y2, result.Details[i].MAX_OVERDUE_DAYS_Y1_Y2, result.Details[i].SUM_OVERDUE_DAYS_Y1_Y5, result.Details[i].MAX_OVERDUE_DAYS_Y1_Y5
-                        , result.Details[i].OVERDUE_DAYS, result.Details[i].INCOMING_DATE, result.Details[i].DELAYED_PAYMENT_COUNT);
+                        , result.Details[i].OVERDUE_DAYS, result.Details[i].INCOMING_DATE, result.Details[i].DELAYED_PAYMENT_COUNT, result.Details[i].PROVISION_AMOUNT);
             cmd.Parameters.AddWithValue("@DETAILS", tableDetails).SqlDbType = SqlDbType.Structured;
 
             DataTable tableQueries = new DataTable("ACRAQueryResultQueries");

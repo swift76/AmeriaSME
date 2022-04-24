@@ -188,7 +188,8 @@ namespace IntelART.Ameria.CLRServices
                     MAX_OVERDUE_DAYS_Y1_Y5 = ServiceHelper.RetrieveOptionalCount(node, "MaxOverdueDays1-60"),
                     OVERDUE_DAYS = ServiceHelper.RetrieveOptionalCount(node, "OverdueDays"),
                     INCOMING_DATE = ServiceHelper.GetACRANullableDateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode("IncomingDate").InnerXml)),
-                    DELAYED_PAYMENT_COUNT = ServiceHelper.RetrieveOptionalCount(node, "DelayPaymentQuantity1-12")
+                    DELAYED_PAYMENT_COUNT = ServiceHelper.RetrieveOptionalCount(node, "DelayPaymentQuantity1-12"),
+                    PROVISION_AMOUNT = ServiceHelper.RetrieveOptionalAmount(node, "CreditAmount")
                 });
             }
         }

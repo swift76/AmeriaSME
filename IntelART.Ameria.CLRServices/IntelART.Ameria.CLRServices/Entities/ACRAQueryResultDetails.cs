@@ -52,5 +52,6 @@ namespace IntelART.Ameria.CLRServices
         public int OVERDUE_DAYS { get; set; }
         public DateTime? INCOMING_DATE { get; set; }
         public int DELAYED_PAYMENT_COUNT { get; set; }
+        public decimal PROVISION_AMOUNT { get; set; }
     }
 }
