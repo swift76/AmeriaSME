@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import HeaderContainer, { IHeaderProps } from 'app/containers/componentContainers/HeaderContainer';
 import { Nav, Navbar } from 'react-bootstrap';
 import React, { useEffect } from 'react';

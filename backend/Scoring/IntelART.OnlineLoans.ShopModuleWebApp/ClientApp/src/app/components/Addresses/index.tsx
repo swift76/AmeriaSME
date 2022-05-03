@@ -35,6 +35,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
     const isSameAddressName = `IS_${prefix}_ADDRESS_SAME`;
 
     const isSameAddress = values[isSameAddressName];
+    const stringErrors = errors as any;
 
     const handleChangeState = async (e: any) => {
         const value = e.currentTarget.value;
@@ -96,9 +97,6 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             name={countryName}
                             as={'select'}
                             value={values[countryName] || ''}
-                            // isValid={
-                            //   !isSameAddress && touched[countryName] && !errors[countryName]
-                            // }
                             isInvalid={
                                 !isSameAddress && touched[countryName] && !!errors[countryName]
                             }
@@ -112,7 +110,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             ))}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
-                            {errors[countryName]}
+                            {stringErrors[countryName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
@@ -126,9 +124,6 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             as={'select'}
                             name={stateName}
                             value={values[stateName] || ''}
-                            // isValid={
-                            //   !isSameAddress && touched[stateName] && !errors[stateName]
-                            // }
                             isInvalid={!isSameAddress && touched[stateName] && !!errors[stateName]}
                             onChange={handleChangeState}
                         >
@@ -140,7 +135,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             ))}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
-                            {errors[stateName]}
+                            {stringErrors[stateName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
@@ -154,9 +149,6 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             name={citiesName}
                             as={'select'}
                             value={values[citiesName] || ''}
-                            // isValid={
-                            //   !isSameAddress && touched[citiesName] && !errors[citiesName]
-                            // }
                             isInvalid={
                                 !isSameAddress && touched[citiesName] && !!errors[citiesName]
                             }
@@ -172,7 +164,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                                 ))}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">
-                            {errors[citiesName]}
+                            {stringErrors[citiesName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
@@ -195,7 +187,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors[streetName]}
+                            {stringErrors[streetName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
@@ -216,7 +208,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors[buildName]}
+                            {stringErrors[buildName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
@@ -243,7 +235,7 @@ const Addresses: React.FC<IAddressesProps> = (props: IAddressesProps) => {
                             onChange={handleChange}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors[appartmentName]}
+                            {stringErrors[appartmentName]}
                         </Form.Control.Feedback>
                     </Col>
                 </Form.Group>

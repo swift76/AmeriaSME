@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Button, Modal } from 'react-bootstrap';
 import ModalContainer, { IModalProps } from 'app/containers/componentContainers/ModalContainer';
 

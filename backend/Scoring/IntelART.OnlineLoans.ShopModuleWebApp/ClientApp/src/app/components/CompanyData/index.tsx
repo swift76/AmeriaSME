@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Button, Form, Spinner, Table } from 'react-bootstrap';
 import { FieldArray, FormikProps, getIn } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -32,7 +34,7 @@ interface IAppCompanyDataProps extends FormikProps<ILoanSpecApplicationData> {
 const AppCompanyData: React.FC<IAppCompanyDataProps> = props => {
     const [total, setTotal] = useState(0);
     const [activeRowId, setActiveRowId] = useState<string | null>();
-    const [isEditables, setIsEditables] = useState({});
+    const [isEditables, setIsEditables] = useState<any>({});
     const [canAddRow, setCanAddRow] = useState(false);
     const dispatch = useDispatch();
     const industryTypes = useSelector(
@@ -195,222 +197,256 @@ const AppCompanyData: React.FC<IAppCompanyDataProps> = props => {
                             </td>
                         </tr>
                     ) : (
-                        <FieldArray
-                            name={dataName}
-                            render={arrayHelpers => (
-                                <>
-                                    {data.length ? (
-                                        data.map((row, index) => {
-                                            const rowName = `${dataName}.row.${index}`;
-                                            const amountName = `${dataName}.${index}.AMOUNT`;
-                                            const codeName = `${dataName}.${index}.CODE`;
-                                            return (
-                                                <tr
-                                                    key={rowName}
-                                                    className={clsx({
-                                                        active: activeRowId === rowName
-                                                    })}
-                                                >
-                                                    <td className="name-col">
-                                                        {editable ? (
-                                                            <Form.Group controlId={codeName}>
-                                                                <Form.Control
-                                                                    as="select"
-                                                                    name={codeName}
-                                                                    value={data[index].CODE || ''}
-                                                                    onChange={e => {
-                                                                        handleChange(e);
-                                                                        sync &&
-                                                                            handleChangeSyncFields(
-                                                                                e,
-                                                                                sync,
-                                                                                index
-                                                                            );
-                                                                    }}
-                                                                    className="control-200"
-                                                                    isValid={
-                                                                        getTouched(codeName) &&
-                                                                        !getError(codeName)
-                                                                    }
-                                                                    isInvalid={
-                                                                        getTouched(codeName) &&
-                                                                        !!getError(codeName)
-                                                                    }
-                                                                    disabled={isFieldDisabled(
-                                                                        codeName
-                                                                    )}
-                                                                    plaintext={isFieldDisabled(
-                                                                        codeName
-                                                                    )}
-                                                                >
-                                                                    <option value="">Ընտրել</option>
-                                                                    {industryTypes.data
-                                                                        .filter(
-                                                                            industry =>
-                                                                                data[index].CODE ===
-                                                                                    industry.CODE ||
-                                                                                !data.find(
-                                                                                    dd =>
-                                                                                        dd.CODE ===
-                                                                                        industry.CODE
-                                                                                )
-                                                                        )
-                                                                        .map(industry => (
-                                                                            <option
-                                                                                key={industry.CODE}
-                                                                                value={
-                                                                                    industry.CODE
-                                                                                }
-                                                                            >
-                                                                                {industry.NAME}
-                                                                            </option>
-                                                                        ))}
-                                                                </Form.Control>
-                                                                <Form.Control.Feedback type="invalid">
-                                                                    {getError(codeName)}
-                                                                </Form.Control.Feedback>
-                                                                <Button
-                                                                    className="btn-transparent"
-                                                                    variant="link"
-                                                                    onClick={enableFormControl(
-                                                                        codeName
-                                                                    )}
-                                                                >
-                                                                    <FontAwesomeIcon
-                                                                        icon={faPencilAlt}
-                                                                        className="mr-1 text-primary"
-                                                                    />
-                                                                </Button>
-                                                            </Form.Group>
-                                                        ) : (
-                                                            row.NAME ||
-                                                            Utils.getNameByCode(
-                                                                row.CODE,
-                                                                industryTypes.data
-                                                            )
-                                                        )}
-                                                    </td>
-
-                                                    <td>
-                                                        <Form.Group controlId={name}>
-                                                            <NumberFormat
-                                                                allowNegative={false}
-                                                                thousandSeparator={true}
-                                                                isNumericString={true}
-                                                                name={amountName}
-                                                                value={String(data[index].AMOUNT)}
-                                                                customInput={Form.Control}
-                                                                onFocus={() => {
-                                                                    data[index].AMOUNT === 0 &&
-                                                                        setFieldValue(
-                                                                            amountName,
-                                                                            ''
-                                                                        );
-                                                                }}
-                                                                onValueChange={val => {
-                                                                    setFieldValue(
-                                                                        amountName,
-                                                                        val.value
-                                                                    );
-                                                                }}
-                                                                className={clsx('control-100', {
-                                                                    'is-valid':
-                                                                        getTouched(amountName) &&
-                                                                        !getError(amountName),
-                                                                    'is-invalid':
-                                                                        getTouched(amountName) &&
-                                                                        !!getError(amountName)
-                                                                })}
-                                                            />
-
-                                                            <span className="form-label col-form-label ml-1">
-                                                                {amountPrefix}
-                                                            </span>
-                                                            <Form.Control.Feedback type="invalid">
-                                                                {getError(amountName)}
-                                                            </Form.Control.Feedback>
-                                                        </Form.Group>
-                                                    </td>
-
-                                                    <td>
-                                                        <Button
-                                                            variant="link"
-                                                            className="add-comment"
-                                                            onClick={showNoteModal(
-                                                                row.COMMENT,
-                                                                setArrayFieldComment(
-                                                                    index,
-                                                                    row,
-                                                                    arrayHelpers.replace
-                                                                ),
-                                                                rowName
-                                                            )}
+                        <React.Fragment>
+                            <FieldArray
+                                name={dataName}
+                                render={arrayHelpers => (
+                                    <div>
+                                        {data.length ? (
+                                            <React.Fragment>
+                                                {data.map((row, index) => {
+                                                    const rowName = `${dataName}.row.${index}`;
+                                                    const amountName = `${dataName}.${index}.AMOUNT`;
+                                                    const codeName = `${dataName}.${index}.CODE`;
+                                                    return (
+                                                        <tr
+                                                            key={rowName}
+                                                            className={clsx({
+                                                                active: activeRowId === rowName
+                                                            })}
                                                         >
-                                                            {!!row.COMMENT
-                                                                ? row.COMMENT
-                                                                : `Ավելացնել մեկնաբանություն`}
-                                                        </Button>
-                                                    </td>
-
-                                                    <td>
-                                                        {editable && (
-                                                            <Button
-                                                                variant="link"
-                                                                className="p-0"
-                                                                onClick={removeRow(
-                                                                    index,
-                                                                    arrayHelpers.remove
+                                                            <td className="name-col">
+                                                                {editable ? (
+                                                                    <Form.Group
+                                                                        controlId={codeName}
+                                                                    >
+                                                                        <Form.Control
+                                                                            as="select"
+                                                                            name={codeName}
+                                                                            value={
+                                                                                data[index].CODE ||
+                                                                                ''
+                                                                            }
+                                                                            onChange={e => {
+                                                                                handleChange(e);
+                                                                                sync &&
+                                                                                    handleChangeSyncFields(
+                                                                                        e,
+                                                                                        sync,
+                                                                                        index
+                                                                                    );
+                                                                            }}
+                                                                            className="control-200"
+                                                                            isValid={
+                                                                                getTouched(
+                                                                                    codeName
+                                                                                ) &&
+                                                                                !getError(codeName)
+                                                                            }
+                                                                            isInvalid={
+                                                                                getTouched(
+                                                                                    codeName
+                                                                                ) &&
+                                                                                !!getError(codeName)
+                                                                            }
+                                                                            disabled={isFieldDisabled(
+                                                                                codeName
+                                                                            )}
+                                                                            plaintext={isFieldDisabled(
+                                                                                codeName
+                                                                            )}
+                                                                        >
+                                                                            <option value="">
+                                                                                Ընտրել
+                                                                            </option>
+                                                                            {industryTypes.data
+                                                                                .filter(
+                                                                                    industry =>
+                                                                                        data[index]
+                                                                                            .CODE ===
+                                                                                            industry.CODE ||
+                                                                                        !data.find(
+                                                                                            dd =>
+                                                                                                dd.CODE ===
+                                                                                                industry.CODE
+                                                                                        )
+                                                                                )
+                                                                                .map(industry => (
+                                                                                    <option
+                                                                                        key={
+                                                                                            industry.CODE
+                                                                                        }
+                                                                                        value={
+                                                                                            industry.CODE
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            industry.NAME
+                                                                                        }
+                                                                                    </option>
+                                                                                ))}
+                                                                        </Form.Control>
+                                                                        <Form.Control.Feedback type="invalid">
+                                                                            {getError(codeName)}
+                                                                        </Form.Control.Feedback>
+                                                                        <Button
+                                                                            className="btn-transparent"
+                                                                            variant="link"
+                                                                            onClick={enableFormControl(
+                                                                                codeName
+                                                                            )}
+                                                                        >
+                                                                            <FontAwesomeIcon
+                                                                                icon={faPencilAlt}
+                                                                                className="mr-1 text-primary"
+                                                                            />
+                                                                        </Button>
+                                                                    </Form.Group>
+                                                                ) : (
+                                                                    row.NAME ||
+                                                                    Utils.getNameByCode(
+                                                                        row.CODE,
+                                                                        industryTypes.data
+                                                                    )
                                                                 )}
-                                                            >
-                                                                <FontAwesomeIcon
-                                                                    icon={faTrashAlt}
-                                                                    className="mr-1 text-danger"
-                                                                />
-                                                            </Button>
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    ) : (
-                                        <>
-                                            <tr>
-                                                <td
-                                                    colSpan={4}
-                                                >{`Չկա ավելացված ${title}ի տեսակ`}</td>
-                                            </tr>
-                                            {touched[dataName] && errors[dataName] && (
-                                                <tr>
-                                                    <td colSpan={4}>
-                                                        <p className="text-danger mb-0">
-                                                            {errors[dataName]}
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </>
-                                    )}
+                                                            </td>
 
-                                    {canAddRow && (
-                                        <tr className="bg-transparent">
-                                            <td colSpan={4}>
-                                                <Button
-                                                    variant="link"
-                                                    className="p-0"
-                                                    onClick={addNewRow(arrayHelpers.push)}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faPlus}
-                                                        className="mr-1 text-primary"
-                                                    />
-                                                    {`Ավելացնել`}
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </>
-                            )}
-                        />
+                                                            <td>
+                                                                <Form.Group controlId={'name'}>
+                                                                    <NumberFormat
+                                                                        allowNegative={false}
+                                                                        thousandSeparator={true}
+                                                                        isNumericString={true}
+                                                                        name={amountName}
+                                                                        value={String(
+                                                                            data[index].AMOUNT
+                                                                        )}
+                                                                        customInput={Form.Control}
+                                                                        onFocus={() => {
+                                                                            data[index].AMOUNT ===
+                                                                                0 &&
+                                                                                setFieldValue(
+                                                                                    amountName,
+                                                                                    ''
+                                                                                );
+                                                                        }}
+                                                                        onValueChange={val => {
+                                                                            setFieldValue(
+                                                                                amountName,
+                                                                                val.value
+                                                                            );
+                                                                        }}
+                                                                        className={clsx(
+                                                                            'control-100',
+                                                                            {
+                                                                                'is-valid':
+                                                                                    getTouched(
+                                                                                        amountName
+                                                                                    ) &&
+                                                                                    !getError(
+                                                                                        amountName
+                                                                                    ),
+                                                                                'is-invalid':
+                                                                                    getTouched(
+                                                                                        amountName
+                                                                                    ) &&
+                                                                                    !!getError(
+                                                                                        amountName
+                                                                                    )
+                                                                            }
+                                                                        )}
+                                                                    />
+
+                                                                    <span className="form-label col-form-label ml-1">
+                                                                        {amountPrefix}
+                                                                    </span>
+                                                                    <Form.Control.Feedback type="invalid">
+                                                                        {getError(amountName)}
+                                                                    </Form.Control.Feedback>
+                                                                </Form.Group>
+                                                            </td>
+
+                                                            <td>
+                                                                <Button
+                                                                    variant="link"
+                                                                    className="add-comment"
+                                                                    onClick={showNoteModal(
+                                                                        row.COMMENT,
+                                                                        setArrayFieldComment(
+                                                                            index,
+                                                                            row,
+                                                                            arrayHelpers.replace
+                                                                        ),
+                                                                        rowName
+                                                                    )}
+                                                                >
+                                                                    {!!row.COMMENT
+                                                                        ? row.COMMENT
+                                                                        : `Ավելացնել մեկնաբանություն`}
+                                                                </Button>
+                                                            </td>
+
+                                                            <td>
+                                                                {editable && (
+                                                                    <Button
+                                                                        variant="link"
+                                                                        className="p-0"
+                                                                        onClick={removeRow(
+                                                                            index,
+                                                                            arrayHelpers.remove
+                                                                        )}
+                                                                    >
+                                                                        <FontAwesomeIcon
+                                                                            icon={faTrashAlt}
+                                                                            className="mr-1 text-danger"
+                                                                        />
+                                                                    </Button>
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </React.Fragment>
+                                        ) : (
+                                            <React.Fragment>
+                                                <tr>
+                                                    <td
+                                                        colSpan={4}
+                                                    >{`Չկա ավելացված ${title}ի տեսակ`}</td>
+                                                </tr>
+                                                {touched[dataName] && errors[dataName] && (
+                                                    <tr>
+                                                        <td colSpan={4}>
+                                                            <p className="text-danger mb-0">
+                                                                {errors[dataName]}
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </React.Fragment>
+                                        )}
+
+                                        {canAddRow && (
+                                            <tr className="bg-transparent">
+                                                <td colSpan={4}>
+                                                    <Button
+                                                        variant="link"
+                                                        className="p-0"
+                                                        onClick={addNewRow(arrayHelpers.push)}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faPlus}
+                                                            className="mr-1 text-primary"
+                                                        />
+                                                        {`Ավելացնել`}
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </div>
+                                )}
+                            />
+                        </React.Fragment>
                     )}
                 </tbody>
                 {children && (
