@@ -201,7 +201,7 @@ const AppCompanyData: React.FC<IAppCompanyDataProps> = props => {
                             <FieldArray
                                 name={dataName}
                                 render={arrayHelpers => (
-                                    <div>
+                                    <>
                                         {data.length ? (
                                             <React.Fragment>
                                                 {data.map((row, index) => {
@@ -443,7 +443,7 @@ const AppCompanyData: React.FC<IAppCompanyDataProps> = props => {
                                                 </td>
                                             </tr>
                                         )}
-                                    </div>
+                                    </>
                                 )}
                             />
                         </React.Fragment>
