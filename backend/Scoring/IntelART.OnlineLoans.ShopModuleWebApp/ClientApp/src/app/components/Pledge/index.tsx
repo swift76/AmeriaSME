@@ -40,8 +40,10 @@ const Pledge: React.FC<IPledgeProps & FormikProps<ILoanSpecApplicationData>> = p
     useEffect(() => {
         const { LS_LOAN_AMOUNT, LIQUID_PRICE } = values;
         if (!!LIQUID_PRICE) {
-            const percent = Math.floor(Number(LS_LOAN_AMOUNT) / Number(LIQUID_PRICE));
-            setPledgePercent(percent);
+            const percent = ((Number(LS_LOAN_AMOUNT) / Number(LIQUID_PRICE)) * 100).toFixed(3);
+            setPledgePercent(Number(percent));
+        } else {
+            setPledgePercent(0);
         }
     }, [values.LS_LOAN_AMOUNT, values.LIQUID_PRICE]);
 
