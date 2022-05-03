@@ -1,6 +1,6 @@
 import { Button, Spinner } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
-import { deleteDocument, saveDocument } from '@app/api/Documents'
+import { deleteDocument, saveDocument } from 'app/api/Documents'
 import {
   faLink,
   faPlusCircle,

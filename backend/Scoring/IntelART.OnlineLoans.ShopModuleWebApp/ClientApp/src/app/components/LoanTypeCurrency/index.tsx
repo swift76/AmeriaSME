@@ -1,6 +1,6 @@
 import { Col, Form, Row, Spinner } from 'react-bootstrap';
 import React, { useEffect } from 'react';
-import { getCurrencies, getLoanTypes } from '@app/api/Directory';
+import { getCurrencies, getLoanTypes } from 'app/api/Directory';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ReducerState } from 'AppTypes';

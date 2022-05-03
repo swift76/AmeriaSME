@@ -1,5 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "removeComments": true,
-  "noUnusedLocals": true,
-}

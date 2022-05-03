@@ -3,10 +3,10 @@ import {
   setPhotosCount,
   setNewPhoto,
   removePhoto,
-} from '@app/store/reducers/companyPhotos/actions'
+} from 'app/store/reducers/companyPhotos/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ILoanPhotos } from '@app/store/reducers/companyPhotos/models'
+import { ILoanPhotos } from 'app/store/reducers/companyPhotos/models'
 import PhotoUploader from '../PhotoUploader'
 import { ReducerState } from 'AppTypes'
 import _ from 'lodash'

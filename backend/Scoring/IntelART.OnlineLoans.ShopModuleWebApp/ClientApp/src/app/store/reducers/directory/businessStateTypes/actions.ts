@@ -1,19 +1,16 @@
-import {
-  IGetRequestError,
-  ISelectDataReceive,
-} from '@store/reducers/common-models'
+import { IGetRequestError, ISelectDataReceive } from 'app/store/reducers/common-models';
 
-import acTypes from './acTypes'
-import { action } from 'typesafe-actions'
+import acTypes from './acTypes';
+import { action } from 'typesafe-actions';
 
 export const getBusinessStateTypesRequest = () => {
-  return action(acTypes.GET_BUSINESS_STATE_TYPES_REQUEST)
-}
+    return action(acTypes.GET_BUSINESS_STATE_TYPES_REQUEST);
+};
 
 export const getBusinessStateTypesSuccess = (data: ISelectDataReceive[]) => {
-  return action(acTypes.GET_BUSINESS_STATE_TYPES_SUCCESS, data)
-}
+    return action(acTypes.GET_BUSINESS_STATE_TYPES_SUCCESS, data);
+};
 
 export const getBusinessStateTypesFail = (data: IGetRequestError[]) => {
-  return action(acTypes.GET_BUSINESS_STATE_TYPES_FAIL, data)
-}
+    return action(acTypes.GET_BUSINESS_STATE_TYPES_FAIL, data);
+};

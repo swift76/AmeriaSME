@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-import { IGetLoanLimitsDataReceive } from '@app/store/reducers/loanLimits/models'
+import { IGetLoanLimitsDataReceive } from 'app/store/reducers/loanLimits/models'
 import { Utils } from 'app/services/utils'
 import _ from 'lodash'
 

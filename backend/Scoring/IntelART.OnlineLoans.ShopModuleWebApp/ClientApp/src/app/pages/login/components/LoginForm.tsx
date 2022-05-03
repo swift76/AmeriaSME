@@ -3,10 +3,10 @@ import * as yup from 'yup'
 import { Button, Form, Spinner } from 'react-bootstrap'
 
 import { Formik } from 'formik'
-import { IStoreUser } from '@app/store/reducers/user/initialState'
+import { IStoreUser } from 'app/store/reducers/user/initialState'
 import React from 'react'
 import { Utils } from 'app/services/utils'
-import { resetUserLoginFail } from '@app/store/reducers/user/actions'
+import { resetUserLoginFail } from 'app/store/reducers/user/actions'
 import { useDispatch } from 'react-redux'
 
 export interface ILoginFormProps {
