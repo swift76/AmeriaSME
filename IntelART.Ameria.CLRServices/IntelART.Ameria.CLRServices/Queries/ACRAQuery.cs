@@ -23,6 +23,7 @@ namespace IntelART.Ameria.CLRServices
                     result.Interrelated = resultLegal.Interrelated;
                     result.Payments = resultLegal.Payments;
                     result.DueDates = resultLegal.DueDates;
+                    result.AllPayments = resultLegal.AllPayments;
                     result.ClassificationCount = resultLegal.ClassificationCount;
                     result.ReviewDate = resultLegal.ReviewDate;
                     result.LoanWorstClass = resultLegal.LoanWorstClass;
@@ -106,7 +107,7 @@ namespace IntelART.Ameria.CLRServices
         }
 
         private static void ParseLoanGuarantee(XmlDocument document, bool isGuarantee, int currentYear, int currentMonth
-            , List<ACRAQueryResultDetails> details, List<string> creditLineTypes, List<string> ignoredLoanTypes, List<ACRAQueryResultDueDates> dueDates, List<ACRAQueryResultPayments> payments = null)
+            , List<string> creditLineTypes, List<string> ignoredLoanTypes, ACRALegalQueryResult result)
         {
             string prefixLG = isGuarantee ? "Guarantee" : "Loan";
             XmlNodeList list = document.SelectNodes(string.Format("/ROWDATA[@*]/PARTICIPIENT[@*]/{0}s/{0}", prefixLG));
@@ -129,17 +130,44 @@ namespace IntelART.Ameria.CLRServices
                 DateTime? dateLastPayment = ServiceHelper.GetACRANullableDateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode(string.Format("{0}LastPaymentDate", prefixLG)).InnerXml));
 
                 bool isOutstanding = (node.SelectSingleNode("OutstandingDaysCount") != null);
-                dueDays1 = GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays1 = GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
                 dueDaysMaxY1 = dueDaysMaxY;
-                dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
                 dueDaysMaxY2 = dueDaysMaxY1 + dueDaysMaxY;
-                dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, dueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
 
-                if (!isGuarantee && !isLine && !isIgnored && node.SelectSingleNode("MonthlyPaymentAmount") != null)
-                    FillMonthlyPaymentAmounts(node, cur, payments);
+                if (node.SelectSingleNode("MonthlyPaymentAmount") != null)
+                {
+                    result.AllPayments = FillAllPaymentAmounts(node, loanID, cur);
+                    if (!isGuarantee && !isLine && !isIgnored && result.AllPayments.Count > 0)
+                    {
+                        foreach (ACRAQueryResultPayments payment in result.AllPayments)
+                        {
+                            int i;
+                            for (i = 0; i < result.Payments.Count; i++)
+                            {
+                                if (result.Payments[i].CUR == payment.CUR && result.Payments[i].YEAR == payment.YEAR && result.Payments[i].MONTH == payment.MONTH)
+                                {
+                                    result.Payments[i].AMOUNT += payment.AMOUNT;
+                                    break;
+                                }
+                            }
+                            if (i == result.Payments.Count)
+                            {
+                                result.Payments.Add(new ACRAQueryResultPayments()
+                                {
+                                    CUR = payment.CUR,
+                                    YEAR = payment.YEAR,
+                                    MONTH = payment.MONTH,
+                                    AMOUNT = payment.AMOUNT
+                                });
+                            }
+                        }
+                    }
+                }
 
-                details.Add(new ACRAQueryResultDetails()
+                result.Details.Add(new ACRAQueryResultDetails()
                 {
                     STATUS = ServiceHelper.RetrieveValue(node.SelectSingleNode("CreditStatus").InnerXml),
                     FROM_DATE = dateFrom,
@@ -153,7 +181,7 @@ namespace IntelART.Ameria.CLRServices
                     CLASSIFICATION_DATE = ServiceHelper.GetACRANullableDateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode("LastClassificationDate").InnerXml)),
                     INTEREST_RATE = decimal.Parse(ServiceHelper.RetrieveValue(node.SelectSingleNode("Interest").InnerXml)),
                     PLEDGE = pledge,
-                    PLEDGE_AMOUNT = ServiceHelper.RetrieveOptionalAmount(node, "CollateralAmount"),
+                    PLEDGE_AMOUNT = ServiceHelper.RetrieveValue(node.SelectSingleNode("CollateralAmount").InnerXml),
                     OUTSTANDING_AMOUNT = ServiceHelper.RetrieveOptionalAmount(node, "AmountOverdue"),
                     OUTSTANDING_PERCENT = ServiceHelper.RetrieveOptionalAmount(node, "OutstandingPercent"),
                     BANK_NAME = ServiceHelper.RetrieveValue(node.SelectSingleNode("SourceName").InnerXml).ToUpper(),
@@ -292,53 +320,6 @@ namespace IntelART.Ameria.CLRServices
             return result;
         }
 
-        private static void FillMonthlyPaymentAmounts(XmlNode node, string currency, List<ACRAQueryResultPayments> payments)
-        {
-            XmlNodeList listPaymentYear = node.SelectNodes("MonthlyPaymentAmount/Year[@*]");
-            foreach (XmlNode nodePaymentYear in listPaymentYear)
-            {
-                XmlAttributeCollection colYear = nodePaymentYear.Attributes;
-                foreach (XmlAttribute attrYear in colYear)
-                {
-                    if (attrYear.Name.ToLower() == "name")
-                    {
-                        short valueYear = short.Parse(attrYear.Value);
-                        XmlNodeList listPaymentMonth = nodePaymentYear.SelectNodes("Month");
-                        foreach (XmlNode nodePaymentMonth in listPaymentMonth)
-                        {
-                            XmlAttributeCollection colMonth = nodePaymentMonth.Attributes;
-                            foreach (XmlAttribute attrMonth in colMonth)
-                            {
-                                if (attrYear.Name.ToLower() == "name")
-                                {
-                                    byte valueMonth = byte.Parse(attrMonth.Value);
-                                    decimal amount = 0;
-                                    if (decimal.TryParse(ServiceHelper.RetrieveValue(nodePaymentMonth.InnerXml), out amount))
-                                    {
-                                        int i;
-                                        for (i = 0; i < payments.Count; i++)
-                                            if (payments[i].CUR == currency && payments[i].YEAR == valueYear && payments[i].MONTH == valueMonth)
-                                            {
-                                                payments[i].AMOUNT += amount;
-                                                break;
-                                            }
-                                        if (i == payments.Count)
-                                            payments.Add(new ACRAQueryResultPayments()
-                                            {
-                                                CUR = currency,
-                                                YEAR = valueYear,
-                                                MONTH = valueMonth,
-                                                AMOUNT = amount
-                                            });
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         private static bool IsDateInYear(int currentYear, int currentMonth, int shift, int valueYear, int valueMonth)
         {
             return ((valueYear == (currentYear - shift) && valueMonth > currentMonth) || valueYear == (currentYear - shift + 1) && valueMonth <= currentMonth);
@@ -467,8 +448,8 @@ namespace IntelART.Ameria.CLRServices
                         int currentMonth = dateCurrent.Month;
                         List<string> creditLineTypes = dataAccess.GetCreditLineTypes();
                         List<string> ignoredLoanTypes = dataAccess.GetIgnoredLoanTypes();
-                        ParseLoanGuarantee(document, false, currentYear, currentMonth, result.Details, creditLineTypes, ignoredLoanTypes, result.DueDates, result.Payments);
-                        ParseLoanGuarantee(document, true, currentYear, currentMonth, result.Details, creditLineTypes, ignoredLoanTypes, result.DueDates);
+                        ParseLoanGuarantee(document, false, currentYear, currentMonth, creditLineTypes, ignoredLoanTypes, result);
+                        ParseLoanGuarantee(document, true, currentYear, currentMonth, creditLineTypes, ignoredLoanTypes, result);
                     }
                     ParseQuery(document, result.Queries);
                     ParseInterrelated(document, result.Interrelated);
@@ -622,6 +603,48 @@ namespace IntelART.Ameria.CLRServices
                 }
             }
             return taxData;
+        }
+
+        private static List<ACRAQueryResultPayments> FillAllPaymentAmounts(XmlNode node, string loanID, string currency)
+        {
+            List<ACRAQueryResultPayments> payments = new List<ACRAQueryResultPayments>();
+            XmlNodeList listPaymentYear = node.SelectNodes("MonthlyPaymentAmount/Year[@*]");
+            foreach (XmlNode nodePaymentYear in listPaymentYear)
+            {
+                XmlAttributeCollection colYear = nodePaymentYear.Attributes;
+                foreach (XmlAttribute attrYear in colYear)
+                {
+                    if (attrYear.Name.ToLower() == "name")
+                    {
+                        short valueYear = short.Parse(attrYear.Value);
+                        XmlNodeList listPaymentMonth = nodePaymentYear.SelectNodes("Month");
+                        foreach (XmlNode nodePaymentMonth in listPaymentMonth)
+                        {
+                            XmlAttributeCollection colMonth = nodePaymentMonth.Attributes;
+                            foreach (XmlAttribute attrMonth in colMonth)
+                            {
+                                if (attrYear.Name.ToLower() == "name")
+                                {
+                                    byte valueMonth = byte.Parse(attrMonth.Value);
+                                    decimal amount = 0;
+                                    if (decimal.TryParse(ServiceHelper.RetrieveValue(nodePaymentMonth.InnerXml), out amount))
+                                    {
+                                        payments.Add(new ACRAQueryResultPayments()
+                                        {
+                                            CUR = currency,
+                                            YEAR = valueYear,
+                                            MONTH = valueMonth,
+                                            AMOUNT = amount,
+                                            LOAN_ID = loanID
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return payments;
         }
     }
 }

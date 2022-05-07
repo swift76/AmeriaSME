@@ -1055,7 +1055,7 @@ namespace IntelART.Ameria.CLRServices
             tableDetails.Columns.Add("CLASSIFICATION_DATE", typeof(DateTime));
             tableDetails.Columns.Add("INTEREST_RATE", typeof(decimal));
             tableDetails.Columns.Add("PLEDGE", typeof(string));
-            tableDetails.Columns.Add("PLEDGE_AMOUNT", typeof(decimal));
+            tableDetails.Columns.Add("PLEDGE_AMOUNT", typeof(string));
             tableDetails.Columns.Add("OUTSTANDING_AMOUNT", typeof(decimal));
             tableDetails.Columns.Add("OUTSTANDING_PERCENT", typeof(decimal));
             tableDetails.Columns.Add("BANK_NAME", typeof(string));
@@ -1148,6 +1148,16 @@ namespace IntelART.Ameria.CLRServices
             for (int i = 0; i < result.DueDates.Count; i++)
                 tableDueDates.Rows.Add(result.DueDates[i].LOAN_ID, result.DueDates[i].YEAR, result.DueDates[i].MONTH, result.DueDates[i].COUNT);
             cmd.Parameters.AddWithValue("@DUE_DATES", tableDueDates).SqlDbType = SqlDbType.Structured;
+
+            DataTable tableAllPayments = new DataTable("ACRAQueryResultAllPayments");
+            tableAllPayments.Columns.Add("LOAN_ID", typeof(string));
+            tableAllPayments.Columns.Add("YEAR", typeof(short));
+            tableAllPayments.Columns.Add("MONTH", typeof(byte));
+            tableAllPayments.Columns.Add("CUR", typeof(string));
+            tableAllPayments.Columns.Add("AMOUNT", typeof(decimal));
+            for (int i = 0; i < result.AllPayments.Count; i++)
+                tableAllPayments.Rows.Add(result.AllPayments[i].LOAN_ID, result.AllPayments[i].YEAR, result.AllPayments[i].MONTH, result.AllPayments[i].CUR, result.AllPayments[i].AMOUNT);
+            cmd.Parameters.AddWithValue("@ALL_PAYMENTS", tableAllPayments).SqlDbType = SqlDbType.Structured;
 
             return cmd;
         }

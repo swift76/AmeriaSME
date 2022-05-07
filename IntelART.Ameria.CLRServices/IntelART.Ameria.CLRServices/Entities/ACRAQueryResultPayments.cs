@@ -6,5 +6,6 @@
         public byte MONTH { get; set; }
         public string CUR { get; set; }
         public decimal AMOUNT { get; set; }
+        public string LOAN_ID { get; set; }
     }
 }

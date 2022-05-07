@@ -20,6 +20,7 @@ namespace IntelART.Ameria.CLRServices
         public string LoanWorstClass { get; set; }
         public string GuaranteeWorstClass { get; set; }
         public string FicoScore { get; set; }
+        public List<ACRAQueryResultPayments> AllPayments { get; set; }
 
         public ACRALegalQueryResult()
         {
@@ -29,6 +30,7 @@ namespace IntelART.Ameria.CLRServices
             Payments = new List<ACRAQueryResultPayments>();
             DueDates = new List<ACRAQueryResultDueDates>();
             TaxData = new TaxData();
+            AllPayments = new List<ACRAQueryResultPayments>();
         }
     }
 }

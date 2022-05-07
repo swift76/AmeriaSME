@@ -11,6 +11,7 @@
 	@INTERRELATED			ACRAQueryResultInterrelated		readonly,
 	@PAYMENTS				ACRAQueryResultPayments			readonly,
 	@DUE_DATES				ACRAQueryResultLoanDueDates		readonly,
+	@ALL_PAYMENTS			ACRAQueryResultAllPayments		readonly,
 
 	@COMPANY_TYPE			nvarchar(100) = NULL,
 	@COMPANY_STATUS			nvarchar(100) = NULL,
@@ -98,6 +99,12 @@ AS
 			(APPLICATION_ID,LOAN_ID,YEAR,MONTH,COUNT)
 		select @APPLICATION_ID,LOAN_ID,YEAR,MONTH,COUNT
 			from @DUE_DATES
+
+		delete from ACRA_LEGAL_QUERY_RESULT_ALL_PAYMENTS where APPLICATION_ID=@APPLICATION_ID
+		insert into ACRA_LEGAL_QUERY_RESULT_ALL_PAYMENTS
+			(APPLICATION_ID,LOAN_ID,YEAR,MONTH,CUR,AMOUNT)
+		select @APPLICATION_ID,LOAN_ID,YEAR,MONTH,CUR,AMOUNT
+			from @ALL_PAYMENTS
 
 		if isnull(@COMPANY_TYPE,'')<>''
 		begin

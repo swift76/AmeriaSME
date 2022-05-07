@@ -16,7 +16,7 @@ namespace IntelART.Ameria.CLRServices
         public DateTime? CLASSIFICATION_DATE { get; set; }
         public decimal INTEREST_RATE { get; set; }
         public string PLEDGE { get; set; }
-        public decimal PLEDGE_AMOUNT { get; set; }
+        public string PLEDGE_AMOUNT { get; set; }
         public decimal OUTSTANDING_AMOUNT { get; set; }
         public decimal OUTSTANDING_PERCENT { get; set; }
         public string BANK_NAME { get; set; }
