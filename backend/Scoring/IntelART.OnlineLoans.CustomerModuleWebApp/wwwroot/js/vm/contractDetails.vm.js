@@ -50,13 +50,13 @@
 
     // ====================================
 
-    this.LOAD_INTEREST_2 = ko.observable(0);
+    this.LOAN_INTEREST_2 = ko.observable(0);
     this.actualInterestConfirmText = ko.observable("");
     this.confirmActualInterest = ko.pureComputed(function () {
       var result =
         helpers.cleanConfirmText(self.actualInterestConfirmText()) ===
         helpers.cleanConfirmText(
-          helpers.actualInterestUserText.replace("{X}", self.LOAD_INTEREST_2())
+          helpers.actualInterestUserText.replace("{X}", self.LOAN_INTEREST_2())
         );
 
       return result;
@@ -166,7 +166,7 @@
           context: self,
           success: function (data) {
             if (data) {
-              self.LOAD_INTEREST_2(data.LOAD_INTEREST_2);
+              self.LOAN_INTEREST_2(data.LOAN_INTEREST_2);
               self.clientCode((data.CLIENT_CODE || "").trim());
               self.guaranteeSignatureText(
                 data.GUARANTEE_SIGNATURE_TEXT_TO_BE_ENTERED
