@@ -371,9 +371,8 @@ namespace IntelART.OnlineLoans.Repositories
                     dateAgreementTo = scheduleLastDate.Value;
                 }
 
-                application.LOAN_INTEREST_2 = GetActualInterest(subsystemCode, templateCode, application.LOAN_TYPE_ID,
-                        currentDate, dateAgreementFrom, dateAgreementTo,
-                        duration, application.FINAL_AMOUNT, application.CURRENCY_CODE, application.INTEREST, application.REPAYMENT_DAY, bankDB);
+                application.LOAN_INTEREST_2 = GetActualInterest(subsystemCode, templateCode, application.LOAN_TYPE_ID, currentDate, dateAgreementFrom, dateAgreementTo,
+                        duration, application.FINAL_AMOUNT, application.CURRENCY_CODE, application.CREDIT_CARD_TYPE_CODE, application.INTEREST, application.REPAYMENT_DAY, bankDB);
             }
             catch
             {
@@ -647,9 +646,19 @@ namespace IntelART.OnlineLoans.Repositories
             return GetSingle<LoanParameters>(parameters, "dbo.sp_GetLoanParameters");
         }
 
-        public decimal? GetActualInterest(string subsystemCode, string templateCode, string loanType,
-            DateTime dateAgreementFrom, DateTime dateFirstRepayment, DateTime dateAgreementTo,
-            byte period, decimal amount, string currency, decimal interest, byte repayDay, string bankDB)
+        private decimal? GetActualInterest(string subsystemCode,
+                                           string templateCode,
+                                           string loanType,
+                                           DateTime dateAgreementFrom,
+                                           DateTime dateFirstRepayment,
+                                           DateTime dateAgreementTo,
+                                           byte period,
+                                           decimal amount,
+                                           string currency,
+                                           string cardType,
+                                           decimal interest,
+                                           byte repayDay,
+                                           string bankDB)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("TERM_MONTH", period);
@@ -660,10 +669,11 @@ namespace IntelART.OnlineLoans.Repositories
             parameters.Add("SUBSYSTEM_CODE", subsystemCode);
             parameters.Add("AMOUNT", amount);
             parameters.Add("CURRENCY", currency);
+            parameters.Add("CARD_TYPE", cardType);
             parameters.Add("INTEREST", interest);
             parameters.Add("REPAY_DAY", repayDay);
             parameters.Add("LOAN_TYPE", loanType);
-            return GetSingle<decimal?>(parameters, string.Format("{0}dbo.am0sp_GetActualInterest", bankDB));
+            return GetSingle<decimal?>(parameters, string.Format("{0}dbo.am0sp_GetSMEActualInterest", bankDB));
         }
 
         public async Task<Client> GetClientData(string clientCode)
@@ -671,23 +681,6 @@ namespace IntelART.OnlineLoans.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("CLICODE", clientCode);
             return await GetSingleAsync<Client>(parameters, string.Format("{0}dbo.am0sp_GetClientData", GetSetting("BANK_SERVER_DATABASE")));
-        }
-
-        public decimal? GetInterestAmount(string subsystemCode, string templateCode,
-            DateTime dateAgreementFrom, DateTime dateFirstRepayment, DateTime dateAgreementTo,
-            byte period, decimal amount, decimal interest, byte repayDay, string bankDB)
-        {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("TERM_MONTH", period);
-            parameters.Add("AGREEMENT_FROM", dateAgreementFrom);
-            parameters.Add("FIRST_REPAYMENT", dateFirstRepayment);
-            parameters.Add("AGREEMENT_TO", dateAgreementTo);
-            parameters.Add("TEMPLATE_CODE", templateCode);
-            parameters.Add("SUBSYSTEM_CODE", subsystemCode);
-            parameters.Add("AMOUNT", amount);
-            parameters.Add("INTEREST", interest);
-            parameters.Add("REPAY_DAY", repayDay);
-            return GetSingle<decimal?>(parameters, string.Format("{0}dbo.am0sp_GetInterestAmount", bankDB));
         }
 
         public bool IsHoliday(DateTime date, string bankDB)
