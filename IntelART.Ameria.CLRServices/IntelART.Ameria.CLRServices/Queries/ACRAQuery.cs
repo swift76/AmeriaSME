@@ -130,16 +130,18 @@ namespace IntelART.Ameria.CLRServices
                 DateTime? dateLastPayment = ServiceHelper.GetACRANullableDateValue(ServiceHelper.RetrieveValue(node.SelectSingleNode(string.Format("{0}LastPaymentDate", prefixLG)).InnerXml));
 
                 bool isOutstanding = (node.SelectSingleNode("OutstandingDaysCount") != null);
-                dueDays1 = GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                List<ACRAQueryResultDueDates> dueDates = new List<ACRAQueryResultDueDates>();
+                dueDays1 = GetDueDaysByYear(node, loanID, currentYear, currentMonth, 1, dateLastPayment, dateTo, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY, ref dueDates);
                 dueDaysMaxY1 = dueDaysMaxY;
-                dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays2 = dueDays1 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 2, dateLastPayment, dateTo, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY, ref dueDates);
                 dueDaysMaxY2 = dueDaysMaxY1 + dueDaysMaxY;
-                dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
-                dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, result.DueDates, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY);
+                dueDays3 = dueDays2 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 3, dateLastPayment, dateTo, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY, ref dueDates);
+                dueDays4 = dueDays3 + GetDueDaysByYear(node, loanID, currentYear, currentMonth, 4, dateLastPayment, dateTo, isOutstanding, ref dueDaysM1, ref dueDaysM2, ref dueDaysM3, ref dueDaysMaxY, ref dueDates);
+                result.DueDates.AddRange(dueDates);
 
                 if (node.SelectSingleNode("MonthlyPaymentAmount") != null)
                 {
-                    result.AllPayments = FillAllPaymentAmounts(node, loanID, cur);
+                    result.AllPayments.AddRange(FillAllPaymentAmounts(node, loanID, cur));
                     if (!isGuarantee && !isLine && !isIgnored && result.AllPayments.Count > 0)
                     {
                         foreach (ACRAQueryResultPayments payment in result.AllPayments)
@@ -242,8 +244,8 @@ namespace IntelART.Ameria.CLRServices
             }
         }
 
-        private static int GetDueDaysByYear(XmlNode node, string loanID, int currentYear, int currentMonth, int shift, DateTime? dateLastPayment, DateTime dateTo, List<ACRAQueryResultDueDates> dueDates, bool isOutstanding
-            , ref int dueDaysM1, ref int dueDaysM2, ref int dueDaysM3, ref int dueDaysMaxY)
+        private static int GetDueDaysByYear(XmlNode node, string loanID, int currentYear, int currentMonth, int shift, DateTime? dateLastPayment, DateTime dateTo, bool isOutstanding
+            , ref int dueDaysM1, ref int dueDaysM2, ref int dueDaysM3, ref int dueDaysMaxY, ref List<ACRAQueryResultDueDates> dueDates)
         {
             int result = 0;
             DateTime dateCurrent = new DateTime(currentYear, currentMonth, 1);
