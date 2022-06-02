@@ -389,7 +389,7 @@ namespace IntelART.Ameria.CLRServices
                 requestPerson.Append(@"<a:PersonParticipientRequest>");
                 requestPerson.AppendFormat(@"<a:DateofBirth>{0}</a:DateofBirth>", entity.BirthDate.ToString("dd-MM-yyyy"));
                 requestPerson.AppendFormat(@"<a:FirstName>{0}</a:FirstName>", entity.FirstName);
-                requestPerson.AppendFormat(@"<a:IdCardNumber>{0}</a:IdCardNumber>", entity.IDCardNumber);
+                requestPerson.AppendFormat(@"<a:IdCardNumber>{0}</a:IdCardNumber>", entity.IDCardNumber.Trim());
                 requestPerson.Append(@"<a:KindBorrower>1</a:KindBorrower>");
                 requestPerson.AppendFormat(@"<a:LastName>{0}</a:LastName>", entity.LastName);
                 requestPerson.AppendFormat(@"<a:PassportNumber>{0}</a:PassportNumber>", entity.PassportNumber);
