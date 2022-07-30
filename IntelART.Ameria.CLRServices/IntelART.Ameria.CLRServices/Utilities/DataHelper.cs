@@ -981,14 +981,14 @@ namespace IntelART.Ameria.CLRServices
             }
         }
         
-        public void SaveScoringResult(Guid id, decimal value)
+        public void SaveMLResult(Guid id, string response)
         {
-            using (SqlCommand cmd = new SqlCommand("sp_SaveScoringResult", ActiveConnection))
+            using (SqlCommand cmd = new SqlCommand("sp_SaveMLResult", ActiveConnection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = CommandTimeoutInterval;
-                cmd.Parameters.Add(new SqlParameter("@APPLICATION_ID", SqlDbType.UniqueIdentifier)).Value = id;
-                cmd.Parameters.Add(new SqlParameter("@SCORING_RESULT", SqlDbType.Money)).Value = value;
+                cmd.Parameters.Add("@APPLICATION_ID", SqlDbType.UniqueIdentifier).Value = id;
+                cmd.Parameters.Add("@SERVICE_RESULT", SqlDbType.NVarChar, -1).Value = response;
                 cmd.ExecuteScalar();
             }
         }
@@ -1281,6 +1281,25 @@ namespace IntelART.Ameria.CLRServices
             for (int i = 0; i < taxData.ReportCorrections.Count; i++)
                 tableTaxReportCorrections.Rows.Add(taxData.ReportCorrections[i].ReportName, taxData.ReportCorrections[i].UpdateDate, taxData.ReportCorrections[i].FieldName, taxData.ReportCorrections[i].FieldValue);
             cmd.Parameters.AddWithValue("@TAX_REPORT_CORRECTIONS", tableTaxReportCorrections).SqlDbType = SqlDbType.Structured;
+        }
+
+        public string GetLoanUsageName(string loanUsageCode)
+        {
+            string result = string.Empty;
+            using (SqlCommand cmd = new SqlCommand("sp_GetLoanUsageName", ActiveConnection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = CommandTimeoutInterval;
+                cmd.Parameters.Add("@CODE", SqlDbType.NVarChar, 2).Value = loanUsageCode;
+                using (SqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    if (rdr.Read())
+                    {
+                        result = rdr.GetString(0);
+                    }
+                }
+            }
+            return result;
         }
 
         public static int CommandTimeoutInterval { get; set; }

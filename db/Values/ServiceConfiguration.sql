@@ -10,3 +10,6 @@ GO
 insert into SERVICE_CONFIGURATION (CODE,URL,USER_NAME,USER_PASSWORD)
 values ('SCOR','http://172.16.77.99:8000/api/scores/','','')
 GO
+insert into SERVICE_CONFIGURATION (CODE,URL,USER_NAME,USER_PASSWORD)
+values ('MLPY','http://192.168.95.99:8004/api/sme','','')
+GO

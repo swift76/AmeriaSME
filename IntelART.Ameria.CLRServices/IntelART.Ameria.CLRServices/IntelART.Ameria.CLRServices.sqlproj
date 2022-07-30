@@ -99,7 +99,7 @@
     <Compile Include="Queries\ACRAQuery.cs" />
     <Compile Include="Queries\ERegisterQuery.cs" />
     <Compile Include="Queries\NORQQuery.cs" />
-    <Compile Include="sp_GetScoringResult.cs" />
+    <Compile Include="sp_GetMLResult.cs" />
     <Compile Include="sp_ProcessScoringQueries.cs" />
     <Compile Include="Utilities\DataHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

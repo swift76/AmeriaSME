@@ -1,8 +1,4 @@
-﻿if exists (select * from sys.objects where name='sp_EmptyDirectoriesBeforeSynchronization' and type='P')
-	drop procedure sp_EmptyDirectoriesBeforeSynchronization
-GO
-
-create procedure sp_EmptyDirectoriesBeforeSynchronization
+﻿create or alter procedure sp_EmptyDirectoriesBeforeSynchronization
 AS
 	BEGIN TRANSACTION
 
@@ -28,6 +24,7 @@ AS
 		truncate table BUSINESS_STATE_TYPE
 		truncate table LOAN_SPECIALIST_LOAN_TERM
 		truncate table INSURANCE_COMPANY
+		truncate table LOAN_USAGE
 
 		COMMIT TRANSACTION
 	END TRY
